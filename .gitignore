@@ -1,8 +1,8 @@
 ltex*.txt
 lazy*.json
 
-nvim/spell 
-nvim/spell/* 
+spell 
+spell/* 
 
-nvim/snippets/easifem-*.json
+snippets/easifem-*.json
 
