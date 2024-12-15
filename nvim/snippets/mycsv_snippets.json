@@ -1,0 +1,10 @@
+{
+  "check": {
+    "prefix": "check",
+    "body": [
+      "${CURRENT_YEAR}, ${CURRENT_MONTH}, ${CURRENT_DATE}, ${CURRENT_DAY_NAME_SHORT}, ${1:word count}, ${2:1or0}, ${3:project}, ${4:comments}",
+      "$0"
+    ],
+    "description": "Snippets for everyday writing task"
+  }
+}

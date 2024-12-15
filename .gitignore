@@ -1,0 +1,8 @@
+ltex*.txt
+lazy*.json
+
+nvim/spell 
+nvim/spell/* 
+
+nvim/snippets/easifem-*.json
+

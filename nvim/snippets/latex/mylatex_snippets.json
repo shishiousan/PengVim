@@ -1,0 +1,70 @@
+{
+  "Equation": {
+    "prefix": "equation",
+    "body": [
+      "\\begin{equation}",
+      "\t$0",
+      "\t\\label{eq:$1}",
+      "\\end{equation}"
+    ],
+    "description": "Add a Equation"
+  },
+  "Eq:Ref": {
+    "prefix": "eref",
+    "body": [
+      "${1:Eq.}~\\eqref{eq:$2} $0"
+    ],
+    "description": "Equation Reference"
+  },
+  "Equation:Ref": {
+    "prefix": "eref",
+    "body": [
+      "${1:Equation}~\\eqref{eq:$2} $0"
+    ],
+    "description": "Equation Reference"
+  },
+  "Env:subequations": {
+    "prefix": "subeq",
+    "body": [
+      "\\begin{subequations}",
+      "\t\\label{eqs:$1}\n\t$0",
+      "\\end{subequations}"
+    ],
+    "description": "Equation Reference"
+  },
+  "Math:frac": {
+    "prefix": "frac",
+    "body": [
+      "\\frac{$1}{$2}$0"
+    ],
+    "description": "math fraction"
+  },
+  "Section": {
+    "prefix": "sec",
+    "body": [
+      "\\section{$1}\n\\label{sec:$2}$0"
+    ],
+    "description": "section"
+  },
+  "Subsection": {
+    "prefix": "subsec",
+    "body": [
+      "\\subsection{$1}\n\\label{subsec:$2}$0"
+    ],
+    "description": "subsection"
+  },
+  "Subsubsection": {
+    "prefix": "subsubsec",
+    "body": [
+      "\\subsubsection{$1}\n\\label{subsubsec:$2}$0"
+    ],
+    "description": "subsubsection"
+  },
+  "Label": {
+    "prefix": "label",
+    "body": [
+      "\\label{$1}$0"
+    ],
+    "description": "label"
+  }
+}
