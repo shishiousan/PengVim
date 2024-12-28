@@ -15,29 +15,29 @@ return {
       vim.keymap.set("i", "<A-c>", neocodeium.clear)
     end,
   },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    branch = "canary",
-    dependencies = {
-      { "zbirenbaum/copilot.lua" },
-      { "nvim-lua/plenary.nvim" },
-    },
-    opts = {
-      debug = true, -- Enable debugging
-      window = {
-        layout = "float", -- 'vertical', 'horizontal', 'float', 'replace'
-        width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
-        height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
-        relative = "editor", -- 'editor', 'win', 'cursor', 'mouse'
-        border = "rounded", -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-        row = nil, -- row position of the window, default is centered
-        col = nil, -- column position of the window, default is centered
-        title = "Copilot Chick", -- title of chat window
-        footer = nil, -- footer of chat window
-        zindex = 1, -- determines if window is on top or below other floating windows
-      },
-    },
-  },
+  -- {
+  --   "CopilotC-Nvim/CopilotChat.nvim",
+  --   -- branch = "canary",
+  --   dependencies = {
+  --     { "zbirenbaum/copilot.lua" },
+  --     { "nvim-lua/plenary.nvim" },
+  --   },
+  --   opts = {
+  --     debug = true, -- Enable debugging
+  --     window = {
+  --       layout = "float", -- 'vertical', 'horizontal', 'float', 'replace'
+  --       width = 0.5, -- fractional width of parent, or absolute width in columns when > 1
+  --       height = 0.5, -- fractional height of parent, or absolute height in rows when > 1
+  --       relative = "editor", -- 'editor', 'win', 'cursor', 'mouse'
+  --       border = "rounded", -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
+  --       row = nil, -- row position of the window, default is centered
+  --       col = nil, -- column position of the window, default is centered
+  --       title = "Copilot Chick", -- title of chat window
+  --       footer = nil, -- footer of chat window
+  --       zindex = 1, -- determines if window is on top or below other floating windows
+  --     },
+  --   },
+  -- },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",

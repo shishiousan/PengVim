@@ -1,89 +1,123 @@
--- Keymaps are automatically loaded on the VeryLazy event
--- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
--- Add any additional keymaps here
---
-local Util = require("lazyvim.util")
-
 local function map(mode, lhs, rhs, opts)
-  local keys = require("lazy.core.handler").handlers.keys
-  ---@cast keys LazyKeysHandler
-  -- do not create the keymap if a lazy keys handler exists
-  if not keys.active[keys.parse({ lhs, mode = mode }).id] then
-    opts = opts or {}
-    opts.silent = opts.silent ~= false
-    if opts.remap and not vim.g.vscode then
-      opts.remap = nil
-    end
-    vim.keymap.set(mode, lhs, rhs, opts)
-  end
+  vim.keymap.set(mode, lhs, rhs, opts)
 end
 
--- exit by jj
-map("i", "jk", "<esc>")
--- map("i", "jj", "<esc>")
+local function delMap(mode, lhs)
+  vim.keymap.del(mode, lhs)
+end
 
--- remove hilight
+map("i", "jk", "<esc>")
+
 map("n", "<C-n>", "<cmd>nohlsearch<CR>")
 
--- yank and paste
---normal
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase Window Height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease Window Height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
+
 map("n", "<leader>j", "yyp", { desc = "Paste line below" })
 map("n", "<leader>k", "yyP", { desc = "Paste line above" })
---visual
 map("v", "<leader>j", "Yp", { desc = "Paste below" })
 map("v", "<leader>k", "YP", { desc = "Paste above" })
 
--- alternative for zoom out and in
-map("n", "<leader>zi", "<cmd>tab split<CR>", { desc = "Zoom in" })
-map("n", "<leader>zo", "<cmd>tab close<CR>", { desc = "Zoom out" })
-
--- quit
+map("n", "<leader>qq", "<cmd>qa<CR>", { desc = "Quit all" })
 map("n", "<leader>qw", "<cmd>q<CR>", { desc = "Quit window" })
 map("n", "<leader>qo", "<cmd>only<CR>", { desc = "Only" })
 
--- floating terminal
--- local lazyterm = function()
---   Snacks.terminal(nil, { cwd = LazyVim.root() })
--- end
--- map("n", "<leader>tT", lazyterm, { desc = "Terminal (Root Dir)" })
--- map("n", "<c-/>", function()
---   local ft = vim.bo.filetype
---   if ft == "lazyterm" then
---     vim.cmd("close")
---   else
---     local cwd = vim.fn.expand("%:p:h")
---     Snacks.terminal(nil, { cwd = cwd, border = "rounded" })
---   end
--- end, { desc = "Terminal (parent directory)" })
---
--- map("n", "<c-_>", function()
---   local ft = vim.bo.filetype
---   if ft == "lazyterm" then
---     vim.cmd("close")
---   else
---     local cwd = vim.fn.expand("%:p:h")
---     Snacks.terminal(nil, { cwd = cwd, border = "rounded" })
---   end
--- end, { desc = "Terminal (parent directory)" })
-
-vim.keymap.del("n", "<c-_>")
-vim.keymap.del("n", "<c-/>")
--- vim.keymap.del("n", "<leader>tT")
-
 -- save file
--- map("n", "<leader>fs", "<cmd>silent! w<CR>", { desc = "write" })
+map("n", "<C-s>", function()
+  require("conform").format({})
+  vim.cmd("silent! w")
+end, { desc = "write" })
+
 map("n", "<leader>ww", "<cmd>silent! w<CR>", { desc = "write" })
 map("n", "<leader>fa", "<cmd>silent! wa<CR>", { desc = "write all" })
 map("n", "<leader>fq", "<cmd>silent! wa<CR><cmd>qa<CR>", { desc = "write all and quit all" })
-
-map("n", "<leader>rp", "o<esc>v:'<,'>!erun -bs %<CR>")
--- map("n", "<leader>rr", ":!erun -bs %<CR>")
-map("n", "<leader>rr", function()
-  local text = vim.cmd([[!erun -bs %]])
-  vim.print(text)
-end)
 --
-vim.keymap.del("n", "<leader>ft")
+-- map("n", "<leader>rp", "o<esc>v:'<,'>!erun -bs %<CR>")
+-- map("n", "<leader>rr", ":!erun -bs %<CR>")
+-- map("n", "<leader>rr", function()
+--   local text = vim.cmd([[!erun -bs %]])
+--   vim.print(text)
+-- end)
+
+map("i", ",", ",<c-g>u")
+map("i", ".", ".<c-g>u")
+map("i", ";", ";<c-g>u")
+
+-- commenting
+map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
+map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
+
+-- lazy
+map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+
+map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
+map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
+
+map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
+map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
+
+-- diagnostic
+local diagnostic_goto = function(next, severity)
+  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  severity = severity and vim.diagnostic.severity[severity] or nil
+  return function()
+    go({ severity = severity })
+  end
+end
+map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
+map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
+map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
+map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
+map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
+map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+
+-- toggle featured by Snacks
+Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+Snacks.toggle.diagnostics():map("<leader>ud")
+Snacks.toggle.line_number():map("<leader>ul")
+Snacks.toggle
+  .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2, name = "Conceal Level" })
+  :map("<leader>uc")
+Snacks.toggle
+  .option("showtabline", { off = 0, on = vim.o.showtabline > 0 and vim.o.showtabline or 2, name = "Tabline" })
+  :map("<leader>uA")
+Snacks.toggle.treesitter():map("<leader>uT")
+Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
+Snacks.toggle.dim():map("<leader>uD")
+Snacks.toggle.animate():map("<leader>ua")
+Snacks.toggle.indent():map("<leader>ug")
+Snacks.toggle.scroll():map("<leader>uS")
+Snacks.toggle.profiler():map("<leader>dpp")
+Snacks.toggle.profiler_highlights():map("<leader>dph")
+
+if vim.lsp.inlay_hint then
+  Snacks.toggle.inlay_hints():map("<leader>uh")
+end
+
+-- lazygit
+if vim.fn.executable("lazygit") == 1 then
+  map("n", "<leader>gg", function()
+    Snacks.lazygit({ cwd = vim.uv.cwd() })
+  end, { desc = "Lazygit (Root Dir)" })
+  map("n", "<leader>gG", function()
+    Snacks.lazygit()
+  end, { desc = "Lazygit (cwd)" })
+  map("n", "<leader>gf", function()
+    Snacks.lazygit.log_file()
+  end, { desc = "Lazygit Current File History" })
+  map("n", "<leader>gl", function()
+    Snacks.lazygit.log({ cwd = vim.uv.cwd() })
+  end, { desc = "Lazygit Log" })
+  map("n", "<leader>gL", function()
+    Snacks.lazygit.log()
+  end, { desc = "Lazygit Log (cwd)" })
+end
+
 map("n", "<leader>ft", function()
   if vim.g.use_myfmt then
     vim.notify("use_myfmt is disabled")
@@ -121,6 +155,9 @@ map("n", "<leader>cp", function()
   SwitchCS(ind)
 end, { desc = "Previous Colorscheme" })
 
+map("n", "<leader>bd", function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
 map("n", "<leader>bD", function()
   vim.cmd([[%bd|e#|bd#|'"]])
 end, { desc = "Delete other buffers" })
