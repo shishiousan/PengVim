@@ -1,16 +1,4 @@
 return {
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  -- {
-  --   "jesseleite/nvim-noirbuddy",
-  --   dependencies = {
-  --     { "tjdevries/colorbuddy.nvim" },
-  --   },
-  --   lazy = false,
-  --   priority = 1000,
-  --   opts = {
-  --     -- All of your `setup(opts)` will go here
-  --   },
-  -- },
   {
     "2giosangmitom/nightfall.nvim",
     lazy = false,
@@ -160,16 +148,44 @@ return {
       })
     end,
   },
-  -- {
-  --   "mvllow/modes.nvim",
-  --   tag = "v0.2.0",
-  --   config = function()
-  --     require("modes").setup()
-  --   end,
-  -- },
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    opts = {},
+    keys = {
+      {
+        "<leader>qs",
+        function()
+          require("persistence").load()
+        end,
+        desc = "Restore Session",
+      },
+      {
+        "<leader>qS",
+        function()
+          require("persistence").select()
+        end,
+        desc = "Select Session",
+      },
+      {
+        "<leader>ql",
+        function()
+          require("persistence").load({ last = true })
+        end,
+        desc = "Restore Last Session",
+      },
+      {
+        "<leader>qd",
+        function()
+          require("persistence").stop()
+        end,
+        desc = "Don't Save Current Session",
+      },
+    },
+  },
   {
     "nvimdev/dashboard-nvim",
-    enabled = false,
+    enabled = true,
     event = "VimEnter",
     opts = function()
       local logo = [[
@@ -192,18 +208,56 @@ return {
         },
         config = {
           header = vim.split(logo, "\n"),
-        -- stylua: ignore
-        center = {
-          -- { action = LazyVim.telescope("files"),                                    desc = " Find File",       icon = " ", key = "f" },
-          { action = "ene | startinsert",                                        desc = " New File",        icon = " ", key = "n" },
-          { action = "Telescope oldfiles",                                       desc = " Recent Files",    icon = " ", key = "r" },
-          { action = "Telescope live_grep",                                      desc = " Find Text",       icon = " ", key = "g" },
-          { action = [[lua LazyVim.telescope.config_files()()]], desc = " Config",          icon = " ", key = "c" },
-          { action = 'lua require("persistence").load()',                        desc = " Restore Session", icon = " ", key = "s" },
-          { action = "LazyExtras",                                               desc = " Lazy Extras",     icon = " ", key = "x" },
-          { action = "Lazy",                                                     desc = " Lazy",            icon = "󰒲 ", key = "l" },
-          { action = "qa",                                                       desc = " Quit",            icon = " ", key = "q" },
-        },
+          center = {
+            {
+              action = "FzfLua files",
+              desc = " Find File",
+              icon = " ",
+              key = "f",
+            },
+            {
+              action = "ene | startinsert",
+              desc = " New File",
+              icon = " ",
+              key = "n",
+            },
+            {
+              action = "FzfLua oldfiles",
+              desc = " Recent Files",
+              icon = " ",
+              key = "r",
+            },
+            {
+              action = "FzfLua live_grep",
+              desc = " Find Text",
+              icon = " ",
+              key = "g",
+            },
+            -- {
+            --   action = "",
+            --   desc = " Config",
+            --   icon = " ",
+            --   key = "c",
+            -- },
+            {
+              action = 'lua require("persistence").load()',
+              desc = " Restore Session",
+              icon = " ",
+              key = "s",
+            },
+            {
+              action = "Lazy",
+              desc = " Lazy",
+              icon = "󰒲 ",
+              key = "l",
+            },
+            {
+              action = "qa",
+              desc = " Quit",
+              icon = " ",
+              key = "q",
+            },
+          },
           footer = function()
             local stats = require("lazy").stats()
             local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
@@ -217,7 +271,6 @@ return {
         button.key_format = "  %s"
       end
 
-      -- close Lazy and re-open when the dashboard is ready
       if vim.o.filetype == "lazy" then
         vim.cmd.close()
         vim.api.nvim_create_autocmd("User", {
@@ -361,47 +414,50 @@ return {
     },
   },
   {
-    "LazyVim/LazyVim",
-    init = function()
-      -- override lazyvim.config.options, the I empties the startscreen:
-      vim.opt.shortmess:append({ W = true, I = false, c = true })
-    end,
-  },
-  {
     "folke/snacks.nvim",
     opts = {
       dashboard = { enabled = false },
     },
   },
   {
-    "marcussimonsen/let-it-snow.nvim",
-    cmd = "LetItSnow", -- Wait with loading until command is run
-    opts = {
-      ---@type integer Delay between updates
-      delay = 500,
-      ---@type string Single character used to represent snowflakes
-      snowflake_char = "\u{2744}",
-      ---@type string[] Array of single character used to represent snow (in order of least to most)
-      snowpile_chars = {
-        [1] = "\u{2581}",
-        [2] = "\u{2582}",
-        [3] = "\u{2583}",
-        [4] = "\u{2584}",
-        [5] = "\u{2585}",
-        [6] = "\u{2586}",
-        [7] = "\u{2587}",
-        [8] = "\u{2588}",
+    "anuvyklack/windows.nvim",
+    lazy = false,
+    dependencies = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
+    },
+    config = function()
+      vim.o.winwidth = 10
+      vim.o.winminwidth = 10
+      vim.o.equalalways = false
+      require("windows").setup()
+    end,
+    keys = {
+      {
+        "<leader>wt",
+        "<cmd>WindowsToggleAutowidth<CR>",
+        desc = "Toggle Autowidth",
       },
-      ---@type integer Max attempts at spawning a snowfile
-      max_spawn_attempts = 500,
-      ---@type boolean Whether to create highlight groups or not
-      create_highlight_groups = true,
-      ---@type string Name of namespace to use for extmarks (you probably don't need to change this)
-      namespace = "let-it-snow",
-      ---@type string Name of highlight group to use for snowflakes
-      highlight_group_name_snowflake = "snowflake",
-      ---@type string Name of highlight group to use for snowpiles
-      highlight_group_name_snowpile = "snowpile",
+      {
+        "<C-w>z",
+        "<cmd>WindowsMaximize<CR>",
+        desc = "WindowsMaximize",
+      },
+      {
+        "<C-w>=",
+        "<cmd>WindowsEqualize<CR>",
+        desc = "WindowsEqualize",
+      },
+      {
+        "<C-w>_",
+        "<cmd>WindowsMaximizeVertically<CR>",
+        desc = "WindowsMaximizeVertically",
+      },
+      {
+        "<C-w>|",
+        "<cmd>WindowsMaximizeHorizontally<CR>",
+        desc = "WindowsMaximizeHorizontally",
+      },
     },
   },
 }

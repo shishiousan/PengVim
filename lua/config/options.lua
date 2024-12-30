@@ -1,4 +1,4 @@
--- vim.g.autoformat = true
+vim.g.autoformat = true
 
 local opt = vim.opt
 
