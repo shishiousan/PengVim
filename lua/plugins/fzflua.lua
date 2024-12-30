@@ -1,7 +1,7 @@
 return {
   {
     "ibhagwan/fzf-lua",
-    lazy = true,
+    lazy = false,
     dependencies = {
       "junegunn/fzf",
       "nvim-tree/nvim-web-devicons",

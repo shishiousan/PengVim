@@ -1,39 +1,8 @@
 local j_tnum = "10"
 local j_tnum_int = 10
 return {
-  ---@diagnostic disable: missing-fields
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        julials = {
-          symbol_cache_download = false,
-          on_new_config = function(new_config, _)
-            local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-            if require("lspconfig").util.path.is_file(julia) then
-              new_config.cmd[1] = julia
-            end
-            -- new_config.cmd_env = vim.tbl_extend("keep", new_config.cmd_env or {}, {
-            --   SYMBOL_SERVER = new_config.symbol_server,
-            --   SYMBOL_CACHE_DOWNLOAD = (new_config.symbol_cache_download == false) and "0" or "1",
-            -- })
-          end,
-          root_dir = function(fname)
-            local util = require("lspconfig.util")
-            return util.root_pattern("Project.toml")(fname) or util.find_git_ancestor(fname) or util.path.dirname(fname)
-          end,
-          settings = {
-            julials = {
-              -- you can write some settings for julials
-            },
-          },
-        },
-      },
-    },
-  },
   {
     "akinsho/toggleterm.nvim",
-    -- event =  "VeryLazy",
     lazy = true,
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {

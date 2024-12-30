@@ -1,15 +1,3 @@
-local wk = require("which-key")
-wk.add({
-  {
-    { "<leader>g", group = "git" },
-    { "<leader>gd", group = "diffview" },
-    { "<leader>gdc", "<cmd>DiffviewClose<CR>", desc = "Diff view close" },
-    { "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", desc = "File panel toggle" },
-    { "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diff view open" },
-    { "<leader>gi", "<cmd>Gitsigns<cr>", desc = "Init Gitsigns" },
-  },
-})
-
 return {
   { "tpope/vim-fugitive" },
   {
@@ -54,10 +42,18 @@ return {
         },
       })
     end,
+    keys = {
+      { "<leader>gi", "<cmd>Gitsigns<cr>", desc = "Init Gitsigns" },
+    },
   },
   {
     "sindrets/diffview.nvim",
     lazy = true,
     event = "VimEnter",
+    keys = {
+      { "<leader>gdc", "<cmd>DiffviewClose<CR>", desc = "Diff view close" },
+      { "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", desc = "File panel toggle" },
+      { "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diff view open" },
+    },
   },
 }

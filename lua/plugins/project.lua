@@ -1,21 +1,21 @@
 return {
-{
-  "ahmedkhalf/project.nvim",
-  opts = {
-    manual_mode = true,
+  {
+    "ahmedkhalf/project.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- manual_mode = true,
+      sync_root_with_cwd = true,
+      respect_buf_cwd = true,
+      update_focused_file = {
+        enable = true,
+        update_root = true,
+      },
+    },
+    config = function(opts)
+      require("project_nvim").setup(opts)
+    end,
+    keys = {
+      { "<leader>fp", "<cmd>Telescope projects<cr>", desc = "Projects" },
+    },
   },
-  event = "VeryLazy",
-  config = function(_, opts)
-    require("project_nvim").setup(opts)
-    local history = require("project_nvim.utils.history")
-    history.delete_project = function(project)
-      for k, v in pairs(history.recent_projects) do
-        if v == project.value then
-          history.recent_projects[k] = nil
-          return
-        end
-      end
-    end
-  end,
-},
 }

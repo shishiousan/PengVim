@@ -28,12 +28,6 @@ local kind_icons = {
 }
 
 return {
-  -- {
-  --   "zbirenbaum/copilot-cmp",
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end,
-  -- },
   {
     "glepnir/nerdicons.nvim",
     cmd = "NerdIcons",

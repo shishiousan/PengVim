@@ -26,9 +26,20 @@ map("n", "<leader>qo", "<cmd>only<CR>", { desc = "Only" })
 
 -- save file
 map("n", "<C-s>", function()
-  require("conform").format({})
+  if vim.g.autoformat then
+    require("conform").format({})
+  end
   vim.cmd("silent! w")
 end, { desc = "write" })
+
+map("n", "<leader>uf", function()
+  if vim.g.autoformat then
+    vim.notify("autoformat is disabled")
+  else
+    vim.notify("autoformat is enabled")
+  end
+  vim.g.autoformat = not vim.g.autoformat
+end, { desc = "Toggle autoformat" })
 
 map("n", "<leader>ww", "<cmd>silent! w<CR>", { desc = "write" })
 map("n", "<leader>fa", "<cmd>silent! wa<CR>", { desc = "write all" })

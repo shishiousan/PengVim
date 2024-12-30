@@ -42,11 +42,11 @@ return {
           markdown = { "mdformat" },
           cmake = { "cmake_format" },
         },
-        format_on_save = {
-          -- I recommend these options. See :help conform.format for details.
-          lsp_format = "fallback",
-          timeout_ms = 500,
-        },
+        -- format_on_save = {
+        -- I recommend these options. See :help conform.format for details.
+        -- lsp_format = "fallback",
+        -- timeout_ms = 500,
+        -- },
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {
           injected = { options = { ignore_errors = true } },

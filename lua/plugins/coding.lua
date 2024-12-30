@@ -451,4 +451,36 @@ return {
       },
     },
   },
+  {
+    "aaronik/treewalker.nvim",
+    opts = {
+      highlight = true,
+    },
+    keys = {
+      {
+        "<leader>tj",
+        "<cmd>Treewalker Down<CR>",
+        mode = { "n" },
+        desc = "TreeWalker Down",
+      },
+      {
+        "<leader>tk",
+        "<cmd>Treewalker Up<CR>",
+        mode = { "n" },
+        desc = "TreeWalker Up",
+      },
+      {
+        "<leader>th",
+        "<cmd>Treewalker Left<CR>",
+        mode = { "n" },
+        desc = "TreeWalker Left",
+      },
+      {
+        "<leader>tl",
+        "<cmd>Treewalker Right<CR>",
+        mode = { "n" },
+        desc = "TreeWalker Right",
+      },
+    },
+  },
 }
