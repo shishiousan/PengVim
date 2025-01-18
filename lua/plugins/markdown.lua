@@ -1,27 +1,5 @@
 return {
   {
-    "arminveres/md-pdf.nvim",
-    branch = "main",
-    lazy = true,
-    config = function()
-      require("md-pdf").setup({
-        margins = "2.0cm",
-        highlight = "tango",
-        toc = false,
-      })
-    end,
-    keys = {
-      {
-        "<leader>mc",
-        function()
-          require("md-pdf").convert_md_to_pdf()
-        end,
-        desc = "Convert to pdf",
-      },
-    },
-    opts = {},
-  },
-  {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "quarto" },
     opts = {},

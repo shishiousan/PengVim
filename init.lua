@@ -1,10 +1,5 @@
 if vim.g.vscode then
   return
-elseif vim.g.neovide then
-  vim.o.guifont = "MonaspiceKr Nerd Font:h13"
-  vim.g.neovide_remember_window_size = true
-  vim.g.neovide_cursor_vfx_mode = "pixiedust"
-  vim.g.neovide_scale_factor = 1.0
 end
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -19,7 +14,6 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   spec = {
-    { import = "config.basic" },
     { import = "plugins" },
   },
   defaults = {
@@ -58,4 +52,5 @@ require("config.options")
 require("config.autocmds")
 require("config.redir")
 
+-- custom highlight after loading colorscheme
 vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })

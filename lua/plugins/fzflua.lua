@@ -1,7 +1,7 @@
 return {
   {
     "ibhagwan/fzf-lua",
-    lazy = "VimEnter",
+    event = "VimEnter",
     dependencies = {
       "junegunn/fzf",
       "nvim-tree/nvim-web-devicons",

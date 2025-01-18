@@ -46,13 +46,6 @@ end, { desc = "Toggle autoformat" })
 map("n", "<leader>ww", "<cmd>silent! w<CR>", { desc = "write" })
 map("n", "<leader>fa", "<cmd>silent! wa<CR>", { desc = "write all" })
 map("n", "<leader>fq", "<cmd>silent! wa<CR><cmd>qa<CR>", { desc = "write all and quit all" })
---
--- map("n", "<leader>rp", "o<esc>v:'<,'>!erun -bs %<CR>")
--- map("n", "<leader>rr", ":!erun -bs %<CR>")
--- map("n", "<leader>rr", function()
---   local text = vim.cmd([[!erun -bs %]])
---   vim.print(text)
--- end)
 
 map("i", ",", ",<c-g>u")
 map("i", ".", ".<c-g>u")
@@ -383,13 +376,35 @@ wk.add({
   },
 }, { mode = "n" })
 
--- you are an idiot with a music
-local idiot = require("you-are-an-idiot")
-vim.api.nvim_create_user_command("ToggleIdiot", function()
-  if idiot.is_running() then
-    idiot.abort()
-  else
-    idiot.run()
-    vim.cmd([[silent exec "! mpv ~/Music/you.ogg"]])
+-- integrate fzf-lua with projects
+-- from https://github.com/ahmedkhalf/project.nvim/issues/99
+map("n", "<leader>fp", function()
+  local contents = require("project_nvim").get_recent_projects()
+  local reverse = {}
+  for i = #contents, 1, -1 do
+    reverse[#reverse + 1] = contents[i]
   end
-end, { desc = "Toggles YouAreAnIdiot" })
+  local fzf = require("fzf-lua")
+  fzf.fzf_exec(reverse, {
+    actions = {
+      ["default"] = function(e)
+        -- vim.cmd.cd(e[1])
+        fzf.files({ cwd = e[1] })
+      end,
+      ["ctrl-d"] = function(x)
+        local choice = vim.fn.confirm("Delete '" .. #x .. "' projects? ", "&Yes\n&No", 2)
+        if choice == 1 then
+          local history = require("project_nvim.utils.history")
+          for _, v in ipairs(x) do
+            history.delete_project(v)
+          end
+        end
+      end,
+    },
+    prompt = "Projects> ",
+    winopts = {
+      height = 0.33,
+      width = 0.66,
+    },
+  })
+end, { silent = true, desc = "Switch project" })

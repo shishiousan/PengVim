@@ -24,7 +24,6 @@ return {
     },
     opts = function()
       local opts = {
-        -- LazyVim will use these options when formatting with the conform.nvim formatter
         default_format_opts = {
           timeout_ms = 5000,
           async = false, -- not recommended to change
@@ -39,24 +38,17 @@ return {
           typst = { "typstyle" },
           fortran = { "fprettify", "myfmt", stop_after_first = true },
           tex = { "latexindent" },
-          markdown = { "mdformat" },
+          markdown = { "dprint", "markdownlint-cli2", "injected" },
           cmake = { "cmake_format" },
-          json = { "jq" },
+          json = { "jq", "dprint", stop_after_first = true },
           julia = { lsp_format = "fallback" },
-          quarto = { "injected" },
+          quarto = { "dprint", "injected" },
         },
-        -- format_on_save = {
-        -- I recommend these options. See :help conform.format for details.
-        -- lsp_format = "fallback",
-        -- timeout_ms = 500,
-        -- },
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {
           injected = {
             options = {
               ignore_errors = false,
-              -- Map of treesitter language to file extension
-              -- A temporary file name with this extension will be generated during formatting
               lang_to_ext = {
                 bash = "sh",
                 julia = "jl",
@@ -66,9 +58,7 @@ return {
                 rust = "rs",
                 lua = "lua",
               },
-              lang_to_formatters = {
-                julia = { lsp_format = "fallback" },
-              },
+              lang_to_formatters = {},
             },
           },
           fprettify = {

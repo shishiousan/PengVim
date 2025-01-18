@@ -1,5 +1,27 @@
 return {
   {
+    "numToStr/Comment.nvim",
+    lazy = false,
+    opts = {},
+  },
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      signs = false,
+    },
+  },
+  {
     "smoka7/multicursors.nvim",
     lazy = true,
     dependencies = {
@@ -53,71 +75,6 @@ return {
     },
   },
   {
-    "bbjornstad/pretty-fold.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("pretty-fold").setup({
-        sections = {
-          left = {
-            "content",
-          },
-          right = {
-            " ",
-            "number_of_folded_lines",
-            ": ",
-            "percentage",
-            " ",
-            function(config)
-              return config.fill_char:rep(3)
-            end,
-          },
-        },
-        fill_char = "•",
-        remove_fold_markers = true,
-        keep_indentation = true,
-        -- Possible values:
-        -- "delete" : Delete all comment signs from the fold string.
-        -- "spaces" : Replace all comment signs with equal number of spaces.
-        -- false    : Do nothing with comment signs.
-        process_comment_signs = "spaces",
-        comment_signs = {},
-        add_close_pattern = true, -- true, 'last_line' or false
-        matchup_patterns = {
-          { "{", "}" },
-          { "%(", ")" },
-          { "%[", "]" },
-        },
-        ft_ignore = { "neorg", "TelescopeResults", "ToggleTerm", "Noice", "sagaoutline", "dashboard" },
-      })
-      require("pretty-fold").ft_setup("lua", {
-        matchup_patterns = {
-          { "^%s*if", "end" },
-          { "^%s*for", "end" },
-          { "function%s*%(", "end" },
-          { "{", "}" },
-          { "%(", ")" },
-          { "%[", "]" },
-        },
-      })
-    end,
-  },
-  -- {
-  --   "anuvyklack/fold-preview.nvim",
-  --   dependencies = "anuvyklack/keymap-amend.nvim",
-  --   config = function()
-  --     local fp = require("fold-preview")
-  --     local map = require("fold-preview").mapping
-  --     local keymap = vim.keymap
-  --     keymap.amend = require("keymap-amend")
-  --
-  --     fp.setup({
-  --       auto = false,
-  --       default_keybindings = true,
-  --       border = "single",
-  --     })
-  --   end,
-  -- },
-  {
     "folke/flash.nvim",
     event = "VeryLazy",
     vscode = true,
@@ -169,21 +126,9 @@ return {
     },
   },
   {
-    "kevinhwang91/nvim-bqf",
-    ft = "qf",
-    config = function()
-      require("bqf").setup({
-        filter = {
-          fzf = {
-            extra_opts = { "--bind", "ctrl-o:toggle-all", "--delimiter", "│" },
-          },
-        },
-      })
-    end,
-  },
-  {
     "folke/trouble.nvim",
-    cmd = { "Trouble" },
+    opts = {},
+    cmd = "Trouble",
     keys = {
       { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
@@ -212,22 +157,8 @@ return {
     },
   },
   {
-    "Aasim-A/scrollEOF.nvim",
-    event = { "CursorMoved", "WinScrolled" },
-    opts = {
-      pattern = "*",
-      insert_mode = true,
-      floating = false,
-      disabled_filetypes = {},
-      disabled_modes = {},
-    },
-    config = function(opts)
-      require("scrollEOF").setup(opts)
-    end,
-  },
-  {
     "rachartier/tiny-inline-diagnostic.nvim",
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("tiny-inline-diagnostic").setup({
         signs = {
@@ -298,136 +229,6 @@ return {
         },
         highlight_for_count = true,
       })
-    end,
-  },
-  {
-    "ahmedkhalf/project.nvim",
-    lazy = false,
-    opts = {
-      active = true,
-      on_config_done = nil,
-      manual_mode = false,
-      detection_methods = { "pattern", "lsp" },
-      patterns = { ".git" },
-      show_hidden = false,
-      silent_chdir = true,
-      ignore_lsp = {},
-    },
-  },
-  {
-    "stevearc/overseer.nvim",
-    lazy = true,
-    config = function()
-      require("overseer").setup({
-        templates = {
-          "user.baseDev",
-          "user.baseInstall",
-          "user.run_script",
-          "user.classesDev",
-          "user.classesInstall",
-          "user.easifemLint",
-          -- "user.smartLint",
-        },
-        component_aliases = {
-          default = {
-            "on_output_summarize",
-            "on_exit_set_status",
-            { "on_complete_notify", statuses = { "FAILURE", "SUCCESS" }, on_change = true },
-            { "on_complete_dispose", statuses = { "SUCCESS", "FAILURE" } },
-            {
-              "on_result_diagnostics",
-              virtual_text = true,
-              remove_on_restart = true,
-              signs = true,
-              underline = true,
-            },
-            { "on_result_diagnostics_quickfix", open = false },
-          },
-        },
-      })
-    end,
-    keys = {
-      {
-        "<leader>or",
-        "<cmd>OverseerRun<CR>",
-        mode = { "n" },
-        desc = "Overseer Run",
-      },
-      {
-        "<leader>ot",
-        "<cmd>OverseerToggle<CR>",
-        mode = { "n" },
-        desc = "Overseer Toggle",
-      },
-      {
-        "<leader>oi",
-        "<cmd>OverseerInfo<CR>",
-        mode = { "n" },
-        desc = "Overseer Info",
-      },
-    },
-  },
-  {
-    "jaimecgomezz/here.term",
-    keys = {
-      {
-        "<M-t>",
-        function()
-          require("here-term").toggle_terminal()
-        end,
-        mode = { "n", "i", "t" },
-        desc = "Toggle Terminal Here",
-      },
-      {
-        "<M-S-t>",
-        function()
-          require("here-term").kill_terminal()
-        end,
-        mode = { "n", "i", "t" },
-        desc = "Kill Terminal Here",
-      },
-    },
-  },
-  {
-    "aaronik/treewalker.nvim",
-    opts = {
-      highlight = true,
-    },
-    keys = {
-      {
-        "<leader>tj",
-        "<cmd>Treewalker Down<CR>",
-        mode = { "n" },
-        desc = "TreeWalker Down",
-      },
-      {
-        "<leader>tk",
-        "<cmd>Treewalker Up<CR>",
-        mode = { "n" },
-        desc = "TreeWalker Up",
-      },
-      {
-        "<leader>th",
-        "<cmd>Treewalker Left<CR>",
-        mode = { "n" },
-        desc = "TreeWalker Left",
-      },
-      {
-        "<leader>tl",
-        "<cmd>Treewalker Right<CR>",
-        mode = { "n" },
-        desc = "TreeWalker Right",
-      },
-    },
-  },
-  {
-    "andymass/vim-matchup",
-    enabled = false,
-    lazy = false,
-    config = function()
-      vim.g.matchup_matchparen_offscreen = {
-        method = "popup",
-      }
     end,
   },
 }

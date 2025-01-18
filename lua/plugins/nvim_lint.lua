@@ -1,7 +1,16 @@
----@diagnostic disable: missing-fields
 return {
   {
+    "kevinhwang91/nvim-bqf",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("bqf").setup({
+        auto_enable = true,
+      })
+    end,
+  },
+  {
     "mfussenegger/nvim-lint",
+    events = { "BufWritePost", "BufReadPost", "InsertLeave" },
     config = function()
       local lint = require("lint")
       local errorformat =
@@ -20,16 +29,9 @@ return {
           "-I",
           os.getenv("HOME") .. "/.easifem/easifem/lint/include/",
           "-I",
-          -- os.getenv("HOME") .. "/.easifem/install/arpack/include/arpack/",
           os.getenv("HOME") .. "/.easifem/install/base/include/",
           "-I",
           os.getenv("HOME") .. "/.easifem/install/classes/include/",
-          -- os.getenv("HOME") .. "/.easifem/install/fftw/include/",
-          -- os.getenv("HOME") .. "/.easifem/install/gmsh/include/",
-          -- os.getenv("HOME") .. "/.easifem/install/lapack95/include/",
-          -- os.getenv("HOME") .. "/.easifem/install/lis/include/",
-          -- os.getenv("HOME") .. "/.easifem/install/sparsekit/include/",
-          -- os.getenv("HOME") .. "/.easifem/install/superlu/include/",
           "-I",
           os.getenv("HOME") .. "/.easifem/install/kernels/include/",
           "-I",
@@ -37,12 +39,18 @@ return {
           "-J",
           os.getenv("HOME") .. "/.easifem/lint/include/",
           "-DDEBUG_VER",
-        }, -- args to pass to the linter
+        },
         ignore_exitcode = true, -- set this to true if you don't want to show error messages
         stream = "both", -- set this to "stdout" if the output is not an error, for example with luac
         parser = require("lint.parser").from_errorformat(errorformat),
       }
-      lint.linters_by_ft = { fortran = { "gfortran" } }
+      local mdlint = lint.linters["markdownlint-cli2"]
+      mdlint.args = { "--config", os.getenv("HOME") .. "/.markdownlint-cli2.yaml" }
+      lint.linters_by_ft = {
+        fortran = { "gfortran" },
+        markdown = { "markdownlint-cli2" },
+        fish = { "fish" },
+      }
     end,
   },
 }
