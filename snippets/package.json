@@ -48,19 +48,22 @@
       {
         "language": [
           "fortran",
-          "markdown"
+          "markdown",
+          "quarto"
         ],
         "path": "./easifem-fortran.json"
       },
       {
         "language": [
-          "markdown"
+          "markdown",
+          "quarto"
         ],
         "path": "./easifem-markdown.json"
       },
       {
         "language": [
-          "markdown"
+          "markdown",
+          "quarto"
         ],
         "path": "./mymarkdown_snippets.json"
       },
@@ -69,6 +72,12 @@
           "csv"
         ],
         "path": "./mycsv_snippets.json"
+      },
+      {
+        "language": [
+          "quarto"
+        ],
+        "path": "./quarto.json"
       }
     ]
   }

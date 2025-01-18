@@ -1,7 +1,11 @@
 return {
-  { "tpope/vim-fugitive" },
+  {
+    "tpope/vim-fugitive",
+    event = { "BufReadPre", "BufNewFile" },
+  },
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("gitsigns").setup({
         signs = {
@@ -10,7 +14,7 @@ return {
           delete = { text = "_" },
           topdelete = { text = "‾" },
           changedelete = { text = "~" },
-          untracked = { text = "┆" },
+          untracked = { text = " " },
         },
         signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
         numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -48,8 +52,7 @@ return {
   },
   {
     "sindrets/diffview.nvim",
-    lazy = true,
-    event = "VimEnter",
+    event = { "BufReadPre", "BufNewFile" },
     keys = {
       { "<leader>gdc", "<cmd>DiffviewClose<CR>", desc = "Diff view close" },
       { "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", desc = "File panel toggle" },

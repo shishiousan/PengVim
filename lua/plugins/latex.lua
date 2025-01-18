@@ -1,26 +1,7 @@
 return {
   {
-    "neovim/nvim-lspconfig",
-    opts = {
-      format = { timeout_ms = 1000 },
-      servers = {
-        texlab = {
-          settings = {
-            texlab = {
-              inlayHints = {
-                labelReferences = false,
-                labelDefinitions = false,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  {
     "lervag/vimtex",
-    lazy = false, -- lazy-loading will disable inverse search
-    -- dependencies = { "Konfekt/FastFold" },
+    ft = { "tex", "bib", "latex" },
     config = function()
       vim.api.nvim_create_autocmd({ "FileType" }, {
         group = vim.api.nvim_create_augroup("lazyvim_vimtex_conceal", { clear = true }),
@@ -36,7 +17,6 @@ return {
             {
               "<leader>ve",
               function()
-                -- check vimtex auxiliary direcotry variable
                 local out_dir = os.getenv("VIMTEX_OUTPUT_DIRECTORY")
                 if type(out_dir) == "string" then
                   local do_exist, _ = os.rename(out_dir, out_dir)
