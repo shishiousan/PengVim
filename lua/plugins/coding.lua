@@ -1,8 +1,7 @@
 return {
   {
     "smoka7/multicursors.nvim",
-    -- branch = "v0.9.0",
-    event = "VeryLazy",
+    lazy = true,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "smoka7/hydra.nvim",
@@ -20,7 +19,7 @@ return {
   },
   {
     "RRethy/vim-illuminate",
-    -- event = "LazyFile",
+    event = { "BufReadPost", "BufNewFile" },
     opts = {
       delay = 200,
       large_file_cutoff = 2000,
@@ -40,7 +39,6 @@ return {
       map("]]", "next")
       map("[[", "prev")
 
-      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
       vim.api.nvim_create_autocmd("FileType", {
         callback = function()
           local buffer = vim.api.nvim_get_current_buf()
@@ -55,8 +53,8 @@ return {
     },
   },
   {
-    -- "anuvyklack/pretty-fold.nvim",
     "bbjornstad/pretty-fold.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("pretty-fold").setup({
         sections = {
@@ -86,19 +84,19 @@ return {
         add_close_pattern = true, -- true, 'last_line' or false
         matchup_patterns = {
           { "{", "}" },
-          { "%(", ")" }, -- % to escape lua pattern char
-          { "%[", "]" }, -- % to escape lua pattern char
+          { "%(", ")" },
+          { "%[", "]" },
         },
         ft_ignore = { "neorg", "TelescopeResults", "ToggleTerm", "Noice", "sagaoutline", "dashboard" },
       })
       require("pretty-fold").ft_setup("lua", {
         matchup_patterns = {
-          { "^%s*if", "end" }, -- if ... end
-          { "^%s*for", "end" }, -- for
-          { "function%s*%(", "end" }, -- 'function( or 'function (''
+          { "^%s*if", "end" },
+          { "^%s*for", "end" },
+          { "function%s*%(", "end" },
           { "{", "}" },
-          { "%(", ")" }, -- % to escape lua pattern char
-          { "%[", "]" }, -- % to escape lua pattern char
+          { "%(", ")" },
+          { "%[", "]" },
         },
       })
     end,
@@ -119,34 +117,6 @@ return {
   --     })
   --   end,
   -- },
-  {
-    "tris203/precognition.nvim",
-    --event = "VeryLazy",
-    config = {
-      startVisible = false,
-      -- showBlankVirtLine = true,
-      -- highlightColor = { link = "Comment" },
-      -- hints = {
-      --      Caret = { text = "^", prio = 2 },
-      --      Dollar = { text = "$", prio = 1 },
-      --      MatchingPair = { text = "%", prio = 5 },
-      --      Zero = { text = "0", prio = 1 },
-      --      w = { text = "w", prio = 10 },
-      --      b = { text = "b", prio = 9 },
-      --      e = { text = "e", prio = 8 },
-      --      W = { text = "W", prio = 7 },
-      --      B = { text = "B", prio = 6 },
-      --      E = { text = "E", prio = 5 },
-      -- },
-      -- gutterHints = {
-      --     -- prio is not currently used for gutter hints
-      --     G = { text = "G", prio = 1 },
-      --     gg = { text = "gg", prio = 1 },
-      --     PrevParagraph = { text = "{", prio = 1 },
-      --     NextParagraph = { text = "}", prio = 1 },
-      -- },
-    },
-  },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -213,6 +183,7 @@ return {
   },
   {
     "folke/trouble.nvim",
+    cmd = { "Trouble" },
     keys = {
       { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
@@ -238,38 +209,6 @@ return {
         end,
         desc = "Previous Trouble/Quickfix Item",
       },
-    },
-  },
-  {
-    "echasnovski/mini.comment",
-    event = "VeryLazy",
-    opts = {
-      options = {
-        custom_commentstring = function()
-          return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
-        end,
-      },
-    },
-  },
-  {
-    "echasnovski/mini.surround",
-    opts = {
-      mappings = {
-        add = "gsa",
-        delete = "gsd",
-        find = "gsf",
-        find_left = "gsF",
-        highlight = "gsh",
-        replace = "gsr",
-        update_n_lines = "gsn",
-      },
-    },
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
     },
   },
   {
@@ -327,9 +266,19 @@ return {
   },
   {
     "chrisbra/NrrwRgn",
+    lazy = true,
+    keys = {
+      {
+        "<leader>nr",
+        "<plug>NrrwrgnDo<cr>",
+        desc = "NrrwRgn",
+        mode = { "n", "v" },
+      },
+    },
   },
   {
     "tzachar/highlight-undo.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("highlight-undo").setup({
         duration = 300,
@@ -352,18 +301,6 @@ return {
     end,
   },
   {
-    "HakonHarnes/img-clip.nvim",
-    event = "VeryLazy",
-    opts = {
-      default = {
-        extension = { "png", "svg", "pdf", "eps" },
-      },
-    },
-    keys = {
-      { "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
-    },
-  },
-  {
     "ahmedkhalf/project.nvim",
     lazy = false,
     opts = {
@@ -379,7 +316,7 @@ return {
   },
   {
     "stevearc/overseer.nvim",
-    lazy = false,
+    lazy = true,
     config = function()
       require("overseer").setup({
         templates = {
@@ -482,5 +419,15 @@ return {
         desc = "TreeWalker Right",
       },
     },
+  },
+  {
+    "andymass/vim-matchup",
+    enabled = false,
+    lazy = false,
+    config = function()
+      vim.g.matchup_matchparen_offscreen = {
+        method = "popup",
+      }
+    end,
   },
 }

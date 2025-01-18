@@ -1,31 +1,6 @@
 ---@diagnostic disable: missing-fields
 return {
   {
-    -- "neovim/nvim-lspconfig",
-    -- opts = {
-    --   setup = {
-    --     fortls = function(_, opts)
-    --       opts.capabilities = require("cmp_nvim_lsp").default_capabilities()
-    --       opts.cmd = {
-    --         "fortls",
-    --         "--lowercase_intrinsics",
-    --         "--source_dirs",
-    --         -- os.getenv("EASIFEM_SOURCE_DIR") .. "/easifem/base/src/**",
-    --         os.getenv("DROPBOX") .. "/easifem/base/src/**",
-    --         os.getenv("DROPBOX") .. "/easifem/classes/src/**",
-    --         os.getenv("DROPBOX") .. "/easifem/elasticity/src/**",
-    --         os.getenv("DROPBOX") .. "/easifem/acoustic/src/**",
-    --         os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
-    --         "--hover_signature",
-    --         "--hover_language=fortran",
-    --         "--use_signature_help",
-    --       }
-    --       vim.notify("fortls started")
-    --     end,
-    --   },
-    -- },
-  },
-  {
     "mfussenegger/nvim-lint",
     config = function()
       local lint = require("lint")

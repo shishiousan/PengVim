@@ -1,24 +1,24 @@
 return {
   {
     "2giosangmitom/nightfall.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     opts = {},
   },
   {
     "eldritch-theme/eldritch.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     opts = {},
   },
   {
     "dgox16/oldworld.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
   },
   {
     "baliestri/aura-theme",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     config = function(plugin)
       vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
@@ -26,17 +26,18 @@ return {
   },
   {
     "AlexvZyl/nordic.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
   },
   {
     "fcancelinha/nordern.nvim",
+    lazy = true,
     branch = "master",
     priority = 1000,
   },
   {
     "scottmckendry/cyberdream.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     config = function()
       require("cyberdream").setup({
@@ -51,7 +52,7 @@ return {
   {
     "0xstepit/flow.nvim",
     name = "Flow",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     opts = {},
     config = function()
@@ -65,17 +66,14 @@ return {
   },
   {
     "ray-x/aurora",
-    lazy = false,
+    lazy = true,
     priority = 1000,
     init = function()
       vim.g.aurora_italic = 1
       vim.g.aurora_transparent = 1
       vim.g.aurora_bold = 1
     end,
-    config = function()
-      -- vim.cmd.colorscheme("aurora")
-      -- vim.api.nvim_set_hl(0, "@number", { fg = "#e933e3" })
-    end,
+    config = function() end,
   },
   {
     "bluz71/vim-moonfly-colors",
@@ -84,13 +82,12 @@ return {
     priority = 1000,
     config = function()
       vim.cmd.colorscheme("moonfly")
-      -- vim.api.nvim_set_hl(0, "@number", { fg = "#e933e3" })
     end,
   },
   {
     "zenbones-theme/zenbones.nvim",
     dependencies = "rktjmp/lush.nvim",
-    lazy = false,
+    lazy = true,
     priority = 1000,
   },
   {
@@ -111,7 +108,6 @@ return {
   {
     "ojroques/nvim-bufdel",
   },
-  { "echasnovski/mini.icons", version = false },
   {
     "shellRaining/hlchunk.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -184,244 +180,28 @@ return {
     },
   },
   {
-    "nvimdev/dashboard-nvim",
-    enabled = true,
-    event = "VimEnter",
-    opts = function()
-      local logo = [[
-                                                          ⠀⠀⠀⠀⠀⠀⣀⡤⠴⠒⠒⠒⠶⢤⣄⡀⠀⠀⠀⠀⠀⠀          
-██████╗ ███████╗███╗   ██╗ ██████╗ ██╗   ██╗██╗███╗   ███╗⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠈⠙⢦⡀⠀⠀⠀⠀          
-██╔══██╗██╔════╝████╗  ██║██╔════╝ ██║   ██║██║████╗ ████║⠀⠀⠀⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⡀⠀< FXXK YOU!!
-██████╔╝█████╗  ██╔██╗ ██║██║  ███╗██║   ██║██║██╔████╔██║⠀⠀⢸⠁⠀⠀⣠⠖⠛⠛⠲⢤⠀⠀⠀⣰⠚⠛⢷⠀⠀⠀          
-██╔═══╝ ██╔══╝  ██║╚██╗██║██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║⠀⠀⣿⠀⠀⣸⠃⠀⠀⢀⣀⠈⢧⣠⣤⣯⢠⣤⠘⣆⠀⠀          
-██║     ███████╗██║ ╚████║╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║⠀⠀⣿⠀⠀⡇⠀⠀⠀⠻⠟⠠⣏⣀⣀⣨⡇⠉⢀⣿⠀⠀          
-╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝⠀⢀⡟⠀⠀⠹⡄⠀⠀⠀⠀⠀⠉⠑⠚⠉⠀⣠⡞⢿⠀⠀          
-                                                          ⢀⡼⠁⠀⠀⠀⠙⠳⢤⡄⠀⠀⠀⠀⠀⠀⠀⠁⠙⢦⠳⣄          
-    ]]
-
-      logo = string.rep("\n", 8) .. logo .. "\n\n"
-
-      local opts = {
-        theme = "doom",
-        hide = {
-          statusline = false,
-        },
-        config = {
-          header = vim.split(logo, "\n"),
-          center = {
-            {
-              action = "FzfLua files",
-              desc = " Find File",
-              icon = " ",
-              key = "f",
-            },
-            {
-              action = "ene | startinsert",
-              desc = " New File",
-              icon = " ",
-              key = "n",
-            },
-            {
-              action = "FzfLua oldfiles",
-              desc = " Recent Files",
-              icon = " ",
-              key = "r",
-            },
-            {
-              action = "FzfLua live_grep",
-              desc = " Find Text",
-              icon = " ",
-              key = "g",
-            },
-            -- {
-            --   action = "",
-            --   desc = " Config",
-            --   icon = " ",
-            --   key = "c",
-            -- },
-            {
-              action = 'lua require("persistence").load()',
-              desc = " Restore Session",
-              icon = " ",
-              key = "s",
-            },
-            {
-              action = "Lazy",
-              desc = " Lazy",
-              icon = "󰒲 ",
-              key = "l",
-            },
-            {
-              action = "qa",
-              desc = " Quit",
-              icon = " ",
-              key = "q",
-            },
-          },
-          footer = function()
-            local stats = require("lazy").stats()
-            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-            return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-          end,
-        },
-      }
-
-      for _, button in ipairs(opts.config.center) do
-        button.desc = button.desc .. string.rep(" ", 43 - #button.desc)
-        button.key_format = "  %s"
-      end
-
-      if vim.o.filetype == "lazy" then
-        vim.cmd.close()
-        vim.api.nvim_create_autocmd("User", {
-          pattern = "DashboardLoaded",
-          callback = function()
-            require("lazy").show()
-          end,
-        })
-      end
-
-      return opts
-    end,
-  },
-  {
     "folke/noice.nvim",
     event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    },
     opts = {
       cmdline = {
-        enabled = true, -- enables the Noice cmdline UI
-        view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
-        opts = {
-          position = {
-            row = "10%",
-            col = "50%",
-          },
-          size = {
-            width = 90,
-            height = 1,
-          },
-          border = {
-            style = "rounded",
-            text = {
-              top = " COMMAND LINE ",
-              top_align = "center",
-            },
-          },
-        }, -- global options for the cmdline. See section on views
+        enabled = true,
+        view = "cmdline",
       },
-      lsp = {
-        progress = {
-          enabled = true,
-          -- Lsp Progress is formatted using the builtins for lsp_progress. See config.format.builtin
-          -- See the section on formatting for more details on how to customize.
-          --- @type NoiceFormat|string
-          format = "lsp_progress",
-          --- @type NoiceFormat|string
-          format_done = "lsp_progress_done",
-          throttle = 1000 / 30, -- frequency to update lsp progress message
-          view = "mini",
-        },
-        override = {
-          -- override the default lsp markdown formatter with Noice
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
-          -- override the lsp markdown formatter with Noice
-          ["vim.lsp.util.stylize_markdown"] = false,
-          -- override cmp documentation with Noice (needs the other options to work)
-          ["cmp.entry.get_documentation"] = false,
-        },
-        hover = {
-          enabled = true,
-          silent = false, -- set to true to not show a message if hover is not available
-          view = nil, -- when nil, use defaults from documentation
-          ---@type NoiceViewOptions
-          opts = {}, -- merged with defaults from documentation
-        },
-        signature = {
-          enabled = true,
-          auto_open = {
-            enabled = true,
-            trigger = false, -- Automatically show signature help when typing a trigger character from the LSP
-            luasnip = true, -- Will open signature help when jumping to Luasnip insert nodes
-            throttle = 50, -- Debounce lsp signature help request by 50ms
-          },
-          view = nil, -- when nil, use defaults from documentation
-          ---@type NoiceViewOptions
-          opts = {}, -- merged with defaults from documentation
-        },
-        message = {
-          -- Messages shown by lsp servers
-          enabled = false,
-          view = "notify",
-          opts = {},
-        },
-        -- defaults for hover and signature help
-        documentation = {
-          view = "hover",
-          ---@type NoiceViewOptions
-          opts = {
-            lang = "markdown",
-            replace = true,
-            render = "plain",
-            format = { "{message}" },
-            win_options = { concealcursor = "n", conceallevel = 3 },
-          },
-        },
-      },
-      -- routes = {
-      --   {
-      --     view = "split",
-      --     filter = {
-      --       event = "msg_show",
-      --       min_height = 2,
-      --     },
-      --     opts = { lang = "fortran" },
-      --   },
-      -- },
       presets = {
         bottom_search = true,
-        command_palette = false,
+        command_palette = true,
         long_message_to_split = true,
-        inc_rename = true,
+        inc_rename = false,
+        lsp_doc_border = true,
       },
-      message = {
-        -- Messages shown by lsp servers
-        enabled = false,
-        view = "notify",
-        opts = {},
-      },
-      views = {
-        vsplit = {
-          enter = true,
-        },
-        split = {
-          enter = true,
-        },
-        confirm = {
-          position = {
-            row = "10%",
-            col = "50%",
-          },
-          size = "auto",
-          border = {
-            style = "rounded",
-            padding = { 0, 1 },
-            text = {
-              top = " CONFIRM ",
-            },
-          },
-        },
-      },
-    },
-  },
-  {
-    "folke/snacks.nvim",
-    opts = {
-      dashboard = { enabled = false },
     },
   },
   {
     "anuvyklack/windows.nvim",
-    lazy = false,
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "anuvyklack/middleclass",
       "anuvyklack/animation.nvim",
@@ -430,7 +210,15 @@ return {
       vim.o.winwidth = 10
       vim.o.winminwidth = 10
       vim.o.equalalways = false
-      require("windows").setup()
+      require("windows").setup({
+        ignore = {
+          buftype = { "quickfix", "terminal" },
+          filetype = { "NvimTree", "neo-tree", "undotree", "gundo" },
+        },
+        animation = {
+          enable = false,
+        },
+      })
     end,
     keys = {
       {

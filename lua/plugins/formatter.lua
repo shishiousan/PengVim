@@ -41,6 +41,9 @@ return {
           tex = { "latexindent" },
           markdown = { "mdformat" },
           cmake = { "cmake_format" },
+          json = { "jq" },
+          julia = { lsp_format = "fallback" },
+          quarto = { "injected" },
         },
         -- format_on_save = {
         -- I recommend these options. See :help conform.format for details.
@@ -49,7 +52,25 @@ return {
         -- },
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {
-          injected = { options = { ignore_errors = true } },
+          injected = {
+            options = {
+              ignore_errors = false,
+              -- Map of treesitter language to file extension
+              -- A temporary file name with this extension will be generated during formatting
+              lang_to_ext = {
+                bash = "sh",
+                julia = "jl",
+                latex = "tex",
+                markdown = "md",
+                python = "py",
+                rust = "rs",
+                lua = "lua",
+              },
+              lang_to_formatters = {
+                julia = { lsp_format = "fallback" },
+              },
+            },
+          },
           fprettify = {
             args = {
               "--case",

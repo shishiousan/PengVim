@@ -1,8 +1,6 @@
 if vim.g.vscode then
-  -- VSCode extension
   return
 elseif vim.g.neovide then
-  -- Put anything you want to happen only in Neovide here
   vim.o.guifont = "MonaspiceKr Nerd Font:h13"
   vim.g.neovide_remember_window_size = true
   vim.g.neovide_cursor_vfx_mode = "pixiedust"
@@ -20,14 +18,12 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
-  -- require("config.basic"),
-  -- require("config.autocmds"),
   spec = {
     { import = "config.basic" },
     { import = "plugins" },
   },
   defaults = {
-    lazy = false,
+    lazy = true,
     version = false,
     keymaps = false,
   },
@@ -50,13 +46,16 @@ require("lazy").setup({
   },
   checker = {
     enabled = false,
-    concurrency = nil, ---@type number? set to 1 to check for updates very slowly
-    notify = false, -- get a notification when new updates are found
-    frequency = 3600, -- check for updates every hour
-    check_pinned = true, -- check for pinned packages that can't be updated
+    concurrency = nil,
+    notify = false,
+    frequency = 3600,
+    check_pinned = true,
   },
 })
 
 require("config.keymaps")
 require("config.options")
 require("config.autocmds")
+require("config.redir")
+
+vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })

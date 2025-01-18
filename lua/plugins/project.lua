@@ -3,7 +3,6 @@ return {
     "ahmedkhalf/project.nvim",
     event = "VeryLazy",
     opts = {
-      -- manual_mode = true,
       sync_root_with_cwd = true,
       respect_buf_cwd = true,
       update_focused_file = {

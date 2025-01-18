@@ -1,7 +1,7 @@
 return {
   {
     "ibhagwan/fzf-lua",
-    lazy = false,
+    lazy = "VimEnter",
     dependencies = {
       "junegunn/fzf",
       "nvim-tree/nvim-web-devicons",
@@ -11,8 +11,13 @@ return {
         fzf_colors = false,
         winopts = {
           preview = {
-            -- "nohidden" or press f4 key
             hidden = "hidden",
+          },
+        },
+        keymap = {
+          builtin = {
+            true,
+            ["<esc>"] = "hide",
           },
         },
       })

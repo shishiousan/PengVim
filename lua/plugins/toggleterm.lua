@@ -3,6 +3,8 @@ local j_tnum_int = 10
 return {
   {
     "akinsho/toggleterm.nvim",
+    -- NOTE: now I am using vim-slime for julia
+    enabled = false,
     lazy = true,
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {

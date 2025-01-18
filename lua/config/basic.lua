@@ -1,38 +1,108 @@
 return {
   {
+    "folke/snacks.nvim",
+    lazy = false,
+    opts = {
+      dashboard = {
+        preset = {
+          header = [[
+                                                          ⠀⠀⠀⠀⠀⠀⣀⡤⠴⠒⠒⠒⠶⢤⣄⡀⠀⠀⠀⠀⠀⠀           
+██████╗ ███████╗███╗   ██╗ ██████╗ ██╗   ██╗██╗███╗   ███╗⠀⠀⠀⠀⣠⠞⠁⠀⠀⠀⠀⠀⠀⠀⠈⠙⢦⡀⠀⠀⠀⠀           
+██╔══██╗██╔════╝████╗  ██║██╔════╝ ██║   ██║██║████╗ ████║⠀⠀⠀⡼⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢳⡀⠀< Hello World
+██████╔╝█████╗  ██╔██╗ ██║██║  ███╗██║   ██║██║██╔████╔██║⠀⠀⢸⠁⠀⠀⣠⠖⠛⠛⠲⢤⠀⠀⠀⣰⠚⠛⢷⠀⠀⠀           
+██╔═══╝ ██╔══╝  ██║╚██╗██║██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║⠀⠀⣿⠀⠀⣸⠃⠀⠀⢀⣀⠈⢧⣠⣤⣯⢠⣤⠘⣆⠀⠀           
+██║     ███████╗██║ ╚████║╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║⠀⠀⣿⠀⠀⡇⠀⠀⠀⠻⠟⠠⣏⣀⣀⣨⡇⠉⢀⣿⠀⠀           
+╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝⠀⢀⡟⠀⠀⠹⡄⠀⠀⠀⠀⠀⠉⠑⠚⠉⠀⣠⡞⢿⠀⠀           
+                                                          ⢀⡼⠁⠀⠀⠀⠙⠳⢤⡄⠀⠀⠀⠀⠀⠀⠀⠁⠙⢦⠳⣄           
+    ]],
+          keys = {
+            {
+              action = ":FzfLua files",
+              desc = " Find File",
+              icon = " ",
+              key = "f",
+            },
+            {
+              action = ":ene | startinsert",
+              desc = " New File",
+              icon = " ",
+              key = "n",
+            },
+            {
+              action = ":FzfLua oldfiles",
+              desc = " Recent Files",
+              icon = " ",
+              key = "r",
+            },
+            {
+              action = ":FzfLua live_grep",
+              desc = " Find Text",
+              icon = " ",
+              key = "g",
+            },
+            {
+              action = ':lua require("persistence").load()',
+              desc = " Restore Session",
+              icon = " ",
+              key = "s",
+            },
+            {
+              action = ":Lazy",
+              desc = " Lazy",
+              icon = "󰒲 ",
+              key = "l",
+            },
+            {
+              action = ":qa",
+              desc = " Quit",
+              icon = " ",
+              key = "q",
+            },
+          },
+        },
+      },
+      statuscolumn = {
+        enabled = false,
+      },
+    },
+  },
+  {
     "numToStr/Comment.nvim",
+    lazy = false,
     opts = {},
   },
   {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+  },
+  {
     "folke/which-key.nvim",
-    event = "VeryLazy",
     opts_extend = { "spec" },
     opts = {
       ---@type wk.Win
       win = {
-        -- width = 1,
-        -- height = { min = 4, max = 25 },
-        -- col = 0,
+        height = { min = 4, max = 25 },
+        col = 0.5,
         row = -1,
         border = "double",
-        padding = { 0, 1 }, -- extra window padding [top/bottom, right/left]
+        padding = { 0, 1 },
         title = false,
         title_pos = "center",
         zindex = 1000,
-        -- Additional vim.wo and vim.bo options
         bo = {},
-        wo = {
-          -- winblend = 10, -- value between 0-100 0 for fully opaque and 100 for fully transparent
-        },
+        wo = {},
       },
       layout = {
-        width = { min = 20 }, -- min and max width of the columns
-        spacing = 1, -- spacing between columns
-        align = "center", -- align columns left, center or right
+        width = { min = 20 },
+        spacing = 1,
+        align = "left",
       },
       show_keys = false,
       show_help = false,
-      preset = "helix",
+      preset = "classic",
       defaults = {},
       spec = {
         {
@@ -69,7 +139,6 @@ return {
               return require("which-key.extras").expand.win()
             end,
           },
-          -- better descriptions
           { "gx", desc = "Open with system app" },
         },
       },
@@ -108,14 +177,6 @@ return {
     end,
   },
   {
-    "nvim-telescope/telescope.nvim",
-    event = "VimEnter",
-    branch = "0.1.x",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-  },
-  {
     "neovim/nvim-lspconfig",
     dependencies = {
       { "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
@@ -123,30 +184,60 @@ return {
       "WhoIsSethDaniel/mason-tool-installer.nvim",
       { "j-hui/fidget.nvim", opts = {} },
       { "folke/neodev.nvim", opts = {} },
-      "hrsh7th/cmp-nvim-lsp",
+      "saghen/blink.cmp",
     },
+    cmd = { "LspInfo", "LspInstall", "LspRestart", "LspStart", "LspStop", "LspUninstall" },
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
+      local lspconfig = require("lspconfig")
+      local util = require("lspconfig.util")
+
+      require("mason").setup()
+      require("mason-lspconfig").setup({
+        automatic_installation = true,
+      })
+      require("mason-tool-installer").setup({
+        ensure_installed = {
+          "stylua",
+          "shfmt",
+          "cmakelang",
+          "julials",
+          "fortls",
+          "jupytext",
+          "mdformat",
+          "marksman",
+          "taplo",
+          "lua_ls",
+          "texlab",
+          "bashls",
+          "vimls",
+        },
+      })
+
       vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+        group = vim.api.nvim_create_augroup("pengvim-lsp-attach", { clear = true }),
         callback = function(event)
           local map = function(keys, func, desc)
             vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+          end
+          local function vmap(keys, func, desc)
+            vim.keymap.set("v", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
           end
 
           map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
           map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
           map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
-          map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-          map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
-          map("<leader>ws", require("telescope.builtin").lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-          map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+          map("gh", vim.lsp.buf.signature_help, "[g]o to signature [h]elp")
           map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
           map("K", vim.lsp.buf.hover, "Hover Documentation")
           map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+          vmap("<leader>Lf", vim.lsp.buf.format, "[l]sp [f]ormat")
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+          assert(client, "LSP client not found")
+
           if client and client.server_capabilities.documentHighlightProvider then
-            local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+            local highlight_augroup = vim.api.nvim_create_augroup("pengvim-lsp-highlight", { clear = false })
             vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
               buffer = event.buf,
               group = highlight_augroup,
@@ -160,10 +251,10 @@ return {
             })
 
             vim.api.nvim_create_autocmd("LspDetach", {
-              group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+              group = vim.api.nvim_create_augroup("pengvim-lsp-detach", { clear = true }),
               callback = function(event2)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+                vim.api.nvim_clear_autocmds({ group = "pengvim-lsp-highlight", buffer = event2.buf })
               end,
             })
           end
@@ -176,82 +267,138 @@ return {
         end,
       })
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+      local lsp_flags = {
+        allow_incremental_sync = true,
+        debounce_text_changes = 150,
+      }
 
-      local servers = {
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = "Replace",
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
+
+      -- local function get_quarto_resource_path()
+      --   local function strsplit(s, delimiter)
+      --     local result = {}
+      --     for match in (s .. delimiter):gmatch('(.-)' .. delimiter) do
+      --       table.insert(result, match)
+      --     end
+      --     return result
+      --   end
+      --
+      --   local f = assert(io.popen('quarto --paths', 'r'))
+      --   local s = assert(f:read '*a')
+      --   f:close()
+      --   return strsplit(s, '\n')[2]
+      -- end
+      --
+      -- local lua_library_files = vim.api.nvim_get_runtime_file('', true)
+      -- local lua_plugin_paths = {}
+      -- local resource_path = get_quarto_resource_path()
+      -- if resource_path == nil then
+      --   vim.notify_once 'quarto not found, lua library files not loaded'
+      -- else
+      --   table.insert(lua_library_files, resource_path .. '/lua-types')
+      --   table.insert(lua_plugin_paths, resource_path .. '/lua-plugin/plugin.lua')
+      -- end
+
+      lspconfig.marksman.setup({
+        capabilities = capabilities,
+        filetypes = { "markdown", "quarto" },
+        root_dir = util.root_pattern(".git", ".marksman.toml", "_quarto.yml"),
+      })
+
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+        settings = {
+          Lua = {
+            workspace = {
+              checkThirdParty = false,
+            },
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = {
+              workspaceEvent = "None",
+              disable = {
+                "missing-fields",
+                "trailing-space",
               },
-              diagnostics = { disable = { "missing-fields" } },
             },
           },
         },
-        fortls = {
-          cmd = {
-            "fortls",
-            "--lowercase_intrinsics",
-            "--source_dirs",
-            -- os.getenv("EASIFEM_SOURCE_DIR") .. "/easifem/base/src/**",
-            os.getenv("DROPBOX") .. "/easifem/base/src/**",
-            os.getenv("DROPBOX") .. "/easifem/classes/src/**",
-            os.getenv("DROPBOX") .. "/easifem/elasticity/src/**",
-            os.getenv("DROPBOX") .. "/easifem/acoustic/src/**",
-            os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
-            "--hover_signature",
-            "--hover_language=fortran",
-            "--use_signature_help",
+      })
+
+      lspconfig.fortls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+        cmd = {
+          "fortls",
+          "--lowercase_intrinsics",
+          "--source_dirs",
+          -- os.getenv("EASIFEM_SOURCE_DIR") .. "/easifem/base/src/**",
+          os.getenv("DROPBOX") .. "/easifem/base/src/**",
+          os.getenv("DROPBOX") .. "/easifem/classes/src/**",
+          os.getenv("DROPBOX") .. "/easifem/elasticity/src/**",
+          os.getenv("DROPBOX") .. "/easifem/acoustic/src/**",
+          os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
+          "--hover_signature",
+          "--hover_language=fortran",
+          "--use_signature_help",
+        },
+      })
+
+      lspconfig.julials.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+        on_new_config = function(new_config, _)
+          local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
+          local REVISE_LANGUAGESERVER = false
+          if REVISE_LANGUAGESERVER then
+            new_config.cmd[5] = (new_config.cmd[5]):gsub(
+              "using LanguageServer",
+              "using Revise; using LanguageServer; LanguageServer.USE_REVISE[] = true"
+            )
+          elseif (vim.loop.fs_stat(julia) or {}).type == "file" then
+            new_config.cmd[1] = julia
+          end
+        end,
+        root_dir = function(fname)
+          local util = require("lspconfig.util")
+          return util.root_pattern("Project.toml")(fname)
+            or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
+            or vim.fs.dirname(fname)
+        end,
+        on_attach = function(_, bufnr)
+          vim.bo[bufnr].formatexpr = ""
+        end,
+      })
+
+      lspconfig.texlab.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+        settings = {
+          inlayHints = {
+            labelReferences = false,
+            labelDefinitions = false,
           },
         },
-        julials = {
-          on_new_config = function(new_config, _)
-            local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-            local REVISE_LANGUAGESERVER = false
-            if REVISE_LANGUAGESERVER then
-              new_config.cmd[5] = (new_config.cmd[5]):gsub(
-                "using LanguageServer",
-                "using Revise; using LanguageServer; LanguageServer.USE_REVISE[] = true"
-              )
-            elseif (vim.loop.fs_stat(julia) or {}).type == "file" then
-              new_config.cmd[1] = julia
-            end
-          end,
-          root_dir = function(fname)
-            local util = require("lspconfig.util")
-            return util.root_pattern("Project.toml")(fname)
-              or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-              or vim.fs.dirname(fname)
-          end,
-          on_attach = function(_, bufnr)
-            vim.bo[bufnr].formatexpr = ""
-          end,
-        },
-      }
-
-      require("mason").setup()
-
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        "stylua",
       })
-      require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-      require("mason-lspconfig").setup({
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
-          end,
-        },
+
+      lspconfig.bashls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+        filetypes = { "sh", "bash" },
+      })
+
+      lspconfig.vimls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
       })
     end,
   },
   {
     "folke/todo-comments.nvim",
-    event = "VimEnter",
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -261,29 +408,109 @@ return {
   },
   {
     "echasnovski/mini.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("mini.ai").setup({ n_lines = 500 })
-      require("mini.surround").setup()
+      require("mini.surround").setup({
+        mappings = {
+          add = "gsa",
+          delete = "gsd",
+          find = "gsf",
+          find_left = "gsF",
+          highlight = "gsh",
+          replace = "gsr",
+          update_n_lines = "gsn",
+        },
+      })
+      require("mini.icons").setup()
+      require("mini.comment").setup({
+        options = {
+          custom_commentstring = function()
+            return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
+          end,
+        },
+      })
     end,
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
+    cmd = { "TSInstall", "TSUpdate", "TSUpdateSync" },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
     opts = {
       ensure_installed = {
         "bash",
-        "c",
-        "diff",
         "html",
+        "json",
         "lua",
-        "luadoc",
         "markdown",
+        "markdown_inline",
+        "python",
         "vim",
         "vimdoc",
+        "yaml",
+        "toml",
+        "julia",
+        "fortran",
+        "fish",
+        "csv",
+        "diff",
       },
       auto_install = true,
+      indent = {
+        enable = true,
+        disable = { "julia", "fortran" },
+      },
       highlight = {
         enable = true,
+      },
+      textobjects = {
+        move = {
+          enable = true,
+          goto_next_start = {
+            ["]f"] = "@function.outer",
+            ["]c"] = "@class.outer",
+            ["]a"] = "@parameter.inner",
+            ["]b"] = "@block.outer",
+          },
+          goto_next_end = {
+            ["]F"] = "@function.outer",
+            ["]C"] = "@class.outer",
+            ["]A"] = "@parameter.inner",
+            ["]B"] = "@block.outer",
+          },
+          goto_previous_start = {
+            ["[f"] = "@function.outer",
+            ["[c"] = "@class.outer",
+            ["[a"] = "@parameter.inner",
+            ["[b"] = "@block.outer",
+          },
+          goto_previous_end = {
+            ["[F"] = "@function.outer",
+            ["[C"] = "@class.outer",
+            ["[A"] = "@parameter.inner",
+            ["[B"] = "@block.outer",
+          },
+        },
+        select = {
+          enable = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["aC"] = "@class.outer",
+            ["iC"] = "@class.inner",
+            ["al"] = "@loop.outer",
+            ["il"] = "@loop.outer",
+            ["ac"] = "@conditional.outer",
+            ["ic"] = "@conditional.inner",
+            ["ao"] = "@block.outer",
+            ["io"] = "@block.inner",
+            -- ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+          },
+        },
       },
     },
     config = function(_, opts)
@@ -293,7 +520,16 @@ return {
     end,
   },
   {
+    "sustech-data/wildfire.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("wildfire").setup()
+    end,
+  },
+  {
     "mfussenegger/nvim-lint",
+    ft = { "fortran" },
     opts = {
       events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
@@ -346,7 +582,7 @@ return {
         names = vim.tbl_filter(function(name)
           local linter = lint.linters[name]
           if not linter then
-            LazyVim.warn("Linter not found: " .. name, { title = "nvim-lint" })
+            vim.notify("Linter is not found")
           end
           return linter and not (type(linter) == "table" and linter.condition and not linter.condition(ctx))
         end, names)

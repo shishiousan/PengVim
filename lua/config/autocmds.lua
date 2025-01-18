@@ -2,11 +2,40 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("PengVim_" .. name, { clear = true })
 end
 
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = augroup("restore_cursor"),
+  callback = function(args)
+    local valid_line = vim.fn.line([['"]]) >= 1 and vim.fn.line([['"]]) < vim.fn.line("$")
+    local not_commit = vim.b[args.buf].filetype ~= "commit"
+
+    if valid_line and not_commit then
+      vim.cmd([[normal! g`"]])
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "qf", "help", "checkhealth" },
+  desc = "q to close quickfix and so on",
+  callback = function()
+    vim.keymap.set("n", "q", "<cmd>bd<cr>", { silent = true, buffer = true })
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("disable_autoformat"),
   pattern = { "latex", "bib", "tex" },
   callback = function()
     vim.b.autoformat = false
+  end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = vim.api.nvim_create_augroup("highlight_yank", {}),
+  desc = "Hightlight selection on yank",
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
   end,
 })
 
@@ -133,4 +162,23 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   --   end
   --   vim.cmd("set showtabline=0")
   -- end,
+})
+
+local function set_terminal_keymaps()
+  local opts = { buffer = 0 }
+  -- vim.keymap.set("t", "<esc>", [[<C-\><C-n>]], opts)
+  vim.keymap.set("t", "<C-h>", [[<Cmd>wincmd h<CR>]], opts)
+  vim.keymap.set("t", "<C-j>", [[<Cmd>wincmd j<CR>]], opts)
+  vim.keymap.set("t", "<C-k>", [[<Cmd>wincmd k<CR>]], opts)
+  vim.keymap.set("t", "<C-l>", [[<Cmd>wincmd l<CR>]], opts)
+end
+
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  pattern = { "*" },
+  callback = function(_)
+    vim.cmd.setlocal("nonumber")
+    vim.cmd.setlocal("norelativenumber")
+    vim.wo.signcolumn = "no"
+    set_terminal_keymaps()
+  end,
 })

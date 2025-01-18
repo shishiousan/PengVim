@@ -2,7 +2,6 @@ return {
   {
     "norcalli/nvim-colorizer.lua",
     lazy = true,
-    event = "BufRead",
     config = function()
       require("colorizer").setup({})
     end,
@@ -15,54 +14,19 @@ return {
     },
   },
   {
-    "xiyaowong/transparent.nvim",
-    lazy = true,
-    config = function()
-      require("transparent").setup({
-        extra_groups = {
-          "NormalFloat",
-        },
-      })
-    end,
-    keys = {
-      {
-        "<leader>ut",
-        "<cmd>TransparentToggle<CR>",
-        desc = "Transparent Toggle",
-      },
-    },
-  },
-  {
     "OXY2DEV/helpview.nvim",
-    lazy = false, -- Recommended
-    -- ft = "help",
+    ft = "help",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
     },
   },
-  -- {
-  --   "mistricky/codesnap.nvim",
-  --   build = "make",
-  --   config = function()
-  --     require("codesnap").setup({
-  --       mac_window_bar = false,
-  --       title = "PengVim",
-  --       code_font_family = "CaskaydiaCove Nerd Font",
-  --       watermark_font_family = "Pacifico",
-  --       watermark = "PengVim",
-  --       bg_theme = "grape",
-  --       breadcrumbs_separator = "/",
-  --       has_breadcrumbs = true,
-  --       save_path = "/home/shion/Documents",
-  --     })
-  --   end,
-  -- },
   {
     "dag/vim-fish",
-    filetypes = { "fish" },
+    ft = { "fish" },
   },
   {
     "hat0uma/csvview.nvim",
+    ft = "csv",
     config = function()
       require("csvview").setup({
         view = {
@@ -77,5 +41,72 @@ return {
         },
       })
     end,
+  },
+  {
+    "kaarmu/typst.vim",
+    ft = "typst",
+    lazy = false,
+    config = function()
+      vim.g.typst_pdf_viewer = "zathura"
+    end,
+  },
+  {
+    "GitMarkedDan/you-are-an-idiot.nvim",
+    lazy = false,
+    config = function()
+      local opts = {
+        window = {
+          relative = "editor",
+          style = "minimal",
+          border = "single",
+          width = 17,
+          height = 1,
+        },
+        resize_window_to_fit = true,
+        text = "You are an idiot!",
+        flash_interval = 0,
+        focus_cursor = true,
+        is_scratch = true,
+        min_velocity = 20,
+        max_velocity = 30,
+        reproduce_count = 5,
+        initial = {
+          {
+            x = "rand",
+            y = "rand",
+            moving = true,
+          },
+        },
+        delta_time = 0.05,
+      }
+      require("you-are-an-idiot").setup(opts)
+    end,
+  },
+  {
+    -- Penguins go crazy
+    "tamton-aquib/duck.nvim",
+    keys = {
+      {
+        "<leader>ph",
+        function()
+          require("duck").hatch("🐧")
+        end,
+        desc = "Penguins hatch",
+      },
+      {
+        "<leader>pb",
+        function()
+          require("duck").cook()
+        end,
+        desc = "Penguins bye bye",
+      },
+      {
+        "<leader>pa",
+        function()
+          require("duck").cook_all()
+        end,
+        desc = "All Penguins bye bye",
+      },
+    },
   },
 }
