@@ -1,81 +1,61 @@
+return {}
 return {
-  {
-    "norcalli/nvim-colorizer.lua",
-    lazy = true,
-    event = "BufRead",
-    config = function()
-      require("colorizer").setup({})
-    end,
-    keys = {
-      {
-        "<leader>uH",
-        "<cmd>ColorizerToggle<CR>",
-        desc = "Colorizer Toggle",
-      },
-    },
-  },
-  {
-    "xiyaowong/transparent.nvim",
-    lazy = true,
-    config = function()
-      require("transparent").setup({
-        extra_groups = {
-          "NormalFloat",
-        },
-      })
-    end,
-    keys = {
-      {
-        "<leader>ut",
-        "<cmd>TransparentToggle<CR>",
-        desc = "Transparent Toggle",
-      },
-    },
-  },
-  {
-    "OXY2DEV/helpview.nvim",
-    lazy = false, -- Recommended
-    -- ft = "help",
+  { -- for japanese input by skk
+    "vim-skk/skkeleton",
+    event = "InsertEnter",
     dependencies = {
-      "nvim-treesitter/nvim-treesitter",
+      "vim-denops/denops.vim",
+      "Shougo/ddc.vim",
     },
+    config = function()
+      vim.cmd([[ call skkeleton#config({
+        \ 'globalDictionaries': ['~/.skkdict/SKK-JISYO.L'],
+        \ 'eggLikeNewline': v:true,
+        \ })]])
+      vim.cmd([[ call skkeleton#register_kanatable('rom', {
+          \   ',': ['，', ''],
+          \   '.': ['．', ''],
+          \ })]])
+      vim.keymap.set({ "i", "c" }, [[<C-j>]], [[<Plug>(skkeleton-toggle)]], { noremap = false })
+    end,
   },
-  -- {
-  --   "mistricky/codesnap.nvim",
-  --   build = "make",
-  --   config = function()
-  --     require("codesnap").setup({
-  --       mac_window_bar = false,
-  --       title = "PengVim",
-  --       code_font_family = "CaskaydiaCove Nerd Font",
-  --       watermark_font_family = "Pacifico",
-  --       watermark = "PengVim",
-  --       bg_theme = "grape",
-  --       breadcrumbs_separator = "/",
-  --       has_breadcrumbs = true,
-  --       save_path = "/home/shion/Documents",
-  --     })
-  --   end,
-  -- },
-  {
-    "dag/vim-fish",
-    filetypes = { "fish" },
-  },
-  {
+  { -- better csv view
     "hat0uma/csvview.nvim",
+    ft = "csv",
     config = function()
       require("csvview").setup({
         view = {
-          --- @type integer
           min_column_width = 5,
-
-          --- @type integer
           spacing = 2,
-
-          ---@type "highlight" | "border"
           display_mode = "border",
         },
       })
     end,
+  },
+  { -- Penguins go crazy
+    "tamton-aquib/duck.nvim",
+    keys = {
+      {
+        "<leader>ph",
+        function()
+          require("duck").hatch("🐧")
+        end,
+        desc = "Penguins hatch",
+      },
+      {
+        "<leader>pb",
+        function()
+          require("duck").cook()
+        end,
+        desc = "Penguins bye bye",
+      },
+      {
+        "<leader>pa",
+        function()
+          require("duck").cook_all()
+        end,
+        desc = "All Penguins bye bye",
+      },
+    },
   },
 }

@@ -66,5 +66,19 @@
       "\\label{$1}$0"
     ],
     "description": "label"
+  },
+  "BreakLine": {
+    "prefix": "br",
+    "body": [
+      "\\\\$0"
+    ],
+    "description": "break line"
+  },
+  "BreakLine_Math": {
+    "prefix": "mbr",
+    "body": [
+      "&$1\n&$0"
+    ],
+    "description": "break line for math"
   }
 }
