@@ -185,6 +185,7 @@ vim.g["reticulate_running"] = false
 local function send_cell()
   if vim.b["quarto_is_r_mode"] == nil then
     vim.fn["slime#send_cell"]()
+    vim.cmd("TSTextobjectGotoNextStart @block.outer")
     return
   end
   if vim.b["quarto_is_r_mode"] == true then
@@ -200,6 +201,7 @@ local function send_cell()
     end
     vim.fn["slime#send_cell"]()
   end
+  vim.cmd("TSTextobjectGotoNextStart @block.outer")
 end
 
 local slime_send_region_cmd = ":<C-u>call slime#send_op(visualmode(), 1)<CR>"
