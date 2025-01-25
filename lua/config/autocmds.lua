@@ -75,7 +75,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("no_folding"),
-  pattern = { "TelescopeResults", "ToggleTerm", "Noice", "sagaoutline", "dashboard" },
+  pattern = { "Noice", "dashboard" },
   callback = function()
     vim.opt_local.foldenable = false
     vim.opt_local.foldcolumn = "0"
@@ -91,36 +91,10 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = vim.api.nvim_create_augroup("markdown_keys_set", { clear = true }),
-  pattern = { "markdown" },
-  callback = function()
-    local wk = require("which-key")
-    wk.add({
-      { "<leader>m", group = "+Markdown" },
-      { "<leader>mp", "<cmd>MarkdownPreview<CR>", desc = "markdown preview" },
-      { "<leader>ms", "<cmd>MarkdownPreviewStop<CR>", desc = "stop markdown preview" },
-      { "<leader>mr", "<cmd>RenderMarkdown toggle<CR>", desc = "toggle render markdown" },
-    })
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
   group = augroup("add_cjk_spelling"),
   pattern = { "typst", "markdown", "text" },
   callback = function()
     vim.cmd([[ setlocal spell spelllang+=en_us,cjk ]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = vim.api.nvim_create_augroup("typst", { clear = true }),
-  pattern = { "typst" },
-  callback = function()
-    local wk = require("which-key")
-    wk.add({
-      { "<leader>T", group = "+Typst" },
-      { "<leader>Tw", "<cmd>TypstWatch<CR>", desc = "watch typst docment" },
-    })
   end,
 })
 

@@ -32,6 +32,18 @@ return {
       })
     end,
   },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    ft = { "markdown", "quarto" },
+    keys = {
+      { "<leader>ur", ":RenderMarkdown toggle<CR>" },
+    },
+    opts = {},
+  },
   { -- Penguins go crazy
     "tamton-aquib/duck.nvim",
     keys = {
