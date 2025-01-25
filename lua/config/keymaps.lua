@@ -139,27 +139,8 @@ map("n", "<leader>R", function()
   vim.cmd([[windo set scrollbind!]])
 end, { desc = "Toggle readermode" })
 
-map("n", "<leader>Cn", function()
-  local ind = vim.g.currentCSNum
-  if ind == vim.g.CSListsLen then
-    ind = 1
-  else
-    ind = ind + 1
-  end
-  vim.g.currentCSNum = ind
-  SwitchCS(ind)
-end, { desc = "Next Colorscheme" })
-
-map("n", "<leader>Cp", function()
-  local ind = vim.g.currentCSNum
-  if ind == 1 then
-    ind = vim.g.CSListsLen
-  else
-    ind = ind - 1
-  end
-  vim.g.currentCSNum = ind
-  SwitchCS(ind)
-end, { desc = "Previous Colorscheme" })
+map("n", "<leader>Cn", ":NextColorScheme<cr>", { desc = "Next Colorscheme" })
+map("n", "<leader>Cp", ":PrevColorScheme<cr>", { desc = "Previous Colorscheme" })
 
 map("n", "<leader>bd", function()
   Snacks.bufdelete()

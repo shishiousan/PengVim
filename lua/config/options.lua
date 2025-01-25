@@ -141,9 +141,32 @@ vim.api.nvim_create_user_command("CheckScreen", function()
   end
 end, {})
 
-vim.api.nvim_create_user_command("SwitchCS", function(ind)
-  vim.notify(vim.g.CSLists[ind])
-  vim.cmd("colorscheme " .. vim.g.CSLists[ind])
+vim.api.nvim_create_user_command("PengVimSetCS", function(opts)
+  g.currentCSNum = tonumber(opts.fargs[1])
+  vim.notify(vim.g.CSLists[g.currentCSNum])
+  vim.cmd("colorscheme " .. vim.g.CSLists[g.currentCSNum])
+end, {
+  nargs = 1,
+})
+
+vim.api.nvim_create_user_command("NextColorScheme", function()
+  local ind = g.currentCSNum
+  if ind == g.CSListsLen then
+    ind = 1
+  else
+    ind = ind + 1
+  end
+  vim.cmd("PengVimSetCS " .. ind)
+end, {})
+
+vim.api.nvim_create_user_command("PrevColorScheme", function()
+  local ind = g.currentCSNum
+  if ind == 1 then
+    ind = g.CSListsLen
+  else
+    ind = ind - 1
+  end
+  vim.cmd("PengVimSetCS " .. ind)
 end, {})
 
 -- currently blink cmp does not allow to toggle autocompletion
