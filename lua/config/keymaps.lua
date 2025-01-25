@@ -172,9 +172,7 @@ map("n", "<leader>rs", function()
   require("persistence").load()
 end, { desc = "Restore Session" })
 
-map("n", "<leader>ua", function()
-  ToggleAutoComplete()
-end, { desc = "Toggle Auto Complete" })
+map("n", "<leader>ua", ":ToggleAutoComplete", { desc = "Toggle Auto Complete" })
 
 -- Quarto featured by vim-slime
 -- reference is quarto_nvim_kickstarter
@@ -349,12 +347,6 @@ wk.add({
     { "<leader>cj", new_terminal_julia, desc = "new [j]ulia terminal" },
     { "<leader>cn", new_terminal_shell, desc = "[n]ew terminal with shell" },
     { "<leader>cp", new_terminal_python, desc = "new [p]ython terminal" },
-    -- { "<leader>h", group = "[h]elp / [h]ide / debug" },
-    -- { "<leader>hc", group = "[c]onceal" },
-    -- { "<leader>hch", ":set conceallevel=1<cr>", desc = "[h]ide/conceal" },
-    -- { "<leader>hcs", ":set conceallevel=0<cr>", desc = "[s]how/unconceal" },
-    -- { "<leader>ht", group = "[t]reesitter" },
-    -- { "<leader>htt", vim.treesitter.inspect_tree, desc = "show [t]ree" },
     { "<leader>o", group = "[o]tter & [O]verseer" },
     { "<leader>oa", require("otter").activate, desc = "otter [a]ctivate" },
     { "<leader>od", require("otter").activate, desc = "otter [d]eactivate" },
