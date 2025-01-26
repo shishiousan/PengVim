@@ -6,7 +6,7 @@ return {
       cmd = { "easifem" },
       args = { "lint", file, "-q" },
       name = "easifemLint",
-      cwd = vim.fn.expand("%:h"), -- "/tmp",
+      cwd = vim.fn.expand("%:h"),
       env = {},
       components = {
         "default",

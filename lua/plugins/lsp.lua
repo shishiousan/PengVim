@@ -16,22 +16,28 @@ return {
 
       require("mason").setup()
       require("mason-lspconfig").setup({
-        automatic_installation = true,
+        automatic_installation = false,
       })
       require("mason-tool-installer").setup({
         ensure_installed = {
-          "stylua",
-          "shfmt",
-          "cmakelang",
-          "julials",
-          "fortls",
-          "jupytext",
-          "mdformat",
-          "marksman",
-          "taplo",
-          "lua_ls",
-          "texlab",
           "bashls",
+          "cmakelang",
+          "dprint",
+          "fortls",
+          "fprettify",
+          "gopls",
+          "goimports",
+          "julials",
+          "jupytext",
+          "latexindent",
+          "lua_ls",
+          "markdownlint-cli2",
+          "marksman",
+          "mdformat",
+          "shfmt",
+          "stylua",
+          "taplo",
+          "texlab",
           "vimls",
         },
       })
@@ -169,6 +175,11 @@ return {
         },
       })
 
+      lspconfig.gopls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+      })
+
       lspconfig.julials.setup({
         capabilities = capabilities,
         flags = lsp_flags,
@@ -204,6 +215,11 @@ return {
             labelDefinitions = false,
           },
         },
+      })
+
+      lspconfig.taplo.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
       })
 
       lspconfig.bashls.setup({
