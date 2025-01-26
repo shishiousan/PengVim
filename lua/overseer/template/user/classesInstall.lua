@@ -1,12 +1,11 @@
 return {
-  -- Required fields
   name = "classesInstall",
   builder = function(params)
     return {
       cmd = { "easifem" },
       args = { "install", "classes", "-q", "--no-download" },
       name = "installClasses",
-      cwd = vim.fn.expand("%:h"), -- "/tmp",
+      cwd = vim.fn.expand("%:h"),
       env = {},
       components = {
         "default",

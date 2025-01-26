@@ -1,12 +1,11 @@
 return {
-  -- Required fields
   name = "baseInstall",
   builder = function(params)
     return {
       cmd = { "easifem" },
       args = { "install", "base", "-q", "--no-download" },
       name = "installBase",
-      cwd = vim.fn.expand("%:h"), -- "/tmp",
+      cwd = vim.fn.expand("%:h"),
       env = {},
       components = {
         "default",
@@ -28,8 +27,7 @@ return {
   priority = 50,
   condition = {
     filetype = { "fortran" },
-    callback = function(search)
-      -- print(vim.inspect(search))
+    callback = function(_)
       return true
     end,
   },
