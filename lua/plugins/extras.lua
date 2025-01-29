@@ -1,4 +1,3 @@
-return {}
 return {
   { -- for japanese input by skk
     "vim-skk/skkeleton",
