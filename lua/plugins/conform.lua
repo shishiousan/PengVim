@@ -37,6 +37,7 @@ return {
           toml = { "taplo" },
           typst = { "typstyle" },
           fortran = { "fprettify", "myfmt", stop_after_first = true },
+          go = { "goimports" },
           tex = { "latexindent" },
           markdown = { "dprint", "markdownlint-cli2", "injected" },
           cmake = { "cmake_format" },
