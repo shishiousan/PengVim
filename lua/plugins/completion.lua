@@ -32,7 +32,7 @@ return {
   },
   {
     "rafamadriz/friendly-snippets",
-    enabled = false,
+    -- enabled = false,
     event = "InsertEnter",
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load({
