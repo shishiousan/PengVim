@@ -97,7 +97,18 @@ Snacks.toggle.dim():map("<leader>uD")
 Snacks.toggle.indent():map("<leader>ug")
 Snacks.toggle.profiler():map("<leader>dpp")
 Snacks.toggle.profiler_highlights():map("<leader>dph")
-map("n", "<leader>ua", ":ToggleAutoComplete<cr>", { desc = "Toggle Auto Complete" })
+map("n", "<leader>ua", function()
+  local abool = vim.b.completion
+  if abool == nil then
+    abool = require("blink.cmp.config").enabled()
+  end
+  if abool then
+    vim.notify("Auto Complete is disabled")
+  else
+    vim.notify("Auto Complete is enabled")
+  end
+  vim.b.completion = not abool
+end, { desc = "Toggle Auto Complete" })
 
 if vim.lsp.inlay_hint then
   Snacks.toggle.inlay_hints():map("<leader>uh")

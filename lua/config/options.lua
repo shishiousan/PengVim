@@ -168,16 +168,3 @@ vim.api.nvim_create_user_command("PrevColorScheme", function()
   end
   vim.cmd("PengVimSetCS " .. ind)
 end, {})
-
--- currently blink cmp does not allow to toggle autocompletion
-vim.api.nvim_create_user_command("ToggleAutoComplete", function()
-  if g.cmp_enabled then
-    require("blink.cmp").setup({ enabled = false })
-    vim.notify("AutoComplete is disabled")
-    g.cmp_enabled = false
-  else
-    require("blink.cmp").setup({ enabled = true })
-    vim.notify("AutoComplete is enabled")
-    g.cmp_enabled = true
-  end
-end, {})
