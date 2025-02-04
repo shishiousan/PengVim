@@ -18,6 +18,7 @@ require("lazy").setup({
     { import = "plugins.extra.csv" },
     { import = "plugins.extra.japanese" },
     { import = "plugins.extra.markdown" },
+    { import = "plugins.extra.typst" },
     { import = "plugins.extra.yazi" },
     { import = "plugins.extra.auxiliary" },
   },

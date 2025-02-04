@@ -37,6 +37,8 @@ return {
           "shfmt",
           "stylua",
           "taplo",
+          "tinymist",
+          "typstfmt",
           "texlab",
           "vimls",
         },
@@ -193,6 +195,11 @@ return {
       })
 
       lspconfig.taplo.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+      })
+
+      lspconfig.tinymist.setup({
         capabilities = capabilities,
         flags = lsp_flags,
       })

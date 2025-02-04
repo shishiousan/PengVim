@@ -38,6 +38,7 @@ return {
         "markdown_inline",
         "python",
         "tmux",
+        "typst",
         "toml",
         "vim",
         "vimdoc",
