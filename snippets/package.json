@@ -78,6 +78,12 @@
           "quarto"
         ],
         "path": "./quarto.json"
+      },
+      {
+        "language": [
+          "typst"
+        ],
+        "path": "./typst.json"
       }
     ]
   }
