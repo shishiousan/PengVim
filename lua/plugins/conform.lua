@@ -43,7 +43,7 @@ return {
           cmake = { "cmake_format" },
           json = { "jq", "dprint", stop_after_first = true },
           julia = { lsp_format = "fallback" },
-          quarto = { "dprint", "markdownlint-cli2", "injected" },
+          quarto = { "markdownlint-cli2", "injected" },
         },
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {

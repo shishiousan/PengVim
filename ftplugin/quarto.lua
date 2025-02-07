@@ -12,6 +12,8 @@ vim.wo.linebreak = true
 vim.wo.breakindent = true
 vim.wo.showbreak = "|"
 
+vim.opt.commentstring = "<!-- %s -->"
+
 -- don't run vim ftplugin on top
 vim.api.nvim_buf_set_var(0, "did_ftplugin", true)
 
