@@ -98,6 +98,15 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  group = augroup("set_formatoptions"),
+  pattern = { "quarto", "markdown" },
+  callback = function()
+    vim.cmd([[setlocal comments=b:*,b:-,b:+,b:1.,nb:>]])
+    vim.cmd([[setlocal formatoptions-=c formatoptions+=jr]])
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup("disable_virtual_text"),
   pattern = { "*" },

@@ -1,4 +1,11 @@
 return {
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+  },
   { -- incrementally select a part of code with enter
     "sustech-data/wildfire.nvim",
     event = { "BufReadPre", "BufNewFile" },
