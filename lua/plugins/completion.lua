@@ -31,16 +31,6 @@ return {
     end,
   },
   {
-    "rafamadriz/friendly-snippets",
-    -- enabled = false,
-    event = "InsertEnter",
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load({
-        exclude = { "latex", "tex", "julia", "fortran" },
-      })
-    end,
-  },
-  {
     "saghen/blink.compat",
     version = "*",
     lazy = true,
@@ -57,7 +47,7 @@ return {
       "f3fora/cmp-spell",
       "hrsh7th/cmp-omni",
       -- "rafamadriz/friendly-snippets",
-      "jmbuhr/otter.nvim",
+      -- "jmbuhr/otter.nvim",
     },
     version = "*",
     ---@module 'blink.cmp'

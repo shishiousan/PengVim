@@ -1,9 +1,5 @@
 return {
   {
-    "tpope/vim-fugitive",
-    event = { "BufReadPre", "BufNewFile" },
-  },
-  {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
@@ -55,7 +51,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     keys = {
       { "<leader>gdc", "<cmd>DiffviewClose<CR>", desc = "Diff view close" },
-      { "<leader>gdf", "<cmd>DiffviewToggleFiles<CR>", desc = "File panel toggle" },
+      { "<leader>gdt", "<cmd>DiffviewToggleFiles<CR>", desc = "File panel toggle" },
       { "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diff view open" },
     },
   },

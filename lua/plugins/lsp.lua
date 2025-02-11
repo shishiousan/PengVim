@@ -54,13 +54,9 @@ return {
             vim.keymap.set("v", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
           end
 
-          map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
-          map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
-          map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
           map("gh", vim.lsp.buf.signature_help, "[g]o to signature [h]elp")
           map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
           map("K", vim.lsp.buf.hover, "Hover Documentation")
-          map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
           vmap("<leader>Lf", vim.lsp.buf.format, "[l]sp [f]ormat")
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
