@@ -1,9 +1,4 @@
 return {
-  { -- some better commands to delete buffers
-    "ojroques/nvim-bufdel",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = {},
-  },
   {
     "shellRaining/hlchunk.nvim",
     event = { "BufReadPre", "BufNewFile" },
@@ -111,6 +106,7 @@ return {
   },
   {
     "bbjornstad/pretty-fold.nvim",
+    enabled = false,
     event = { "BufReadPre", "BufNewFile" },
     config = function()
       require("pretty-fold").setup({
@@ -158,22 +154,6 @@ return {
       })
     end,
   },
-  -- {
-  --   "anuvyklack/fold-preview.nvim",
-  --   dependencies = "anuvyklack/keymap-amend.nvim",
-  --   config = function()
-  --     local fp = require("fold-preview")
-  --     local map = require("fold-preview").mapping
-  --     local keymap = vim.keymap
-  --     keymap.amend = require("keymap-amend")
-  --
-  --     fp.setup({
-  --       auto = false,
-  --       default_keybindings = true,
-  --       border = "single",
-  --     })
-  --   end,
-  -- },
   { -- keep the cursor in the middle
     "Aasim-A/scrollEOF.nvim",
     event = { "CursorMoved", "WinScrolled" },

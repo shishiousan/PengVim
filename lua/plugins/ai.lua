@@ -4,7 +4,11 @@ return {
     event = "VeryLazy",
     config = function()
       local neocodeium = require("neocodeium")
-      neocodeium.setup()
+      neocodeium.setup({
+        filetypes = {
+          snacks_picker_input = false,
+        },
+      })
       vim.keymap.set("i", "<A-f>", neocodeium.accept)
       vim.keymap.set("i", "<A-w>", neocodeium.accept_word)
       vim.keymap.set("i", "<A-a>", neocodeium.accept_line)

@@ -1,15 +1,8 @@
 return {
   {
     "numToStr/Comment.nvim",
-    lazy = false,
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
   },
   {
     "folke/todo-comments.nvim",
@@ -19,24 +12,6 @@ return {
     },
     opts = {
       signs = false,
-    },
-  },
-  {
-    "smoka7/multicursors.nvim",
-    lazy = true,
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "smoka7/hydra.nvim",
-    },
-    opts = {},
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    keys = {
-      {
-        "<C-d>",
-        "<cmd>MCstart<cr>",
-        desc = "Multi cursor starts",
-        mode = { "n", "v" },
-      },
     },
   },
   {
@@ -200,7 +175,7 @@ return {
     lazy = true,
     keys = {
       {
-        "<leader>nr",
+        "<leader>rr",
         "<plug>NrrwrgnDo<cr>",
         desc = "NrrwRgn",
         mode = { "n", "v" },
