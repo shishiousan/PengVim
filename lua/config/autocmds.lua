@@ -127,21 +127,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
     vim.cmd("set laststatus=0")
   end,
-  -- callback = function()
-  --   local lualine = require("lualine")
-  --   local stat = vim.g.statStatusLine
-  --   if stat == nil or stat then
-  --     lualine.hide({ unhide = false })
-  --     vim.g.statStatusLine = false
-  --     vim.cmd([[set laststatus=0]])
-  --     vim.cmd([[hi! link StatusLine Normal]])
-  --     vim.cmd([[hi! link StatusLineNC Normal]])
-  --     vim.cmd([[set statusline=%{repeat('─',winwidth('.'))}]])
-  --     vim.diagnostic.config({ virtual_text = false })
-  --     vim.cmd("BufferTabsToggle")
-  --   end
-  --   vim.cmd("set showtabline=0")
-  -- end,
 })
 
 local function set_terminal_keymaps()

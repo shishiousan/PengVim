@@ -20,6 +20,7 @@ require("lazy").setup({
     { import = "plugins.extra.markdown" },
     { import = "plugins.extra.typst" },
     { import = "plugins.extra.yazi" },
+    { import = "plugins.extra.oil" },
     { import = "plugins.extra.auxiliary" },
   },
   defaults = {

@@ -60,7 +60,7 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       "anuvyklack/middleclass",
-      "anuvyklack/animation.nvim",
+      -- "anuvyklack/animation.nvim",
     },
     config = function()
       vim.o.winwidth = 10
@@ -72,6 +72,10 @@ return {
           filetype = { "NvimTree", "neo-tree", "undotree", "gundo" },
         },
         animation = {
+          -- NOTE: uncomment animation.nvim to enable
+          enable = false,
+        },
+        autowidth = {
           enable = false,
         },
       })

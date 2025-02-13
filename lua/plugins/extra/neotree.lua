@@ -1,10 +1,4 @@
 return {
-  -- {
-  --   "stevearc/oil.nvim",
-  --   opts = {},
-  --   dependencies = { "nvim-tree/nvim-web-devicons" },
-  --   lazy = false,
-  -- },
   {
     "nvim-neo-tree/neo-tree.nvim",
     enabled = false,
