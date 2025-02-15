@@ -203,6 +203,11 @@ return {
           opts = {},
         },
         highlight_for_count = true,
+        ignored_filetypes = {
+          "snacks_picker_list",
+          "snacks_picker_preview",
+          "oil",
+        },
       })
     end,
   },
