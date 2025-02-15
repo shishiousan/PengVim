@@ -76,47 +76,6 @@
       "::::"
     ]
   },
-  "pycode": {
-    "prefix": [
-      "pyc"
-    ],
-    "body": [
-      "```{python} ",
-      "$1",
-      "```"
-    ]
-  },
-  "rcode": {
-    "prefix": [
-      "rco"
-    ],
-    "body": [
-      "```{r} ",
-      "$1",
-      "```"
-    ]
-  },
-  "bashcode": {
-    "prefix": [
-      "bco"
-    ],
-    "body": [
-      "```{bash} ",
-      "$1",
-      "```"
-    ]
-  },
-  "code": {
-    "prefix": [
-      "code"
-    ],
-    "body": [
-      "```{$1} ",
-      "$2",
-      "```",
-      "$0"
-    ]
-  },
   "pyfig2": {
     "prefix": [
       "pyfig2"

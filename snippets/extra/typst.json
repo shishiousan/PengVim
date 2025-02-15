@@ -300,5 +300,14 @@
       "// ${0:comment}"
     ],
     "description": "Comment line"
+  },
+  "break line": {
+    "prefix": [
+      "br"
+    ],
+    "body": [
+      "/*\n*/${0}"
+    ],
+    "description": "break line"
   }
 }
