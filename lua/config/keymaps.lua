@@ -108,9 +108,9 @@ map("n", "<leader>ua", function()
   vim.b.completion = not abool
 end, { desc = "Toggle Auto Complete" })
 
-if vim.lsp.inlay_hint then
-  Snacks.toggle.inlay_hints():map("<leader>uh")
-end
+-- if vim.lsp.inlay_hint then
+--   Snacks.toggle.inlay_hints():map("<leader>uh")
+-- end
 
 -- lazygit
 if vim.fn.executable("lazygit") == 1 then
@@ -149,8 +149,6 @@ end, { desc = "Toggle readermode" })
 map("n", "<leader>Cn", ":NextColorScheme<cr>", { desc = "Next Colorscheme" })
 map("n", "<leader>Cp", ":PrevColorScheme<cr>", { desc = "Previous Colorscheme" })
 
-map("n", "<leader>rs", function()
+map("n", "<leader>bs", function()
   require("persistence").load()
-end, { desc = "Restore Session" })
-
-
+end, { desc = "Restore [s]ession" })
