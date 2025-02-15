@@ -3,18 +3,18 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
+      "echasnovski/mini.icons",
     },
     ft = { "markdown", "quarto" },
     keys = {
-      { "<leader>ur", ":RenderMarkdown toggle<CR>" },
+      { "<leader>ur", ":RenderMarkdown toggle<CR>", desc = "[r]ender Markdown" },
     },
     opts = {},
   },
   {
     "dhruvasagar/vim-table-mode",
     keys = {
-      { "<leader>tt", ":TableModeEnable<CR>" },
+      { "<leader>ut", ":TableModeEnable<CR>", desc = "[t]able Mode Enable" },
     },
   },
 }

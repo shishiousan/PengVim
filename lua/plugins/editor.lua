@@ -161,15 +161,14 @@ return {
   { -- keep the cursor in the middle
     "Aasim-A/scrollEOF.nvim",
     event = { "CursorMoved", "WinScrolled" },
-    opts = {
-      pattern = "*",
-      insert_mode = true,
-      floating = false,
-      disabled_filetypes = {},
-      disabled_modes = {},
-    },
-    config = function(opts)
-      require("scrollEOF").setup(opts)
+    config = function()
+      require("scrollEOF").setup({
+        pattern = "*",
+        insert_mode = true,
+        floating = false,
+        disabled_filetypes = {},
+        disabled_modes = {},
+      })
     end,
   },
 }

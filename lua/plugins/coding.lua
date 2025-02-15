@@ -137,11 +137,11 @@ return {
     config = function()
       require("tiny-inline-diagnostic").setup({
         signs = {
-          left = "",
-          right = "",
-          diag = "●",
-          arrow = "    ",
-          up_arrow = "    ",
+          left = "",
+          right = "",
+          diag = "󰻀",
+          arrow = "   ",
+          up_arrow = "   ",
           vertical = " │",
           vertical_end = " └",
         },
@@ -169,13 +169,22 @@ return {
         },
       })
     end,
+    keys = {
+      {
+        "<leader>uh",
+        function()
+          require("tiny-inline-diagnostic").toggle()
+        end,
+        desc = "Toggle Inline Diagnostic",
+      },
+    },
   },
   {
     "chrisbra/NrrwRgn",
     lazy = true,
     keys = {
       {
-        "<leader>rr",
+        "<leader>cr",
         "<plug>NrrwrgnDo<cr>",
         desc = "NrrwRgn",
         mode = { "n", "v" },
