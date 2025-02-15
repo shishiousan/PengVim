@@ -1,15 +1,8 @@
 return {
   {
     "numToStr/Comment.nvim",
-    lazy = false,
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
-  },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
   },
   {
     "folke/todo-comments.nvim",
@@ -19,24 +12,6 @@ return {
     },
     opts = {
       signs = false,
-    },
-  },
-  {
-    "smoka7/multicursors.nvim",
-    lazy = true,
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "smoka7/hydra.nvim",
-    },
-    opts = {},
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    keys = {
-      {
-        "<C-d>",
-        "<cmd>MCstart<cr>",
-        desc = "Multi cursor starts",
-        mode = { "n", "v" },
-      },
     },
   },
   {
@@ -162,11 +137,11 @@ return {
     config = function()
       require("tiny-inline-diagnostic").setup({
         signs = {
-          left = "",
-          right = "",
-          diag = "●",
-          arrow = "    ",
-          up_arrow = "    ",
+          left = "",
+          right = "",
+          diag = "󰻀",
+          arrow = "   ",
+          up_arrow = "   ",
           vertical = " │",
           vertical_end = " └",
         },
@@ -194,13 +169,22 @@ return {
         },
       })
     end,
+    keys = {
+      {
+        "<leader>uh",
+        function()
+          require("tiny-inline-diagnostic").toggle()
+        end,
+        desc = "Toggle Inline Diagnostic",
+      },
+    },
   },
   {
     "chrisbra/NrrwRgn",
     lazy = true,
     keys = {
       {
-        "<leader>nr",
+        "<leader>cr",
         "<plug>NrrwrgnDo<cr>",
         desc = "NrrwRgn",
         mode = { "n", "v" },
@@ -228,6 +212,11 @@ return {
           opts = {},
         },
         highlight_for_count = true,
+        ignored_filetypes = {
+          "snacks_picker_list",
+          "snacks_picker_preview",
+          "oil",
+        },
       })
     end,
   },

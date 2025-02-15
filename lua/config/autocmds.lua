@@ -50,6 +50,18 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = augroup("reset_scrolloff"),
+  pattern = { "*" },
+  callback = function()
+    if vim.bo.filetype == "snacks_picker_list" then
+      return
+    else
+      vim.opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("set_fmt"),
   pattern = { "fortran" },
@@ -75,7 +87,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("no_folding"),
-  pattern = { "TelescopeResults", "ToggleTerm", "Noice", "sagaoutline", "dashboard" },
+  pattern = { "Noice", "dashboard" },
   callback = function()
     vim.opt_local.foldenable = false
     vim.opt_local.foldcolumn = "0"
@@ -91,20 +103,6 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = vim.api.nvim_create_augroup("markdown_keys_set", { clear = true }),
-  pattern = { "markdown" },
-  callback = function()
-    local wk = require("which-key")
-    wk.add({
-      { "<leader>m", group = "+Markdown" },
-      { "<leader>mp", "<cmd>MarkdownPreview<CR>", desc = "markdown preview" },
-      { "<leader>ms", "<cmd>MarkdownPreviewStop<CR>", desc = "stop markdown preview" },
-      { "<leader>mr", "<cmd>RenderMarkdown toggle<CR>", desc = "toggle render markdown" },
-    })
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
   group = augroup("add_cjk_spelling"),
   pattern = { "typst", "markdown", "text" },
   callback = function()
@@ -113,14 +111,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = vim.api.nvim_create_augroup("typst", { clear = true }),
-  pattern = { "typst" },
+  group = augroup("set_formatoptions"),
+  pattern = { "quarto", "markdown" },
   callback = function()
-    local wk = require("which-key")
-    wk.add({
-      { "<leader>T", group = "+Typst" },
-      { "<leader>Tw", "<cmd>TypstWatch<CR>", desc = "watch typst docment" },
-    })
+    vim.cmd([[setlocal comments=b:*,b:-,b:+,b:1.,nb:>]])
+    vim.cmd([[setlocal formatoptions-=c formatoptions+=jr]])
   end,
 })
 
@@ -144,21 +139,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   callback = function()
     vim.cmd("set laststatus=0")
   end,
-  -- callback = function()
-  --   local lualine = require("lualine")
-  --   local stat = vim.g.statStatusLine
-  --   if stat == nil or stat then
-  --     lualine.hide({ unhide = false })
-  --     vim.g.statStatusLine = false
-  --     vim.cmd([[set laststatus=0]])
-  --     vim.cmd([[hi! link StatusLine Normal]])
-  --     vim.cmd([[hi! link StatusLineNC Normal]])
-  --     vim.cmd([[set statusline=%{repeat('─',winwidth('.'))}]])
-  --     vim.diagnostic.config({ virtual_text = false })
-  --     vim.cmd("BufferTabsToggle")
-  --   end
-  --   vim.cmd("set showtabline=0")
-  -- end,
 })
 
 local function set_terminal_keymaps()

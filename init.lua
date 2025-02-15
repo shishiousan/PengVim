@@ -15,6 +15,13 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
   spec = {
     { import = "plugins" },
+    { import = "plugins.extra.csv" },
+    { import = "plugins.extra.japanese" },
+    { import = "plugins.extra.markdown" },
+    { import = "plugins.extra.typst" },
+    { import = "plugins.extra.yazi" },
+    { import = "plugins.extra.oil" },
+    { import = "plugins.extra.auxiliary" },
   },
   defaults = {
     lazy = true,
@@ -47,10 +54,16 @@ require("lazy").setup({
   },
 })
 
-require("config.keymaps")
 require("config.options")
+require("config.keymaps")
 require("config.autocmds")
 require("config.redir")
 
 -- custom highlight after loading colorscheme
 vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#b020ea", bg = "NONE" })
+vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
+
+if vim.bo.filetype == "lazy" then
+  vim.cmd([[do VimResized]])
+end

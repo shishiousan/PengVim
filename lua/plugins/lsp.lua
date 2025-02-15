@@ -16,22 +16,30 @@ return {
 
       require("mason").setup()
       require("mason-lspconfig").setup({
-        automatic_installation = true,
+        automatic_installation = false,
       })
       require("mason-tool-installer").setup({
         ensure_installed = {
-          "stylua",
-          "shfmt",
-          "cmakelang",
-          "julials",
-          "fortls",
-          "jupytext",
-          "mdformat",
-          "marksman",
-          "taplo",
-          "lua_ls",
-          "texlab",
           "bashls",
+          "cmakelang",
+          "dprint",
+          "fortls",
+          "fprettify",
+          "gopls",
+          "goimports",
+          "julials",
+          "jupytext",
+          "latexindent",
+          "lua_ls",
+          "markdownlint-cli2",
+          "marksman",
+          "mdformat",
+          "shfmt",
+          "stylua",
+          "taplo",
+          "tinymist",
+          "typstfmt",
+          "texlab",
           "vimls",
         },
       })
@@ -46,14 +54,10 @@ return {
             vim.keymap.set("v", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
           end
 
-          map("gd", require("fzf-lua").lsp_definitions, "[G]oto [D]efinition")
-          map("gr", require("fzf-lua").lsp_references, "[G]oto [R]eferences")
-          map("gI", require("fzf-lua").lsp_implementations, "[G]oto [I]mplementation")
-          map("gh", vim.lsp.buf.signature_help, "[g]o to signature [h]elp")
-          map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+          map("gh", vim.lsp.buf.signature_help, "go to signature [h]elp")
+          map("<leader>ca", vim.lsp.buf.code_action, "code [a]ction")
           map("K", vim.lsp.buf.hover, "Hover Documentation")
-          map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-          vmap("<leader>Lf", vim.lsp.buf.format, "[l]sp [f]ormat")
+          vmap("<leader>Lf", vim.lsp.buf.format, "Lsp [f]ormat")
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           assert(client, "LSP client not found")
@@ -80,12 +84,6 @@ return {
               end,
             })
           end
-
-          if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
-            map("<leader>th", function()
-              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            end, "[T]oggle Inlay [H]ints")
-          end
         end,
       })
 
@@ -96,31 +94,6 @@ return {
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
-
-      -- local function get_quarto_resource_path()
-      --   local function strsplit(s, delimiter)
-      --     local result = {}
-      --     for match in (s .. delimiter):gmatch('(.-)' .. delimiter) do
-      --       table.insert(result, match)
-      --     end
-      --     return result
-      --   end
-      --
-      --   local f = assert(io.popen('quarto --paths', 'r'))
-      --   local s = assert(f:read '*a')
-      --   f:close()
-      --   return strsplit(s, '\n')[2]
-      -- end
-      --
-      -- local lua_library_files = vim.api.nvim_get_runtime_file('', true)
-      -- local lua_plugin_paths = {}
-      -- local resource_path = get_quarto_resource_path()
-      -- if resource_path == nil then
-      --   vim.notify_once 'quarto not found, lua library files not loaded'
-      -- else
-      --   table.insert(lua_library_files, resource_path .. '/lua-types')
-      --   table.insert(lua_plugin_paths, resource_path .. '/lua-plugin/plugin.lua')
-      -- end
 
       lspconfig.marksman.setup({
         capabilities = capabilities,
@@ -169,6 +142,11 @@ return {
         },
       })
 
+      lspconfig.gopls.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+      })
+
       lspconfig.julials.setup({
         capabilities = capabilities,
         flags = lsp_flags,
@@ -204,6 +182,16 @@ return {
             labelDefinitions = false,
           },
         },
+      })
+
+      lspconfig.taplo.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
+      })
+
+      lspconfig.tinymist.setup({
+        capabilities = capabilities,
+        flags = lsp_flags,
       })
 
       lspconfig.bashls.setup({

@@ -35,14 +35,15 @@ return {
           fish = { "fish_indent" },
           sh = { "shfmt" },
           toml = { "taplo" },
-          typst = { "typstyle" },
+          typst = { "typstyle", "typstfmt", stop_after_first = true },
           fortran = { "fprettify", "myfmt", stop_after_first = true },
+          go = { "goimports" },
           tex = { "latexindent" },
           markdown = { "dprint", "markdownlint-cli2", "injected" },
           cmake = { "cmake_format" },
           json = { "jq", "dprint", stop_after_first = true },
           julia = { lsp_format = "fallback" },
-          quarto = { "dprint", "injected" },
+          quarto = { "markdownlint-cli2", "injected" },
         },
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {

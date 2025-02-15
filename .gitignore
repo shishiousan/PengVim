@@ -4,5 +4,5 @@ lazy*.json
 spell 
 spell/* 
 
-snippets/easifem-*.json
+snippets/fortran/easifem-*.json
 

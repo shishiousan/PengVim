@@ -1,13 +1,11 @@
 return {
-  -- Required fields
   name = "classesDev",
   builder = function(params)
     return {
       cmd = { "easifem" },
-      -- args = { "dev", "classes", "-q", "--env", "dev" },
       args = { "dev", "classes", "-q" },
       name = "devClasses",
-      cwd = vim.fn.expand("%:h"), -- "/tmp",
+      cwd = vim.fn.expand("%:h"),
       env = {},
       components = {
         "default",

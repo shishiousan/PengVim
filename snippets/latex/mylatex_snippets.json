@@ -80,5 +80,12 @@
       "&$1\n&$0"
     ],
     "description": "break line for math"
+  },
+  "boldsymbol": {
+    "prefix": "bs",
+    "body": [
+      "\\boldsymbol{$1}$0"
+    ],
+    "description": "boldsymbol"
   }
 }

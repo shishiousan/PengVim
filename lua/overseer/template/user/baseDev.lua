@@ -1,13 +1,11 @@
 return {
-  -- Required fields
   name = "baseDev",
   builder = function(params)
     return {
       cmd = { "easifem" },
-      -- args = { "dev", "base", "-q", "--env", "dev" },
       args = { "dev", "base", "-q" },
       name = "devBase",
-      cwd = vim.fn.expand("%:h"), -- "/tmp",
+      cwd = vim.fn.expand("%:h"),
       env = {},
       components = {
         "default",
@@ -29,8 +27,7 @@ return {
   priority = 50,
   condition = {
     filetype = { "fortran" },
-    callback = function(search)
-      -- print(vim.inspect(search))
+    callback = function(_)
       return true
     end,
   },

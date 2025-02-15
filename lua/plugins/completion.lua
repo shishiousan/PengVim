@@ -15,7 +15,7 @@ return {
       "rafamadriz/friendly-snippets",
       config = function()
         require("luasnip.loaders.from_vscode").lazy_load({
-          exclude = { "latex", "julia", "fortran" },
+          exclude = { "all", "global", "latex", "julia", "fortran" },
         })
       end,
     },
@@ -28,16 +28,6 @@ return {
         paths = "./snippets",
       })
       require("luasnip").filetype_extend("quarto", { "markdown" })
-    end,
-  },
-  {
-    "rafamadriz/friendly-snippets",
-    enabled = false,
-    event = "InsertEnter",
-    config = function()
-      require("luasnip.loaders.from_vscode").lazy_load({
-        exclude = { "latex", "tex", "julia", "fortran" },
-      })
     end,
   },
   {
@@ -57,7 +47,7 @@ return {
       "f3fora/cmp-spell",
       "hrsh7th/cmp-omni",
       -- "rafamadriz/friendly-snippets",
-      "jmbuhr/otter.nvim",
+      -- "jmbuhr/otter.nvim",
     },
     version = "*",
     ---@module 'blink.cmp'
@@ -99,9 +89,6 @@ return {
         menu = {
           scrollbar = false,
           border = "rounded",
-          -- auto_show = function(ctx)
-          --   return ctx.mode ~= "cmdline"
-          -- end,
           auto_show = true,
           draw = {
             columns = {
@@ -152,14 +139,20 @@ return {
           fortran = { "snippets", "lsp", "path", "buffer" },
           julia = { "snippets", "lsp", "path", "buffer" },
           tex = { "snippets", "lsp", "path", "buffer", "latex_symbols", "emoji" },
-          -- quarto = { "lsp", "path", "snippets", "buffer" },
         },
         providers = {
           lsp = {
-            score_offset = 15,
+            score_offset = 10,
           },
           snippets = {
-            score_offset = 10,
+            score_offset = 15,
+            should_show_items = function(ctx)
+              if vim.bo.filetype == "fortran" then
+                return ctx.trigger.initial_kind ~= "trigger_character"
+              else
+                return true
+              end
+            end,
           },
           emoji = {
             name = "Emoji",

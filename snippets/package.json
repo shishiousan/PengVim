@@ -8,14 +8,21 @@
     "snippets": [
       {
         "language": [
+          "plaintext",
+          "markdown",
+          "tex",
+          "html",
+          "global",
+          "all"
+        ],
+        "path": "./global.json"
+      },
+      {
+        "language": [
           "plaintex",
           "tex"
         ],
-        "path": "./latex.json"
-      },
-      {
-        "language": "julia",
-        "path": "./julia.json"
+        "path": "./latex/latex.json"
       },
       {
         "language": [
@@ -46,38 +53,48 @@
         "path": "./latex/bibtex.json"
       },
       {
+        "language": "julia",
+        "path": "./julia/julia.json"
+      },
+      {
         "language": [
           "fortran",
           "markdown",
           "quarto"
         ],
-        "path": "./easifem-fortran.json"
+        "path": "./fortran/easifem-fortran.json"
       },
       {
         "language": [
           "markdown",
           "quarto"
         ],
-        "path": "./easifem-markdown.json"
+        "path": "./markdown/easifem-markdown.json"
       },
       {
         "language": [
           "markdown",
           "quarto"
         ],
-        "path": "./mymarkdown_snippets.json"
+        "path": "./markdown/mymarkdown_snippets.json"
       },
       {
         "language": [
           "csv"
         ],
-        "path": "./mycsv_snippets.json"
+        "path": "./extra/mycsv_snippets.json"
       },
       {
         "language": [
           "quarto"
         ],
-        "path": "./quarto.json"
+        "path": "./extra/quarto.json"
+      },
+      {
+        "language": [
+          "typst"
+        ],
+        "path": "./extra/typst.json"
       }
     ]
   }

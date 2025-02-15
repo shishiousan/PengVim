@@ -1,9 +1,7 @@
--- /home/stevearc/.config/nvim/lua/overseer/template/user/run_script.lua
 return {
   name = "runner for linting easifem file",
   builder = function()
     local file = vim.fn.expand("%:p")
-    -- local filename = vim.fn.expand("%:t")
     local cmd = { file }
     if vim.bo.filetype == "go" then
       cmd = { "go", "run", file }

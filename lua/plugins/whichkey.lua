@@ -28,18 +28,22 @@ return {
       spec = {
         {
           mode = { "n", "v" },
-          { "<leader><tab>", group = "tabs" },
-          { "<leader>c", group = "code" },
-          { "<leader>d", group = "debug" },
-          { "<leader>dp", group = "profiler" },
-          { "<leader>f", group = "file/find" },
-          { "<leader>g", group = "git" },
-          { "<leader>gd", group = "diffview" },
-          { "<leader>gh", group = "hunks" },
-          { "<leader>q", group = "quit/session" },
-          { "<leader>s", group = "search" },
-          { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
-          { "<leader>x", group = "diagnostics/quickfix", icon = { icon = "󱖫 ", color = "green" } },
+          { "<leader><tab>", group = "[tab]s" },
+          { "<leader>c", group = "[c]ode" },
+          { "<leader>C", group = "[C]olorscheme" },
+          { "<leader>d", group = "[d]ebug" },
+          { "<leader>dp", group = "[p]rofiler" },
+          { "<leader>f", group = "[f]ile/[f]ind" },
+          { "<leader>g", group = "[g]it" },
+          { "<leader>gd", group = "[d]iffview" },
+          { "<leader>L", group = "[L]sp" },
+          { "<leader>o", group = "[o]verseer" },
+          { "<leader>p", group = "[p]enguin" },
+          { "<leader>q", group = "[q]uit/session" },
+          { "<leader>Q", group = "[Q]uarto" },
+          { "<leader>s", group = "[s]earch([s]nacks)" },
+          { "<leader>u", group = "[u]i", icon = { icon = "󰙵 ", color = "cyan" } },
+          { "<leader>x", group = "diagnostics/quickfi[x]", icon = { icon = "󱖫 ", color = "green" } },
           { "[", group = "prev" },
           { "]", group = "next" },
           { "g", group = "goto" },
@@ -47,14 +51,14 @@ return {
           { "z", group = "fold" },
           {
             "<leader>b",
-            group = "buffer",
+            group = "[b]uffer",
             expand = function()
               return require("which-key.extras").expand.buf()
             end,
           },
           {
             "<leader>w",
-            group = "windows",
+            group = "[w]indows",
             proxy = "<c-w>",
             expand = function()
               return require("which-key.extras").expand.win()
@@ -85,12 +89,12 @@ return {
       wk.setup(opts)
       wk.add({
         {
-          { "<leader>w", group = "window" },
+          { "<leader>w", group = "[w]indow" },
           { "<leader>wh", "<C-W>h", desc = "Move to left" },
           { "<leader>wj", "<C-W>j", desc = "Move down" },
           { "<leader>wk", "<C-W>k", desc = "Move up" },
           { "<leader>wl", "<C-W>l", desc = "Move to right" },
-          { "<leader>z", group = "Zoom" },
+          { "<leader>z", group = "[z]oom" },
           { "<leader>zi", "<cmd>tab split<CR>", desc = "Zoom in" },
           { "<leader>zo", "<cmd>tab close<CR>", desc = "Zoom out" },
         },
