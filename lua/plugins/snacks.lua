@@ -34,6 +34,9 @@ return {
       statuscolumn = {
         enabled = false,
       },
+      scroll = {
+        enabled = false,
+      },
       notifier = {
         enabled = false,
         top_down = false,
@@ -65,7 +68,6 @@ return {
       },
       explorer = {
         enabled = true,
-        auto_close = true,
       },
     },
     keys = {
@@ -107,9 +109,18 @@ return {
       {
         "<leader>e",
         function()
-          Snacks.explorer({ auto_close = true })
+          vim.opt.scrolloff = 0
+          Snacks.explorer({ auto_close = true, focus = "list" })
         end,
         desc = "File Explorer",
+      },
+      {
+        "<leader>fo",
+        function()
+          vim.opt.scrolloff = 0
+          Snacks.explorer.reveal({ auto_close = true, focus = "list" })
+        end,
+        desc = "File Explorer reveal",
       },
       {
         "<leader>fb",

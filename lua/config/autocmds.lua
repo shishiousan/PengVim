@@ -50,6 +50,18 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("BufEnter", {
+  group = augroup("reset_scrolloff"),
+  pattern = { "*" },
+  callback = function()
+    if vim.bo.filetype == "snacks_picker_list" then
+      return
+    else
+      vim.opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
+    end
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("set_fmt"),
   pattern = { "fortran" },
