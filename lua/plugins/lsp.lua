@@ -126,20 +126,7 @@ return {
       lspconfig.fortls.setup({
         capabilities = capabilities,
         flags = lsp_flags,
-        cmd = {
-          "fortls",
-          "--lowercase_intrinsics",
-          "--source_dirs",
-          -- os.getenv("EASIFEM_SOURCE_DIR") .. "/easifem/base/src/**",
-          os.getenv("DROPBOX") .. "/easifem/base/src/**",
-          os.getenv("DROPBOX") .. "/easifem/classes/src/**",
-          os.getenv("DROPBOX") .. "/easifem/elasticity/src/**",
-          os.getenv("DROPBOX") .. "/easifem/acoustic/src/**",
-          os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
-          "--hover_signature",
-          "--hover_language=fortran",
-          "--use_signature_help",
-        },
+        cmd = require("plugins.args.fortran").lsp_cmd or {},
       })
 
       lspconfig.gopls.setup({
@@ -177,6 +164,9 @@ return {
         capabilities = capabilities,
         flags = lsp_flags,
         settings = {
+          completion = {
+            matcher = "prefix-ignore-case",
+          },
           inlayHints = {
             labelReferences = false,
             labelDefinitions = false,

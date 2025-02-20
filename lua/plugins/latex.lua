@@ -60,7 +60,7 @@ return {
           vim.wo.conceallevel = 2
         end,
       })
-      vim.g.vimtex_mappings_disable = { ["n"] = { "K" } } -- disable `K` as it conflicts with LSP hover
+      vim.g.vimtex_mappings_disable = { ["n"] = { "K" } }
       vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
       vim.g.vimtex_view_method = "zathura"
       vim.g.vimtex_quickfix_mode = 0
@@ -74,6 +74,9 @@ return {
 
       vim.g.vimtex_context_pdf_viewer = "okular"
       vim.g.vimtex_complete_enabled = 1
+      vim.g.vimtex_complete_bib = {
+        simple = 1,
+      }
       --
       -- Ignore mappings
       -- vim.g["vimtex_mappings_enabled"] = 0

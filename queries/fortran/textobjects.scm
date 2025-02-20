@@ -45,6 +45,8 @@
 
 (module) @class.outer
 
+(submodule) @class.outer
+
 ((submodule
   (submodule_statement)
   .
