@@ -108,6 +108,10 @@ map("n", "<leader>ua", function()
   vim.b.completion = not abool
 end, { desc = "Toggle Auto Complete" })
 
+map("n", "<leader>xr", function()
+  vim.diagnostic.reset()
+end, { desc = "Reset Diagnostics" })
+
 -- if vim.lsp.inlay_hint then
 --   Snacks.toggle.inlay_hints():map("<leader>uh")
 -- end

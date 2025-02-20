@@ -11,6 +11,18 @@ return {
     },
     opts = {},
   },
+  { -- preview equations in markdown or tex
+    "jbyuki/nabla.nvim",
+    keys = {
+      {
+        "<leader>m",
+        function()
+          require("nabla").popup()
+        end,
+        desc = "[m]ath preview",
+      },
+    },
+  },
   {
     "dhruvasagar/vim-table-mode",
     keys = {

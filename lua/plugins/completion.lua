@@ -46,6 +46,7 @@ return {
       "kdheepak/cmp-latex-symbols",
       "f3fora/cmp-spell",
       "hrsh7th/cmp-omni",
+      "micangl/cmp-vimtex",
       -- "rafamadriz/friendly-snippets",
       -- "jmbuhr/otter.nvim",
     },
@@ -138,7 +139,7 @@ return {
         per_filetype = {
           fortran = { "snippets", "lsp", "path", "buffer" },
           julia = { "snippets", "lsp", "path", "buffer" },
-          tex = { "snippets", "lsp", "path", "buffer", "latex_symbols", "emoji" },
+          tex = { "snippets", "vimtex", "path", "buffer", "latex_symbols", "emoji" },
         },
         providers = {
           lsp = {
@@ -169,6 +170,11 @@ return {
             opts = {
               strategy = 2,
             },
+          },
+          vimtex = {
+            name = "vimtex",
+            module = "blink.compat.source",
+            score_offset = 5,
           },
         },
       },

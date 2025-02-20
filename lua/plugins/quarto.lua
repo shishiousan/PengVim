@@ -345,10 +345,4 @@ return {
       vim.keymap.set("n", "<leader>ii", ":PasteImage<cr>", { desc = "insert [i]mage from clipboard" })
     end,
   },
-  {
-    "jbyuki/nabla.nvim",
-    keys = {
-      { "<leader>qm", ':lua require"nabla".toggle_virt()<cr>', desc = "toggle [m]ath equations" },
-    },
-  },
 }

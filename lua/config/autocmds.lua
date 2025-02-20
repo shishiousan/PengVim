@@ -63,18 +63,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("set_fmt"),
-  pattern = { "fortran" },
-  callback = function()
-    vim.cmd(
-      [[ set efm=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\ %m,,%Z%tarning:\ %m,%C%.%#,%-G%.%# ]]
-      -- [[ set efm=%A%f:%l:%c:,%C,%C,%C,%Z%trror:\ %m,,%Z%tarning:\ %m,%C%.%#,%-G%.%# ]]
-    )
-    vim.g.use_myfmt = false
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
   group = augroup("marker_folding"),
   pattern = { "bash" },
   callback = function()
@@ -119,6 +107,16 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  group = augroup("set_indent_opts"),
+  pattern = { "fortran" },
+  callback = function()
+    vim.cmd([[setlocal noci noai]])
+    vim.cmd([[setlocal indentexpr=]])
+    vim.cmd([[setlocal si]])
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup("disable_virtual_text"),
   pattern = { "*" },
@@ -157,5 +155,16 @@ vim.api.nvim_create_autocmd({ "TermOpen" }, {
     vim.cmd.setlocal("norelativenumber")
     vim.wo.signcolumn = "no"
     set_terminal_keymaps()
+  end,
+})
+
+vim.api.nvim_create_autocmd("CursorHold", {
+  group = augroup("pengvim_mathhovar"),
+  pattern = { "*" },
+  callback = function()
+    local ft = vim.bo.filetype
+    if ft == "markdown" or ft == "quarto" then
+      require("nabla").popup()
+    end
   end,
 })
