@@ -1,10 +1,10 @@
 return {
-  name = "classesDev",
-  builder = function(params)
+  name = "baseDev",
+  builder = function()
     return {
       cmd = { "easifem" },
-      args = { "dev", "classes", "-q" },
-      name = "devClasses",
+      args = { "dev", "base", "-q" },
+      name = "devBase",
       cwd = vim.fn.expand("%:h"),
       env = {},
       components = {
@@ -15,16 +15,20 @@ return {
         { "on_result_diagnostics", virtual_text = true },
         { "on_exit_set_status", success_codes = { 0 } },
         { "on_output_parse", problem_matcher = "$gcc" },
+        { "restart_on_save" },
       },
       condition = {
         filetype = { "fortran" },
       },
     }
   end,
-  desc = "Development of easifemClasses, it only prints error messages",
+  desc = "Development of easifemBase, it only prints error messages",
   params = {},
   priority = 50,
   condition = {
     filetype = { "fortran" },
+    callback = function(_)
+      return true
+    end,
   },
 }

@@ -13,18 +13,21 @@ return {
     events = { "BufWritePost", "BufReadPost", "InsertLeave" },
     config = function()
       local lint = require("lint")
-      local errorformat =
-        "%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%C%.%#,%-G%.%#"
+
       lint.linters.gfortran = {
         name = "gfortran",
         cmd = "gfortran",
         args = require("plugins.args.fortran").linter or {},
         ignore_exitcode = true,
         stream = "both",
-        parser = require("lint.parser").from_errorformat(errorformat, {}),
+        parser = require("lint.parser").from_errorformat(
+          "%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%C%.%#,%-G%.%#",
+          {}
+        ),
       }
-      local mdlint = lint.linters["markdownlint-cli2"]
-      mdlint.args = { "--config", os.getenv("HOME") .. "/.markdownlint-cli2.yaml" }
+      lint.linters["markdownlint-cli2"] = {
+        args = { "--config", os.getenv("HOME") .. "/.markdownlint-cli2.yaml" },
+      }
       lint.linters_by_ft = {
         fortran = { "gfortran" },
         markdown = { "markdownlint-cli2" },
