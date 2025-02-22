@@ -11,13 +11,7 @@ return {
     cmd = { "LspInfo", "LspInstall", "LspRestart", "LspStart", "LspStop", "LspUninstall" },
     event = { "BufReadPre", "BufNewFile" },
     config = function(_, opts)
-      local lspconfig = require("lspconfig")
-      local util = require("lspconfig.util")
-
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        automatic_installation = false,
-      })
 
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("pengvim-lsp-attach", { clear = true }),
@@ -71,36 +65,7 @@ return {
       capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
 
       local servers = {
-        bashls = {
-          filetypes = { "sh", "bash" },
-        },
-        fortls = {
-          cmd = require("plugins.args.fortran").lsp_cmd or {},
-        },
-        gopls = {},
-        julials = {
-          on_new_config = function(new_config, _)
-            local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-            local REVISE_LANGUAGESERVER = false
-            if REVISE_LANGUAGESERVER then
-              new_config.cmd[5] = (new_config.cmd[5]):gsub(
-                "using LanguageServer",
-                "using Revise; using LanguageServer; LanguageServer.USE_REVISE[] = true"
-              )
-            elseif (vim.loop.fs_stat(julia) or {}).type == "file" then
-              new_config.cmd[1] = julia
-            end
-          end,
-          root_dir = function(fname)
-            local util = require("lspconfig.util")
-            return util.root_pattern("Project.toml")(fname)
-              or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-              or vim.fs.dirname(fname)
-          end,
-          on_attach = function(_, bufnr)
-            vim.bo[bufnr].formatexpr = ""
-          end,
-        },
+        vimls = {},
         lua_ls = {
           settings = {
             Lua = {
@@ -111,7 +76,7 @@ return {
                 callSnippet = "Replace",
               },
               diagnostics = {
-                workspaceEvent = "None",
+                globals = { "vim" },
                 disable = {
                   "missing-fields",
                   "trailing-space",
@@ -120,38 +85,32 @@ return {
             },
           },
         },
-        marksman = {
-          filetypes = { "markdown", "quarto" },
-          root_dir = util.root_pattern(".git", ".marksman.toml", "_quarto.yml"),
+        bashls = {
+          filetypes = { "sh", "bash" },
         },
-        taplo = {},
-        tinymist = {},
-        texlab = {
-          settings = {
-            completion = {
-              matcher = "prefix-ignore-case",
-            },
-            inlayHints = {
-              labelReferences = false,
-              labelDefinitions = false,
-            },
-          },
-        },
-        vimls = {},
       }
 
       local ensure_installed_extra = {
         "cmakelang",
         "dprint",
-        "fprettify",
-        "goimports",
         "jupytext",
-        "markdownlint-cli2",
-        "mdformat",
         "shfmt",
         "stylua",
-        "typstfmt",
       }
+
+      if opts.extra ~= nil then
+        for name, arg in pairs(opts.extra) do
+          if arg.ensure_installed then
+            vim.list_extend(ensure_installed_extra, { name })
+          end
+        end
+      end
+
+      if opts.servers ~= nil then
+        for name, settings in pairs(opts.servers) do
+          servers[name] = vim.tbl_deep_extend("force", servers[name] or {}, settings)
+        end
+      end
 
       require("mason-tool-installer").setup({
         ensure_installed = vim.list_extend(vim.tbl_keys(servers), ensure_installed_extra),
