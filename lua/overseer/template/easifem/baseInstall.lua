@@ -1,6 +1,6 @@
 return {
   name = "baseInstall",
-  builder = function(params)
+  builder = function()
     return {
       cmd = { "easifem" },
       args = { "install", "base", "-q", "--no-download" },

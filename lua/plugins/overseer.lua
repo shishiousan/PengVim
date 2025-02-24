@@ -4,15 +4,7 @@ return {
     lazy = true,
     config = function()
       require("overseer").setup({
-        templates = {
-          "user.baseDev",
-          "user.baseInstall",
-          "user.run_script",
-          "user.classesDev",
-          "user.classesInstall",
-          "user.easifemLint",
-          -- "user.smartLint",
-        },
+        templates = { "easifem" },
         component_aliases = {
           default = {
             "on_output_summarize",
@@ -36,19 +28,19 @@ return {
         "<leader>or",
         "<cmd>OverseerRun<CR>",
         mode = { "n" },
-        desc = "Overseer Run",
+        desc = "Overseer [r]un",
       },
       {
         "<leader>ot",
         "<cmd>OverseerToggle<CR>",
         mode = { "n" },
-        desc = "Overseer Toggle",
+        desc = "Overseer [t]oggle",
       },
       {
         "<leader>oi",
         "<cmd>OverseerInfo<CR>",
         mode = { "n" },
-        desc = "Overseer Info",
+        desc = "Overseer [i]nfo",
       },
     },
   },

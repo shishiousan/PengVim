@@ -10,7 +10,6 @@ return {
           local wk = require("which-key")
           wk.add({
             { "<leader>v", group = "[V]imTex" },
-            -- { "<leader>va", "<cmd>Telescope bibtex<CR>", desc = "Add CITATION (bib)" },
             { "<leader>vb", "<cmd>VimtexCompile<CR>", desc = "Build" },
             { "<leader>vc", "<cmd>VimtexCountWords!<CR>", desc = "Count Words" },
             { "<leader>vd", "<cmd>VimtexClean<CR>", desc = "Delete aux" },
@@ -77,28 +76,6 @@ return {
       vim.g.vimtex_complete_bib = {
         simple = 1,
       }
-      --
-      -- Ignore mappings
-      -- vim.g["vimtex_mappings_enabled"] = 0
-      -- Fold
-      -- NOTE: I prefer to vim-tex-fold now
-      -- vim.g.vimtex_fold_enabled = 1
-      -- vim.g.vimtex_fold_types = {
-      --   preamble = { enabled = 1 },
-      --   sections = { sections = { "chapter", "section" } },
-      --   envs = { whitelist = { "table" } },
-      --   comments = { enabled = 1 },
-      -- }
-      -- Auto format
-      -- vim.g.vimtex_format_enabled = 1
-      -- Auto Indent
-      -- vim.g["vimtex_indent_enabled"] = 0
-      -- Syntax highlighting
-      -- vim.g.vimtex_syntax_enabled = 1
-      -- Error suppression:
-      -- https://github.com/lervag/vimtex/blob/master/doc/vimtex.txt
-      -- vim.g['vimtex_compiler_progname'] = 'nvr'
-      -- vim.g['vimtex_complete_close_braces'] = 1
     end,
   },
 }

@@ -10,39 +10,8 @@ return {
     },
     cmd = { "LspInfo", "LspInstall", "LspRestart", "LspStart", "LspStop", "LspUninstall" },
     event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local util = require("lspconfig.util")
-
+    config = function(_, opts)
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        automatic_installation = false,
-      })
-      require("mason-tool-installer").setup({
-        ensure_installed = {
-          "bashls",
-          "cmakelang",
-          "dprint",
-          "fortls",
-          "fprettify",
-          "gopls",
-          "goimports",
-          "julials",
-          "jupytext",
-          "latexindent",
-          "lua_ls",
-          "markdownlint-cli2",
-          "marksman",
-          "mdformat",
-          "shfmt",
-          "stylua",
-          "taplo",
-          "tinymist",
-          "typstfmt",
-          "texlab",
-          "vimls",
-        },
-      })
 
       vim.api.nvim_create_autocmd("LspAttach", {
         group = vim.api.nvim_create_augroup("pengvim-lsp-attach", { clear = true }),
@@ -95,104 +64,69 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
 
-      lspconfig.marksman.setup({
-        capabilities = capabilities,
-        filetypes = { "markdown", "quarto" },
-        root_dir = util.root_pattern(".git", ".marksman.toml", "_quarto.yml"),
-      })
-
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-        settings = {
-          Lua = {
-            workspace = {
-              checkThirdParty = false,
-            },
-            completion = {
-              callSnippet = "Replace",
-            },
-            diagnostics = {
-              workspaceEvent = "None",
-              disable = {
-                "missing-fields",
-                "trailing-space",
+      local servers = {
+        vimls = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              workspace = {
+                checkThirdParty = false,
+              },
+              completion = {
+                callSnippet = "Replace",
+              },
+              diagnostics = {
+                globals = { "vim" },
+                disable = {
+                  "missing-fields",
+                  "trailing-space",
+                },
               },
             },
           },
         },
-      })
-
-      lspconfig.fortls.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-        cmd = require("plugins.args.fortran").lsp_cmd or {},
-      })
-
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-      })
-
-      lspconfig.julials.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-        on_new_config = function(new_config, _)
-          local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")
-          local REVISE_LANGUAGESERVER = false
-          if REVISE_LANGUAGESERVER then
-            new_config.cmd[5] = (new_config.cmd[5]):gsub(
-              "using LanguageServer",
-              "using Revise; using LanguageServer; LanguageServer.USE_REVISE[] = true"
-            )
-          elseif (vim.loop.fs_stat(julia) or {}).type == "file" then
-            new_config.cmd[1] = julia
-          end
-        end,
-        root_dir = function(fname)
-          local util = require("lspconfig.util")
-          return util.root_pattern("Project.toml")(fname)
-            or vim.fs.dirname(vim.fs.find(".git", { path = fname, upward = true })[1])
-            or vim.fs.dirname(fname)
-        end,
-        on_attach = function(_, bufnr)
-          vim.bo[bufnr].formatexpr = ""
-        end,
-      })
-
-      lspconfig.texlab.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-        settings = {
-          completion = {
-            matcher = "prefix-ignore-case",
-          },
-          inlayHints = {
-            labelReferences = false,
-            labelDefinitions = false,
-          },
+        bashls = {
+          filetypes = { "sh", "bash" },
         },
+      }
+
+      local ensure_installed_extra = {
+        "cmakelang",
+        "dprint",
+        "jupytext",
+        "shfmt",
+        "stylua",
+      }
+
+      if opts.extra ~= nil then
+        for name, arg in pairs(opts.extra) do
+          if arg.ensure_installed then
+            vim.list_extend(ensure_installed_extra, { name })
+          end
+        end
+      end
+
+      if opts.servers ~= nil then
+        for name, settings in pairs(opts.servers) do
+          servers[name] = vim.tbl_deep_extend("force", servers[name] or {}, settings)
+        end
+      end
+
+      require("mason-tool-installer").setup({
+        ensure_installed = vim.list_extend(vim.tbl_keys(servers), ensure_installed_extra),
       })
 
-      lspconfig.taplo.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-      })
-
-      lspconfig.tinymist.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-      })
-
-      lspconfig.bashls.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
-        filetypes = { "sh", "bash" },
-      })
-
-      lspconfig.vimls.setup({
-        capabilities = capabilities,
-        flags = lsp_flags,
+      require("mason-lspconfig").setup({
+        ensure_installed = {},
+        automatic_installation = false,
+        handlers = {
+          function(server_name)
+            local server = servers[server_name] or {}
+            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+            server.flags = vim.tbl_deep_extend("force", {}, lsp_flags, server.flags or {})
+            require("lspconfig")[server_name].setup(server)
+          end,
+        },
       })
     end,
   },

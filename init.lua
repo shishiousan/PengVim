@@ -15,9 +15,11 @@ vim.g.maplocalleader = "\\"
 require("lazy").setup({
   spec = {
     { import = "plugins" },
+    { import = "plugins.lang" },
     { import = "plugins.extra.csv" },
     { import = "plugins.extra.japanese" },
     { import = "plugins.extra.markdown" },
+    { import = "plugins.extra.quarto" },
     { import = "plugins.extra.typst" },
     { import = "plugins.extra.yazi" },
     { import = "plugins.extra.oil" },
