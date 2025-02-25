@@ -14,4 +14,16 @@ return {
       },
     },
   },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "c",
+        "fortran",
+      },
+      indent = {
+        disable = { "fortran" },
+      },
+    },
+  },
 }

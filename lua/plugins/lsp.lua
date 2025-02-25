@@ -5,7 +5,6 @@ return {
       { "williamboman/mason.nvim", config = true },
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-      { "folke/neodev.nvim", opts = {} },
       "saghen/blink.cmp",
     },
     cmd = { "LspInfo", "LspInstall", "LspRestart", "LspStart", "LspStop", "LspUninstall" },
@@ -66,25 +65,6 @@ return {
 
       local servers = {
         vimls = {},
-        lua_ls = {
-          settings = {
-            Lua = {
-              workspace = {
-                checkThirdParty = false,
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-              diagnostics = {
-                globals = { "vim" },
-                disable = {
-                  "missing-fields",
-                  "trailing-space",
-                },
-              },
-            },
-          },
-        },
         bashls = {
           filetypes = { "sh", "bash" },
         },
@@ -95,7 +75,6 @@ return {
         "dprint",
         "jupytext",
         "shfmt",
-        "stylua",
       }
 
       if opts.extra ~= nil then

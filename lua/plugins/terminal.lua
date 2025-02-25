@@ -1,5 +1,15 @@
 return {
   {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "bash",
+        "fish",
+        "tmux",
+      },
+    },
+  },
+  {
     "jaimecgomezz/here.term",
     keys = {
       {

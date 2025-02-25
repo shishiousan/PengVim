@@ -139,7 +139,7 @@ return {
         per_filetype = {
           fortran = { "snippets", "lsp", "path", "buffer" },
           julia = { "snippets", "lsp", "path", "buffer" },
-          tex = { "snippets", "vimtex", "path", "buffer", "latex_symbols", "emoji" },
+          tex = { "snippets", "vimtex", "path", "latex_symbols" },
         },
         providers = {
           lsp = {

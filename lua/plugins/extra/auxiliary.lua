@@ -67,4 +67,15 @@ return {
       end, { desc = "Toggles YouAreAnIdiot" })
     end,
   },
+  {
+    "jackplus-xyz/player-one.nvim",
+    event = { "VimEnter" },
+    ---@type PlayerOne.Config
+    opts = {
+      is_enabled = true,
+      min_interval = 0.05,
+      ---Available presets: "chiptune", "crystal", "synth"
+      theme = "chiptune",
+    },
+  },
 }
