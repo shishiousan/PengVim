@@ -77,6 +77,7 @@ opt.mouse = "a"
 opt.number = true
 opt.pumblend = 10
 opt.pumheight = 10
+opt.report = 50
 opt.relativenumber = true
 opt.ruler = false
 opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)

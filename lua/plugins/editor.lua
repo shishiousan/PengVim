@@ -53,6 +53,9 @@ return {
         inc_rename = false,
         lsp_doc_border = true,
       },
+      popupmenu = {
+        enabled = false,
+      },
     },
   },
   { -- cool window motion

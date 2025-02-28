@@ -136,6 +136,12 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = { "*" },
   callback = function()
     vim.cmd("set laststatus=0")
+    vim.cmd("set statusline=%{repeat('─',winwidth('.'))}")
+    vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
+    -- vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#b020ea", bg = "NONE" })
+    vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
+    vim.cmd("hi! link StatusLine Normal")
+    vim.cmd("hi! link StatusLineNC VertSplit")
   end,
 })
 

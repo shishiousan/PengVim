@@ -58,11 +58,6 @@ require("config.keymaps")
 require("config.autocmds")
 require("config.redir")
 
--- custom highlight after loading colorscheme
-vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
-vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#b020ea", bg = "NONE" })
-vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
-
 if vim.bo.filetype == "lazy" then
   vim.cmd([[do VimResized]])
 end

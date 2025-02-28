@@ -38,7 +38,7 @@ return {
         enabled = false,
       },
       notifier = {
-        enabled = false,
+        enabled = true,
         top_down = false,
       },
       picker = {
