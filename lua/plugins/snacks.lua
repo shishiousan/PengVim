@@ -40,6 +40,8 @@ return {
       notifier = {
         enabled = true,
         top_down = false,
+        level = vim.log.levels.INFO,
+        style = "minimal",
       },
       picker = {
         enabled = true,
