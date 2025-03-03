@@ -41,46 +41,10 @@ return {
       })
     end,
   },
-  {
-    "ray-x/aurora",
-    lazy = true,
-    priority = 1000,
-    init = function()
-      vim.g.aurora_italic = 1
-      vim.g.aurora_transparent = 1
-      vim.g.aurora_bold = 1
-    end,
-    config = function() end,
-  },
-  {
-    "scottmckendry/cyberdream.nvim",
-    lazy = true,
-    priority = 1000,
-    config = function()
-      require("cyberdream").setup({
-        transparent = true,
-        italic_comments = true,
-        hide_fillchars = true,
-        borderless_telescope = true,
-        terminal_colors = true,
-      })
-    end,
-  },
   { -- very chilling colorscheme
     "zenbones-theme/zenbones.nvim",
     dependencies = "rktjmp/lush.nvim",
     lazy = true,
     priority = 1000,
-  },
-  { -- extremely minimal colorscheme
-    "jackplus-xyz/binary.nvim",
-    lazy = true,
-    priority = 1000,
-    opts = {
-      {
-        style = "dark", -- Theme style: "system" | "light" | "dark"
-        use_default_reversed_group = true,
-      },
-    },
   },
 }

@@ -71,6 +71,16 @@ return {
       explorer = {
         enabled = true,
       },
+      image = {
+        enabled = false,
+        math = {
+          enabled = true,
+          latex = {
+            font_size = "small",
+            packages = { "amsmath", "amssymb", "amsfonts", "amscd", "mathtools" },
+          },
+        },
+      },
     },
     keys = {
       {

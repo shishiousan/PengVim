@@ -10,10 +10,7 @@ g.CSLists = {
   "moonfly",
   "nightfall",
   "flow",
-  "aurora",
-  "cyberdream",
   "zenbones",
-  "binary",
 }
 g.CSListsLen = #vim.g.CSLists
 
