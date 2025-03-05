@@ -41,11 +41,8 @@ return {
     event = "InsertEnter",
     dependencies = {
       "L3MON4D3/LuaSnip",
-      "moyiz/blink-emoji.nvim",
       "hrsh7th/cmp-cmdline",
-      "kdheepak/cmp-latex-symbols",
       "f3fora/cmp-spell",
-      "hrsh7th/cmp-omni",
       "micangl/cmp-vimtex",
       -- "rafamadriz/friendly-snippets",
       -- "jmbuhr/otter.nvim",
@@ -133,13 +130,11 @@ return {
           "path",
           "buffer",
           "cmdline",
-          "latex_symbols",
-          "emoji",
         },
         per_filetype = {
           fortran = { "snippets", "lsp", "path", "buffer" },
           julia = { "snippets", "lsp", "path", "buffer" },
-          tex = { "snippets", "vimtex", "path", "latex_symbols" },
+          tex = { "snippets", "vimtex", "path" },
         },
         providers = {
           lsp = {
@@ -155,21 +150,9 @@ return {
               end
             end,
           },
-          emoji = {
-            name = "Emoji",
-            module = "blink-emoji",
-            score_offset = 0,
-          },
           cmdline = {
             name = "cmdline",
             module = "blink.compat.source",
-          },
-          latex_symbols = {
-            name = "latex_symbols",
-            module = "blink.compat.source",
-            opts = {
-              strategy = 2,
-            },
           },
           vimtex = {
             name = "vimtex",
