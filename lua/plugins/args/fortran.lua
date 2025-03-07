@@ -13,6 +13,9 @@ M.lsp_cmd = {
   "--hover_signature",
   "--hover_language=fortran",
   "--use_signature_help",
+  "--recursion_limit",
+  "3000",
+  "--incremental_sync",
 }
 
 M.linter = {
@@ -22,6 +25,7 @@ M.linter = {
   -- "-fdiagnostics-plain-output",
   "-Wunused-variable",
   "-Wunused-dummy-argument",
+  "-Wno-c-binding-type",
   "-Wall",
   "-I",
   os.getenv("HOME") .. "/.easifem/lint/include/",

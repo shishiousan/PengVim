@@ -180,18 +180,6 @@ return {
     },
   },
   {
-    "chrisbra/NrrwRgn",
-    lazy = true,
-    keys = {
-      {
-        "<leader>cr",
-        "<plug>NrrwrgnDo<cr>",
-        desc = "NrrwRgn",
-        mode = { "n", "v" },
-      },
-    },
-  },
-  {
     "tzachar/highlight-undo.nvim",
     enabled = true,
     event = { "BufReadPre", "BufNewFile" },

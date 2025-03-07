@@ -32,6 +32,11 @@ return {
         move = {
           enable = true,
           goto_next_start = {
+            ["-f"] = "@function.outer",
+            ["-c"] = "@conditional.outer",
+            ["-a"] = "@class.outer",
+            ["-b"] = "@block.outer",
+            ["-l"] = "@loop.outer",
             ["]f"] = "@function.outer",
             ["]c"] = "@conditional.outer",
             ["]a"] = "@class.outer",
@@ -39,6 +44,11 @@ return {
             ["]l"] = "@loop.outer",
           },
           goto_next_end = {
+            ["--f"] = "@function.outer",
+            ["--c"] = "@conditional.outer",
+            ["--a"] = "@class.outer",
+            ["--b"] = "@block.outer",
+            ["--l"] = "@loop.outer",
             ["]F"] = "@function.outer",
             ["]C"] = "@conditional.outer",
             ["]A"] = "@class.outer",
@@ -46,6 +56,11 @@ return {
             ["]L"] = "@loop.outer",
           },
           goto_previous_start = {
+            ["_f"] = "@function.outer",
+            ["_c"] = "@conditional.outer",
+            ["_a"] = "@class.outer",
+            ["_b"] = "@block.outer",
+            ["_l"] = "@loop.outer",
             ["[f"] = "@function.outer",
             ["[c"] = "@conditional.outer",
             ["[a"] = "@class.outer",
@@ -53,6 +68,11 @@ return {
             ["[l"] = "@loop.outer",
           },
           goto_previous_end = {
+            ["__f"] = "@function.outer",
+            ["__c"] = "@conditional.outer",
+            ["__a"] = "@class.outer",
+            ["__b"] = "@block.outer",
+            ["__l"] = "@loop.outer",
             ["[F"] = "@function.outer",
             ["[C"] = "@conditional.outer",
             ["[A"] = "@class.outer",

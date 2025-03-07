@@ -3,21 +3,21 @@ return {
     "tamton-aquib/duck.nvim",
     keys = {
       {
-        "<leader>ph",
+        "<leader>pp",
         function()
           require("duck").hatch("🐧")
         end,
         desc = "Penguins hatch",
       },
       {
-        "<leader>pb",
+        "<leader>pg",
         function()
           require("duck").cook()
         end,
         desc = "Penguins bye bye",
       },
       {
-        "<leader>pa",
+        "<leader>pB",
         function()
           require("duck").cook_all()
         end,
@@ -69,6 +69,7 @@ return {
   },
   {
     "jackplus-xyz/player-one.nvim",
+    enabled = false,
     event = { "VimEnter" },
     ---@type PlayerOne.Config
     opts = {
