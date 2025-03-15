@@ -4,7 +4,6 @@ M.lsp_cmd = {
   "fortls",
   "--lowercase_intrinsics",
   "--source_dirs",
-  -- os.getenv("EASIFEM_SOURCE_DIR") .. "/easifem/base/src/**",
   os.getenv("DROPBOX") .. "/easifem/base/src/**",
   os.getenv("DROPBOX") .. "/easifem/classes/src/**",
   os.getenv("DROPBOX") .. "/easifem/elasticity/src/**",
@@ -14,7 +13,7 @@ M.lsp_cmd = {
   "--hover_language=fortran",
   "--use_signature_help",
   "--recursion_limit",
-  "3000",
+  "5000",
   "--incremental_sync",
 }
 

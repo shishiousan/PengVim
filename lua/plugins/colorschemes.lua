@@ -4,8 +4,17 @@ return {
     name = "moonfly",
     lazy = false,
     priority = 1000,
+    -- config = function()
+    --   vim.cmd.colorscheme("moonfly")
+    -- end,
+  },
+  {
+    "bluz71/vim-nightfly-colors",
+    name = "nightfly",
+    lazy = false,
+    priority = 1000,
     config = function()
-      vim.cmd.colorscheme("moonfly")
+      vim.cmd.colorscheme("nightfly")
     end,
   },
   {

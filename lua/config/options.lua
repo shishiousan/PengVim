@@ -7,6 +7,7 @@ g.markdown_recommended_style = 0
 
 g.currentCSNum = 1
 g.CSLists = {
+  "nightfly",
   "moonfly",
   "nightfall",
   "flow",

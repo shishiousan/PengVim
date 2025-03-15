@@ -143,11 +143,7 @@ return {
           snippets = {
             score_offset = 15,
             should_show_items = function(ctx)
-              if vim.bo.filetype == "fortran" then
-                return ctx.trigger.initial_kind ~= "trigger_character"
-              else
-                return true
-              end
+              return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
             end,
           },
           cmdline = {
