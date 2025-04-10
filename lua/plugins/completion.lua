@@ -143,7 +143,8 @@ return {
           snippets = {
             score_offset = 15,
             should_show_items = function(ctx)
-              return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
+              -- return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
+              return ctx.trigger.initial_kind ~= "trigger_character"
             end,
           },
           cmdline = {

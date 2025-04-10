@@ -29,7 +29,7 @@
  "contains"
  "private"
  "public"
- ] @include
+ ] @keyword.import
 
 [
  (none)
@@ -98,14 +98,14 @@
   "selecttype"
   "classis"
   "typeis"
- ] @conditional
+ ] @keyword.conditional
 
 [
  "do"
  "enddo"
  "forall"
  "while"
- ] @repeat
+ ] @keyword.repeat
 
 [
  "*"
