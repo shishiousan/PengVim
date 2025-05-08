@@ -82,6 +82,7 @@ opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.shiftround = true
 opt.shiftwidth = 2
+opt.showtabline = 0
 opt.shortmess:append({ W = true, I = true, c = true, C = true })
 opt.showmode = false
 opt.sidescrolloff = 8

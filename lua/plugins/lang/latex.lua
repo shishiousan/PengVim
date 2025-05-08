@@ -12,6 +12,11 @@ return {
               labelReferences = false,
               labelDefinitions = false,
             },
+            texlab = {
+              diagnostics = {
+                ignoredPatterns = { "Unused label" },
+              },
+            },
           },
         },
       },
@@ -35,6 +40,7 @@ return {
   },
   {
     "lervag/vimtex",
+    lazy = false,
     ft = { "tex", "bib", "latex" },
     config = function()
       vim.api.nvim_create_autocmd({ "FileType" }, {
@@ -95,7 +101,7 @@ return {
       })
       vim.g.vimtex_mappings_disable = { ["n"] = { "K" } }
       vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
-      vim.g.vimtex_view_method = "zathura"
+      vim.g.vimtex_view_method = "sioyek"
       vim.g.vimtex_quickfix_mode = 0
 
       vim.g.vimtex_log_ignore = {
@@ -105,7 +111,7 @@ return {
         "Token not allowed in a PDF string",
       }
 
-      vim.g.vimtex_context_pdf_viewer = "okular"
+      vim.g.vimtex_context_pdf_viewer = "sioyek"
       vim.g.vimtex_complete_enabled = 1
       vim.g.vimtex_complete_bib = {
         simple = 1,

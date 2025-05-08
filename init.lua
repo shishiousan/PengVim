@@ -12,6 +12,11 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- if vim.g.started_by_firenvim == true then
+--   vim.o.laststatus = 0
+--   return
+-- end
+
 require("lazy").setup({
   spec = {
     { import = "plugins" },

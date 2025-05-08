@@ -48,5 +48,21 @@
       "${0}"
     ],
     "description": "Insert a new vocabulary table"
+  },
+  "Insert 4 columns row for word": {
+    "prefix": "wr",
+    "body": [
+      "| word | ${2} | ${3} | ${4} |",
+      "${0}"
+    ],
+    "description": "Insert a new row for voccabulary table"
+  },
+  "Insert 4 columns row for phrase": {
+    "prefix": "pr",
+    "body": [
+      "| phrase | ${2} | ${3} | ${4} |",
+      "${0}"
+    ],
+    "description": "Insert a new row for voccabulary table"
   }
 }

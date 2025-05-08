@@ -44,6 +44,7 @@ return {
       "hrsh7th/cmp-cmdline",
       "f3fora/cmp-spell",
       "micangl/cmp-vimtex",
+      "kdheepak/cmp-latex-symbols",
       -- "rafamadriz/friendly-snippets",
       -- "jmbuhr/otter.nvim",
     },
@@ -130,11 +131,14 @@ return {
           "path",
           "buffer",
           "cmdline",
+          "latex_symbols",
         },
         per_filetype = {
           fortran = { "snippets", "lsp", "path", "buffer" },
           julia = { "snippets", "lsp", "path", "buffer" },
           tex = { "snippets", "vimtex", "path" },
+          -- tex = { "snippets", "path" },
+          gnuplot = { "path", "buffer", "latex_symbols" },
         },
         providers = {
           lsp = {
@@ -155,6 +159,10 @@ return {
             name = "vimtex",
             module = "blink.compat.source",
             score_offset = 5,
+          },
+          latex_symbols = {
+            name = "latex_symbols",
+            module = "blink.compat.source",
           },
         },
       },

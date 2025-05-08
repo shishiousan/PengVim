@@ -79,4 +79,19 @@ return {
       theme = "chiptune",
     },
   },
+  {
+    "johannww/tts.nvim",
+    enabled = false,
+    cmd = { "TTS" },
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+      voice = "en-GB-SoniaNeural",
+      speed = 1.0,
+    },
+  },
+  {
+    "glacambre/firenvim",
+    lazy = false,
+    build = ":call firenvim#install(0)",
+  },
 }
