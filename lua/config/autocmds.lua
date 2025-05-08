@@ -127,7 +127,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
   callback = function()
-    vim.notify("hoge")
     require("lint").try_lint()
   end,
 })
