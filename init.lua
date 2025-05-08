@@ -66,3 +66,5 @@ require("config.redir")
 if vim.bo.filetype == "lazy" then
   vim.cmd([[do VimResized]])
 end
+
+vim.deprecate = function() end

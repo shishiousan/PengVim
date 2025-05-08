@@ -12,9 +12,9 @@ M.lsp_cmd = {
   "--hover_signature",
   "--hover_language=fortran",
   "--use_signature_help",
-  "--recursion_limit",
-  "5000",
   "--incremental_sync",
+  "--recursion_limit",
+  "8000",
 }
 
 M.linter = {

@@ -174,3 +174,13 @@ vim.api.nvim_create_autocmd("CursorHold", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("pengvim-lsp-attach"),
+  callback = function(event)
+    vim.keymap.set("n", "gh", vim.lsp.buf.signature_help, { buffer = event.buf, desc = "LSP: go to signature [h]elp" })
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = event.buf, desc = "LSP: code [a]ction" })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, desc = "LSP: Hover Documentation" })
+    vim.keymap.set("v", "<leader>Lf", vim.lsp.buf.format, { buffer = event.buf, desc = "Lsp [f]ormat" })
+  end,
+})
