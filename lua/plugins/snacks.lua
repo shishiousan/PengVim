@@ -20,12 +20,8 @@ return {
             { action = ":ene | startinsert", desc = " New File", icon = " ", key = "n" },
             { action = ":lua Snacks.picker.recent()", desc = " Recent Files", icon = " ", key = "r" },
             { action = ":lua Snacks.picker.grep()", desc = " Find Text", icon = " ", key = "g" },
-            {
-              action = ':lua require("persistence").load()',
-              desc = " Restore Session",
-              icon = " ",
-              key = "s",
-            },
+            { desc = " Restore Session", icon = " ", key = "s", section = "session" },
+            { action = ":lua Snacks.picker.projects()", desc = " Projects", icon = " ", key = "p" },
             { action = ":Lazy", desc = " Lazy", icon = "󰒲 ", key = "l" },
             { action = ":qa", desc = " Quit", icon = " ", key = "q" },
           },
@@ -65,6 +61,20 @@ return {
               border = "rounded",
               title_pos = "center",
             },
+          },
+        },
+        sources = {
+          projects = {
+            -- NOTE: default was trying to load session
+            -- I like to use picker file after selecting project
+            confirm = function(picker, item)
+              picker:close()
+              if item then
+                Snacks.picker.files({ cwd = item.text })
+              end
+              local dir = item.file
+              vim.fn.chdir(dir)
+            end,
           },
         },
       },
