@@ -15,7 +15,6 @@ return {
       local lint = require("lint")
 
       lint.linters.gfortran = {
-        name = "gfortran",
         cmd = "gfortran",
         args = require("plugins.args.fortran").linter or {},
         ignore_exitcode = true,
