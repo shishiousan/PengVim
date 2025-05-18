@@ -13,7 +13,7 @@ return {
                 callSnippet = "Replace",
               },
               diagnostics = {
-                globals = { "vim" },
+                globals = { "vim", "Snacks" },
                 disable = {
                   "missing-fields",
                   "trailing-space",

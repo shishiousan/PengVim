@@ -156,3 +156,7 @@ map("n", "<leader>Cp", ":PrevColorScheme<cr>", { desc = "Previous Colorscheme" }
 map("n", "<leader>bs", function()
   require("persistence").load()
 end, { desc = "Restore [s]ession" })
+
+map("n", "<leader>bb", function()
+  vim.cmd([[b#]])
+end, { desc = "Switch to previous buffer" })

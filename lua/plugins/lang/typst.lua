@@ -6,7 +6,7 @@ return {
         tinymist = {},
       },
       extra = {
-        typstfmt = {
+        typstyle = {
           ensure_installed = true,
         },
       },

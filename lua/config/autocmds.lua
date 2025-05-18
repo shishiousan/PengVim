@@ -174,3 +174,39 @@ vim.api.nvim_create_autocmd("CursorHold", {
     end
   end,
 })
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup("pengvim-lsp-attach"),
+  callback = function(event)
+    vim.keymap.set("n", "gh", vim.lsp.buf.signature_help, { buffer = event.buf, desc = "LSP: go to signature [h]elp" })
+    vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = event.buf, desc = "LSP: code [a]ction" })
+    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, desc = "LSP: Hover Documentation" })
+    vim.keymap.set("v", "<leader>Lf", vim.lsp.buf.format, { buffer = event.buf, desc = "Lsp [f]ormat" })
+
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
+    assert(client, "LSP client not found")
+
+    if client and client.server_capabilities.documentHighlightProvider then
+      local highlight_augroup = vim.api.nvim_create_augroup("pengvim-lsp-highlight", { clear = false })
+      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.document_highlight,
+      })
+
+      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+        buffer = event.buf,
+        group = highlight_augroup,
+        callback = vim.lsp.buf.clear_references,
+      })
+
+      vim.api.nvim_create_autocmd("LspDetach", {
+        group = vim.api.nvim_create_augroup("pengvim-lsp-detach", { clear = true }),
+        callback = function(event2)
+          vim.lsp.buf.clear_references()
+          vim.api.nvim_clear_autocmds({ group = "pengvim-lsp-highlight", buffer = event2.buf })
+        end,
+      })
+    end
+  end,
+})

@@ -35,7 +35,7 @@ return {
           fish = { "fish_indent" },
           sh = { "shfmt" },
           toml = { "taplo" },
-          typst = { "typstyle", "typstfmt", stop_after_first = true },
+          typst = { "typstyle" },
           fortran = { "fprettify", "myfmt", stop_after_first = true },
           go = { "goimports" },
           tex = { "latexindent" },

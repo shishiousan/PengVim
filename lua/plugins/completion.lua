@@ -137,6 +137,7 @@ return {
           fortran = { "snippets", "lsp", "path", "buffer" },
           julia = { "snippets", "lsp", "path", "buffer" },
           tex = { "snippets", "vimtex", "path" },
+          lua = { "snippets", "lsp", "path", "buffer" },
           -- tex = { "snippets", "path" },
           gnuplot = { "path", "buffer", "latex_symbols" },
         },
