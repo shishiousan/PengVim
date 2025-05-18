@@ -76,6 +76,9 @@ return {
               vim.fn.chdir(dir)
             end,
           },
+          explorer = {
+            auto_close = true,
+          },
         },
       },
       explorer = {
@@ -132,7 +135,7 @@ return {
         "<leader>e",
         function()
           vim.opt.scrolloff = 0
-          Snacks.explorer({ auto_close = true, focus = "list" })
+          Snacks.explorer({ focus = "list" })
         end,
         desc = "File Explorer",
       },
@@ -140,7 +143,7 @@ return {
         "<leader>fo",
         function()
           vim.opt.scrolloff = 0
-          Snacks.explorer.reveal({ auto_close = true, focus = "list" })
+          Snacks.explorer.reveal({ focus = "list" })
         end,
         desc = "File Explorer reveal",
       },
