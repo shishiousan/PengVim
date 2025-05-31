@@ -39,17 +39,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("expr_folding"),
-  pattern = { "fortran", "lua" },
-  callback = function()
-    vim.opt_local.foldmethod = "expr"
-    vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-    vim.opt_local.foldtext = "v:lua.vim.treesitter.foldtext()"
-    vim.opt_local.foldnestmax = 1
-  end,
-})
-
 vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup("reset_scrolloff"),
   pattern = { "*" },
@@ -59,26 +48,6 @@ vim.api.nvim_create_autocmd("BufEnter", {
     else
       vim.opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
     end
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("marker_folding"),
-  pattern = { "bash" },
-  callback = function()
-    vim.opt_local.foldmethod = "marker"
-    vim.opt_local.foldcolumn = "2"
-    vim.opt_local.foldnestmax = 1
-    vim.cmd("set foldopen-=block")
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("no_folding"),
-  pattern = { "Noice", "dashboard" },
-  callback = function()
-    vim.opt_local.foldenable = false
-    vim.opt_local.foldcolumn = "0"
   end,
 })
 

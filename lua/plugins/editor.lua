@@ -81,108 +81,89 @@ return {
       },
     },
   },
-  { -- cool window motion
-    "anuvyklack/windows.nvim",
-    event = { "BufReadPre", "BufNewFile" },
+  {
+    "kevinhwang91/nvim-ufo",
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      "anuvyklack/middleclass",
-      -- "anuvyklack/animation.nvim",
+      "kevinhwang91/promise-async",
+      "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      vim.o.winwidth = 10
-      vim.o.winminwidth = 10
-      vim.o.equalalways = false
-      require("windows").setup({
-        ignore = {
-          buftype = { "quickfix", "terminal" },
-          filetype = { "NvimTree", "neo-tree", "undotree", "gundo" },
-        },
-        animation = {
-          -- NOTE: uncomment animation.nvim to enable
-          enable = false,
-        },
-        autowidth = {
-          enable = false,
-        },
+      vim.o.foldcolumn = "0"
+      vim.o.foldlevel = 99
+      vim.o.foldlevelstart = 99
+      vim.o.foldenable = true
+      require("ufo").setup({
+        fold_virt_text_handler = function(virtText, lnum, endLnum, width, truncate)
+          local newVirtText = {}
+          local suffix = (" 󰻀 %d Lines 󰻀"):format(endLnum - lnum)
+          local sufWidth = vim.fn.strdisplaywidth(suffix)
+          local targetWidth = width - sufWidth
+          local curWidth = 0
+          for _, chunk in ipairs(virtText) do
+            local chunkText = chunk[1]
+            local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            if targetWidth > curWidth + chunkWidth then
+              table.insert(newVirtText, chunk)
+            else
+              chunkText = truncate(chunkText, targetWidth - curWidth)
+              local hlGroup = chunk[2]
+              table.insert(newVirtText, { chunkText, hlGroup })
+              chunkWidth = vim.fn.strdisplaywidth(chunkText)
+              -- str width returned from truncate() may less than 2nd argument, need padding
+              if curWidth + chunkWidth < targetWidth then
+                suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
+              end
+              break
+            end
+            curWidth = curWidth + chunkWidth
+          end
+          table.insert(newVirtText, { suffix, "Comment" })
+          return newVirtText
+        end,
+        open_fold_hl_timeout = 150,
+        provider_selector = function(bufnr, filetype, buftype)
+          return { "treesitter", "indent" }
+        end,
       })
     end,
     keys = {
       {
-        "<leader>wt",
-        "<cmd>WindowsToggleAutowidth<CR>",
-        desc = "Toggle Autowidth",
+        "zR",
+        function()
+          require("ufo").openAllFolds()
+        end,
+        desc = "Open all folds",
       },
       {
-        "<C-w>z",
-        "<cmd>WindowsMaximize<CR>",
-        desc = "WindowsMaximize",
+        "zM",
+        function()
+          require("ufo").closeAllFolds()
+        end,
+        desc = "Close all folds",
       },
       {
-        "<C-w>=",
-        "<cmd>WindowsEqualize<CR>",
-        desc = "WindowsEqualize",
+        "zr",
+        function()
+          require("ufo").openFoldsExceptKinds()
+        end,
+        desc = "Open folds except kinds",
       },
       {
-        "<C-w>_",
-        "<cmd>WindowsMaximizeVertically<CR>",
-        desc = "WindowsMaximizeVertically",
+        "zm",
+        function()
+          require("ufo").closeFoldsWith()
+        end,
+        desc = "Close folds except kinds",
       },
       {
-        "<C-w>|",
-        "<cmd>WindowsMaximizeHorizontally<CR>",
-        desc = "WindowsMaximizeHorizontally",
+        "zp",
+        function()
+          require("ufo.preview"):peekFoldedLinesUnderCursor()
+        end,
+        desc = "Peek fold",
       },
     },
-  },
-  {
-    "bbjornstad/pretty-fold.nvim",
-    enabled = false,
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require("pretty-fold").setup({
-        sections = {
-          left = {
-            "content",
-          },
-          right = {
-            " ",
-            "number_of_folded_lines",
-            ": ",
-            "percentage",
-            " ",
-            function(config)
-              return config.fill_char:rep(3)
-            end,
-          },
-        },
-        fill_char = "•",
-        remove_fold_markers = true,
-        keep_indentation = true,
-        -- Possible values:
-        -- "delete" : Delete all comment signs from the fold string.
-        -- "spaces" : Replace all comment signs with equal number of spaces.
-        -- false    : Do nothing with comment signs.
-        process_comment_signs = "spaces",
-        comment_signs = {},
-        add_close_pattern = true, -- true, 'last_line' or false
-        matchup_patterns = {
-          { "{", "}" },
-          { "%(", ")" },
-          { "%[", "]" },
-        },
-        ft_ignore = { "neorg", "TelescopeResults", "ToggleTerm", "Noice", "sagaoutline", "dashboard" },
-      })
-      require("pretty-fold").ft_setup("lua", {
-        matchup_patterns = {
-          { "^%s*if", "end" },
-          { "^%s*for", "end" },
-          { "function%s*%(", "end" },
-          { "{", "}" },
-          { "%(", ")" },
-          { "%[", "]" },
-        },
-      })
-    end,
   },
   { -- keep the cursor in the middle
     "Aasim-A/scrollEOF.nvim",
@@ -190,10 +171,10 @@ return {
     config = function()
       require("scrollEOF").setup({
         pattern = "*",
-        insert_mode = true,
+        insert_mode = false,
         floating = false,
         disabled_filetypes = {},
-        disabled_modes = { "i" },
+        disabled_modes = {},
       })
     end,
   },

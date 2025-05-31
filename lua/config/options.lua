@@ -107,16 +107,6 @@ opt.winminwidth = 5
 opt.wrap = false
 opt.wrapscan = false
 
-if vim.fn.has("nvim-0.10") == 1 then
-  opt.smoothscroll = true
-  opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
-  opt.foldmethod = "expr"
-  opt.foldtext = ""
-else
-  opt.foldmethod = "indent"
-  opt.foldtext = "v:lua.require'lazyvim.util'.ui.foldtext()"
-end
-
 vim.api.nvim_create_user_command("CheckScreen", function()
   local width = vim.fn.winwidth(0)
   local height = vim.fn.winheight(0)
