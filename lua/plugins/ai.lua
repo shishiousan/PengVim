@@ -26,6 +26,12 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
+      {
+        "Davidyz/VectorCode",
+        version = "*",
+        build = "pipx upgrade vectorcode",
+        dependencies = { "nvim-lua/plenary.nvim" },
+      },
     },
     opts = {
       strategies = {
@@ -59,6 +65,7 @@ return {
             schema = {
               model = {
                 default = "claude-3.7-sonnet",
+                -- default = "gpt-4.1",
               },
             },
           })
@@ -79,7 +86,7 @@ return {
             auto_save = false,
             expiration_days = 0,
             picker = "snacks",
-            auto_generate_title = false,
+            auto_generate_title = true,
             title_generation_opts = {
               adapter = nil,
               model = nil,
@@ -88,9 +95,18 @@ return {
             ---When chat is cleared with `gx` delete the chat from history
             delete_on_clearing_chat = false,
             ---Directory path to save the chats
-            dir_to_save = "/home/shion/codecompanion-history",
+            dir_to_save = os.getenv("HOME") .. "/codecompanion-history",
             ---Enable detailed logging for history extension
             enable_logging = false,
+          },
+        },
+        vectorcode = {
+          opts = {
+            add_tool = true,
+            tool_opts = {
+              max_num = 3,
+              ls_on_start = true,
+            },
           },
         },
       },

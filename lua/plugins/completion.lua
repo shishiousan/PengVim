@@ -52,9 +52,9 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      enabled = function()
-        return not vim.tbl_contains({ "codecompanion" }, vim.bo.filetype)
-      end,
+      -- enabled = function()
+      --   return not vim.tbl_contains({ "codecompanion" }, vim.bo.filetype)
+      -- end,
       keymap = {
         preset = "enter",
         ["<Tab>"] = {
@@ -144,6 +144,7 @@ return {
           -- tex = { "snippets", "path" },
           gnuplot = { "path", "buffer", "latex_symbols" },
           quarto = { "snippets", "lsp", "path" },
+          codecompanion = { "lsp", "path", "cmdline" },
         },
         providers = {
           lsp = {

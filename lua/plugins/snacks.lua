@@ -41,6 +41,9 @@ return {
       },
       picker = {
         enabled = true,
+        main = {
+          file = false,
+        },
         layout = {
           reverse = false,
           layout = {

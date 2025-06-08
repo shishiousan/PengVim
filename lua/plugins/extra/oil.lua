@@ -1,11 +1,18 @@
 return {
   {
     "stevearc/oil.nvim",
-    opts = {},
+    lazy = false,
     dependencies = {
       "echasnovski/mini.icons",
     },
-    lazy = false,
+    opts = {
+      viewoptions = {
+        sort = {
+          { "type", "asc" },
+          { "name", "desc" },
+        },
+      },
+    },
     keys = {
       {
         "<leader>O",
