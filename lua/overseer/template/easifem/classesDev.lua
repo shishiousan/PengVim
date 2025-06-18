@@ -1,27 +1,33 @@
 return {
-  name = "classesDev",
-  builder = function()
+  name = "classes",
+  builder = function(params)
     return {
       cmd = { "easifem" },
       args = { "dev", "classes", "-q" },
       name = "devClasses",
-      cwd = vim.fn.expand("%:h"),
+      cwd = vim.fn.expand("%:h"), -- "/tmp",
       env = {},
       components = {
         "default",
-        { "on_complete_notify", statuses = { "FAILURE" }, on_change = true },
-        { "on_complete_dispose", statuses = { "SUCCESS", "FAILURE", "CANCELED" }, timeout = 30 },
-        { "on_output_quickfix", open = false, set_diagnostics = true },
-        { "on_result_diagnostics", virtual_text = true },
-        { "on_exit_set_status", success_codes = { 0 } },
-        { "on_output_parse", problem_matcher = "$gcc" },
+        {
+          "run_after",
+          task_names = {
+            {
+              cmd = "easifem",
+              args = { "install", "classes", "-q", "--no-download" },
+              name = "classesInstall",
+            },
+          },
+          detach = false,
+          statuses = { "SUCCESS" },
+        },
       },
       condition = {
         filetype = { "fortran" },
       },
     }
   end,
-  desc = "Development of easifemClasses, it only prints error messages",
+  desc = "[Dev tool for libeasifemClasses] build/install easifem's classes lib in debug mode",
   params = {},
   priority = 50,
   condition = {

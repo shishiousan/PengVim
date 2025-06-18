@@ -1,33 +1,38 @@
 return {
-  name = "baseDev",
+  name = "base",
   builder = function()
     return {
       cmd = { "easifem" },
       args = { "dev", "base", "-q" },
-      name = "devBase",
-      cwd = vim.fn.expand("%:h"),
+      name = "baseDev",
+      cwd = vim.fn.expand("%:h"), -- "/tmp",
       env = {},
       components = {
         "default",
-        { "on_complete_notify", statuses = { "FAILURE" }, on_change = true },
-        { "on_complete_dispose", statuses = { "SUCCESS", "FAILURE", "CANCELED" }, timeout = 30 },
-        { "on_output_quickfix", open = false, set_diagnostics = true },
-        { "on_result_diagnostics", virtual_text = true },
-        { "on_exit_set_status", success_codes = { 0 } },
-        { "on_output_parse", problem_matcher = "$gcc" },
-        { "restart_on_save" },
+        {
+          "run_after",
+          task_names = {
+            {
+              cmd = "easifem",
+              args = { "install", "base", "-q", "--no-download" },
+              name = "baseInstall",
+            },
+          },
+          detach = false,
+          statuses = { "SUCCESS" },
+        },
       },
       condition = {
         filetype = { "fortran" },
       },
     }
   end,
-  desc = "Development of easifemBase, it only prints error messages",
+  desc = "[Dev tool for libeasifemBase] build/install easifem's base lib in debug mode",
   params = {},
   priority = 50,
   condition = {
     filetype = { "fortran" },
-    callback = function(_)
+    callback = function(search)
       return true
     end,
   },
