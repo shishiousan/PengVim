@@ -13,6 +13,17 @@ return {
     events = { "BufWritePost", "BufReadPost", "InsertLeave" },
     config = function()
       local lint = require("lint")
+      -- pattern explanation:
+      -- %A = Start of multi-line message
+      -- %C = Continuation line
+      -- %Z = End of multi-line message
+      -- %-G = Ignore this line completely
+      -- %f = Filename
+      -- %l = Line number
+      -- %c = Column number
+      -- %t = Error type (E/W/N)
+      -- %m = Error message
+      -- %p = Pointer line (shows where error occurs with ^)
 
       lint.linters.gfortran = {
         cmd = "gfortran",
@@ -20,7 +31,7 @@ return {
         ignore_exitcode = true,
         stream = "both",
         parser = require("lint.parser").from_errorformat(
-          "%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%C%.%#,%-G%.%#",
+          "%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%Z%tote:\\ %m,%C%.%#,%-G%.%#",
           {}
         ),
       }

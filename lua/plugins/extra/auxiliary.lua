@@ -94,4 +94,43 @@ return {
     lazy = false,
     build = ":call firenvim#install(0)",
   },
+  {
+    "chrisbra/unicode.vim",
+    event = { "BufReadPre", "BufNewFile" },
+  },
+  {
+    "tomiis4/BufferTabs.nvim",
+    enabled = false,
+    -- lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("buffertabs").setup({
+        ---@type 'none'|'single'|'double'|'rounded'|'solid'|'shadow'|table
+        border = "single",
+        padding = 1,
+        icons = true,
+        modified = " ",
+        hl_group = "Keyword",
+        hl_group_inactive = "Comment",
+        show_all = false,
+        show_single_buffer = true,
+        display = "column",
+        horizontal = "right",
+        vertical = "top",
+        timeout = 0,
+        show_id = true,
+        max_buffers = 0,
+        surround_active_buffer = 0,
+      })
+    end,
+    keys = {
+      {
+        "<leader>ub",
+        "<cmd>BufferTabsToggle<cr>",
+        desc = "Toggle [b]ufferTabs",
+      },
+    },
+  },
 }

@@ -17,6 +17,7 @@ return {
         },
       })
       require("mini.icons").setup()
+      require("mini.files").setup()
     end,
   },
   {

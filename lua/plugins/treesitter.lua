@@ -8,6 +8,40 @@ return {
     end,
   },
   {
+    "aaronik/treewalker.nvim",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      highlight = false,
+      highlight_duration = 250,
+
+      highlight_group = "CursorLine",
+
+      jumplist = true,
+    },
+    keys = {
+      {
+        "<leader>tj",
+        ":Treewalker Down<CR>",
+        desc = "Go to next node",
+      },
+      {
+        "<leader>tk",
+        ":Treewalker Up<CR>",
+        desc = "Go to previous node",
+      },
+      {
+        "<leader>tl",
+        ":Treewalker Right<CR>",
+        desc = "Go to further indented node",
+      },
+      {
+        "<leader>th",
+        ":Treewalker Left<CR>",
+        desc = "Go to ancestor node",
+      },
+    },
+  },
+  {
     "nvim-treesitter/nvim-treesitter",
     event = { "BufReadPre", "BufNewFile" },
     build = ":TSUpdate",
