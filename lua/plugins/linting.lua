@@ -39,7 +39,7 @@ return {
         args = { "--config", os.getenv("HOME") .. "/.markdownlint-cli2.yaml" },
       }
       lint.linters_by_ft = {
-        fortran = { "gfortran" },
+        fortran = { "fortitude", "gfortran" },
         markdown = { "markdownlint-cli2" },
         fish = { "fish" },
       }

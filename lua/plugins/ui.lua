@@ -19,6 +19,29 @@ return {
       require("mini.icons").setup()
       require("mini.files").setup()
     end,
+    keys = {
+      {
+        "<leader>aB",
+        function()
+          vim.fn.execute("normal gsaiw}")
+        end,
+        desc = "Add {} surround word",
+      },
+      {
+        "<leader>ab",
+        function()
+          vim.fn.execute("normal gsaiw)")
+        end,
+        desc = "Add () surround word",
+      },
+      {
+        '<leader>a"',
+        function()
+          vim.fn.execute('normal gsaiw"')
+        end,
+        desc = 'Add " surround word',
+      },
+    },
   },
   {
     "norcalli/nvim-colorizer.lua",

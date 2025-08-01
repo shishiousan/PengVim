@@ -26,12 +26,12 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
-      {
-        "Davidyz/VectorCode",
-        version = "*",
-        build = "pipx upgrade vectorcode",
-        dependencies = { "nvim-lua/plenary.nvim" },
-      },
+      -- {
+      --   "Davidyz/VectorCode",
+      --   version = "*",
+      --   build = "pipx upgrade vectorcode",
+      --   dependencies = { "nvim-lua/plenary.nvim" },
+      -- },
     },
     opts = {
       strategies = {
@@ -184,7 +184,7 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
-    enabled = false,
+    enabled = true,
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
