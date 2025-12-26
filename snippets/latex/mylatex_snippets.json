@@ -16,8 +16,15 @@
     ],
     "description": "Equation Reference"
   },
+  "Eq:Ref_JP": {
+    "prefix": "erefj",
+    "body": [
+      "${1:式}~\\eqref{eq:$2} $0"
+    ],
+    "description": "Equation Reference"
+  },
   "Equation:Ref": {
-    "prefix": "eref",
+    "prefix": "Eref",
     "body": [
       "${1:Equation}~\\eqref{eq:$2} $0"
     ],

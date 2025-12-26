@@ -27,6 +27,7 @@ return {
 
       lint.linters.gfortran = {
         cmd = "gfortran",
+        -- stdin = true,
         args = require("plugins.args.fortran").linter or {},
         ignore_exitcode = true,
         stream = "both",
@@ -39,7 +40,7 @@ return {
         args = { "--config", os.getenv("HOME") .. "/.markdownlint-cli2.yaml" },
       }
       lint.linters_by_ft = {
-        fortran = { "fortitude", "gfortran" },
+        fortran = { "gfortran", "fortitude" },
         markdown = { "markdownlint-cli2" },
         fish = { "fish" },
       }

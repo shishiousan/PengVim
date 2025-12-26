@@ -1,4 +1,7 @@
 return {
+  -- NOTE: I am using Two AI assistants: neocodeium and copilot
+  -- neocodeium is used to generate auto-completion
+  -- copilot is used to do chatting
   {
     "monkoose/neocodeium",
     event = "VeryLazy",
@@ -20,18 +23,15 @@ return {
     end,
   },
   {
+    -- AI Chat utility
+    -- NOTE: codecompanion needs copilot
+    -- please execute a command "Copilot auth" to activate it
     "olimorris/codecompanion.nvim",
     -- lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
-      -- {
-      --   "Davidyz/VectorCode",
-      --   version = "*",
-      --   build = "pipx upgrade vectorcode",
-      --   dependencies = { "nvim-lua/plenary.nvim" },
-      -- },
     },
     opts = {
       strategies = {
@@ -64,8 +64,7 @@ return {
           return require("codecompanion.adapters").extend("copilot", {
             schema = {
               model = {
-                default = "claude-3.7-sonnet",
-                -- default = "gpt-4.1",
+                default = "gpt-4.1",
               },
             },
           })
@@ -100,15 +99,6 @@ return {
             enable_logging = false,
           },
         },
-        vectorcode = {
-          opts = {
-            add_tool = true,
-            tool_opts = {
-              max_num = 3,
-              ls_on_start = true,
-            },
-          },
-        },
       },
     },
     keys = {
@@ -121,6 +111,8 @@ return {
     },
   },
   {
+    -- This is native for copilot
+    -- if you prefer you can choose this as AI chat
     "CopilotC-Nvim/CopilotChat.nvim",
     enabled = false,
     branch = "main",

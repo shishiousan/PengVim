@@ -43,6 +43,7 @@ return {
         enabled = true,
         main = {
           file = false,
+          current = true,
         },
         layout = {
           reverse = false,
@@ -99,13 +100,13 @@ return {
       },
     },
     keys = {
-      {
-        "<leader><space>",
-        function()
-          Snacks.picker.smart()
-        end,
-        desc = "Smart Find Files",
-      },
+      -- {
+      --   "<leader><space>",
+      --   function()
+      --     Snacks.picker.smart()
+      --   end,
+      --   desc = "Smart Find Files",
+      -- },
       {
         "<leader>,",
         function()
@@ -142,27 +143,27 @@ return {
         end,
         desc = "File Explorer",
       },
-      {
-        "<leader>fo",
-        function()
-          vim.opt.scrolloff = 0
-          Snacks.explorer.reveal({
-            focus = "list",
-            follow_file = false,
-            on_show = function(picker)
-              picker:action("explorer_close_all")
-            end,
-          })
-        end,
-        desc = "File Explorer reveal",
-      },
-      {
-        "<leader>fb",
-        function()
-          Snacks.picker.buffers({ current = false })
-        end,
-        desc = "Buffers",
-      },
+      -- {
+      --   "<leader>fo",
+      --   function()
+      --     vim.opt.scrolloff = 0
+      --     Snacks.explorer.reveal({
+      --       focus = "list",
+      --       follow_file = false,
+      --       on_show = function(picker)
+      --         picker:action("explorer_close_all")
+      --       end,
+      --     })
+      --   end,
+      --   desc = "File Explorer reveal",
+      -- },
+      -- {
+      --   "<leader>fb",
+      --   function()
+      --     Snacks.picker.buffers({ current = false })
+      --   end,
+      --   desc = "Buffers",
+      -- },
       {
         "<leader>fc",
         function()

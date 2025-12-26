@@ -2,19 +2,25 @@ local M = {}
 
 M.lsp_cmd = {
   "fortls",
+  "--nthreads",
+  "10",
   "--lowercase_intrinsics",
-  "--source_dirs",
-  os.getenv("DROPBOX") .. "/easifem/base/src/**",
-  os.getenv("DROPBOX") .. "/easifem/classes/src/**",
-  os.getenv("DROPBOX") .. "/easifem/oneDimElasticity/src/**",
-  os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
   "--hover_signature",
   "--hover_language=fortran",
   "--use_signature_help",
   "--disable_diagnostic",
   "--incremental_sync",
   "--recursion_limit",
-  "8000",
+  "1000",
+  "--source_dirs",
+  os.getenv("DROPBOX") .. "/easifem/base/src/**",
+  os.getenv("DROPBOX") .. "/easifem/classes/src/**",
+  os.getenv("DROPBOX") .. "/easifem/oneDimElasticity/src/**",
+  os.getenv("DROPBOX") .. "/easifem/oneDimLayeredMedia/src/**",
+  os.getenv("DROPBOX") .. "/easifem/diffusionKernel/src/**",
+  os.getenv("DROPBOX") .. "/easifem/elasticityKernel/src/**",
+  os.getenv("DROPBOX") .. "/easifem/dispersionAnalysis/src/**",
+  os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
 }
 
 M.linter = {
@@ -26,14 +32,20 @@ M.linter = {
   "-Wunused-dummy-argument",
   "-Wno-c-binding-type",
   "-Wall",
-  -- "-I",
-  -- os.getenv("HOME") .. "/.easifem/lint/include/",
+  "-I",
+  os.getenv("HOME") .. "/.easifem/lint/include/",
   "-I",
   os.getenv("HOME") .. "/.easifem/install/base/include/",
   "-I",
   os.getenv("HOME") .. "/.easifem/install/classes/include/",
   "-I",
-  os.getenv("HOME") .. "/.easifem/install/kernels/include/",
+  os.getenv("HOME") .. "/.easifem/install/oneDimElasticity/include/",
+  "-I",
+  os.getenv("HOME") .. "/.easifem/install/oneDimLayeredMedia/include/",
+  "-I",
+  os.getenv("HOME") .. "/.easifem/install/elasticity/include/",
+  "-I",
+  os.getenv("HOME") .. "/.easifem/install/dispersionAnalysis/include/",
   "-I",
   os.getenv("HOME") .. "/.easifem/install/tomlf/include/toml-f/modules/",
   "-J",
@@ -41,7 +53,7 @@ M.linter = {
   "-DDEBUG_VER",
 }
 
-local _args = {
+M.formatter = {
   "--line-length",
   "78",
   "--indent",
@@ -60,15 +72,11 @@ local _args = {
   "--whitespace-print",
   "--whitespace-intrinsics",
   "--strip-comments",
-}
-
-M.formatter_sub = _args
-M.formatter = vim.list_extend({
   "--case",
   "2",
   "2",
   "2",
   "2",
-}, _args)
+}
 
 return M

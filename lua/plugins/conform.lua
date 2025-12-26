@@ -2,7 +2,7 @@ return {
   {
     "stevearc/conform.nvim",
     dependencies = { "mason.nvim" },
-    lazy = true,
+    lazy = false,
     cmd = "ConformInfo",
     keys = {
       {
@@ -22,89 +22,90 @@ return {
         desc = "Format Current buffer",
       },
     },
-    opts = function()
-      local opts = {
-        default_format_opts = {
-          timeout_ms = 5000,
-          async = false, -- not recommended to change
-          quiet = false, -- not recommended to change
-          lsp_format = "fallback",
-        },
-        formatters_by_ft = {
-          lua = { "stylua" },
-          fish = { "fish_indent" },
-          sh = { "shfmt" },
-          toml = { "taplo" },
-          typst = { "typstyle" },
-          fortran = { "fprettify", "myfmt", stop_after_first = true },
-          go = { "goimports" },
-          tex = { "latexindent" },
-          markdown = { "dprint", "markdownlint-cli2", "injected" },
-          cmake = { "cmake_format" },
-          json = { "jq", "dprint", stop_after_first = true },
-          julia = { lsp_format = "fallback" },
-          quarto = { "markdownlint-cli2", "injected" },
-        },
-        ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
-        formatters = {
-          injected = {
-            options = {
-              ignore_errors = false,
-              lang_to_ext = {
-                bash = "sh",
-                julia = "jl",
-                latex = "tex",
-                markdown = "md",
-                python = "py",
-                rust = "rs",
-                lua = "lua",
-              },
-              lang_to_formatters = {},
+    opts = {
+      default_format_opts = {
+        timeout_ms = 5000,
+        async = false, -- not recommended to change
+        quiet = false, -- not recommended to change
+        lsp_format = "fallback",
+      },
+      formatters_by_ft = {
+        lua = { "stylua" },
+        fish = { "fish_indent" },
+        sh = { "shfmt" },
+        toml = { "taplo" },
+        typst = { "typstyle" },
+        fortran = { "fprettify" },
+        go = { "goimports" },
+        tex = { "latexindent" },
+        markdown = { "dprint", "markdownlint-cli2", "injected" },
+        cmake = { "gersemi" },
+        json = { "jq", "dprint", stop_after_first = true },
+        julia = { lsp_format = "fallback" },
+        quarto = { "markdownlint-cli2", "injected" },
+      },
+      ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
+      formatters = {
+        injected = {
+          options = {
+            ignore_errors = false,
+            lang_to_ext = {
+              bash = "sh",
+              julia = "jl",
+              latex = "tex",
+              markdown = "md",
+              python = "py",
+              rust = "rs",
+              lua = "lua",
             },
-          },
-          fprettify = {
-            args = require("plugins.args.fortran").formatter or {},
-          },
-          myfmt = {
-            command = "fprettify",
-            args = require("plugins.args.fortran").formatter_sub or {},
-            condition = function()
-              return vim.g.use_myfmt
-            end,
-          },
-          taplo = {
-            args = {
-              "format",
-              "--option",
-              "array_auto_collapse=false",
-              "-",
-            },
-          },
-          typstyle = {
-            command = "typstyle",
-            stdin = true,
-            -- args = { "--column", "50" },
-          },
-          latexindent = {
-            command = "latexindent",
-            stdin = true,
-            args = { "-" },
-          },
-          mdformat = {
-            command = "mdformat",
-            args = { "-" },
-          },
-          cmake_format = {
-            command = "cmake-format",
-            args = { "-" },
-          },
-          stylua = {
-            command = "stylua",
-            args = { "--search-parent-directories", "--stdin-filepath", "$FILENAME", "-" },
+            lang_to_formatters = {},
           },
         },
-      }
-      return opts
-    end,
+        fprettify = {
+          stdin = true,
+          args = require("plugins.args.fortran").formatter or {},
+        },
+        taplo = {
+          args = {
+            "format",
+            "--option",
+            "array_auto_collapse=false",
+            "-",
+          },
+        },
+        typstyle = {
+          command = "typstyle",
+          stdin = true,
+          -- args = { "--column", "50" },
+        },
+        latexindent = {
+          command = "latexindent",
+          stdin = true,
+          args = { "-" },
+        },
+        mdformat = {
+          command = "mdformat",
+          args = { "-" },
+        },
+        -- cmake_format = {
+        --   command = "cmake-format",
+        --   args = {
+        --     "-",
+        --     "--line-width",
+        --     "120",
+        --     "--enable-sort",
+        --     "false",
+        --     "--keyword-case",
+        --     "unchanged",
+        --     "--command-case",
+        --     "unchanged",
+        --   },
+        -- },
+        stylua = {
+          command = "stylua",
+          args = { "--search-parent-directories", "--stdin-filepath", "$FILENAME", "-" },
+        },
+      },
+    },
   },
 }
