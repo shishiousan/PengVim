@@ -17,7 +17,7 @@ return {
         },
       })
       require("mini.icons").setup()
-      require("mini.files").setup()
+      -- require("mini.files").setup()
     end,
     keys = {
       {

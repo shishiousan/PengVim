@@ -86,6 +86,17 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("set_errorformat"),
+  pattern = { "fortran" },
+  callback = function()
+    vim.cmd(
+      [[ set efm=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\ %m,%Z%tarning:\ %m,%Z%tote:\ %m,%C%.%#,%-G%.%# ]]
+      -- set errorformat=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%Z%tote:\\ %m,%C%.%#,%-G%.%#
+    )
+  end,
+})
+
 vim.api.nvim_create_autocmd("BufEnter", {
   group = augroup("disable_virtual_text"),
   pattern = { "*" },

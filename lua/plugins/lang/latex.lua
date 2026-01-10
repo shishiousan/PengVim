@@ -101,7 +101,7 @@ return {
       })
       vim.g.vimtex_mappings_disable = { ["n"] = { "K" } }
       vim.g.vimtex_quickfix_method = vim.fn.executable("pplatex") == 1 and "pplatex" or "latexlog"
-      vim.g.vimtex_view_method = "sioyek"
+      vim.g.vimtex_view_method = "zathura"
       vim.g.vimtex_quickfix_mode = 0
 
       vim.g.vimtex_log_ignore = {
@@ -111,7 +111,16 @@ return {
         "Token not allowed in a PDF string",
       }
 
-      vim.g.vimtex_context_pdf_viewer = "sioyek"
+      vim.g.vimtex_compiler_latexmk = {
+        options = {
+          "-pdf",
+          "-file-line-error",
+          "-interaction=nonstopmode",
+          "-synctex=1", -- REMOVE this line to disable synctex
+        },
+      }
+
+      vim.g.vimtex_context_pdf_viewer = "zathura"
       vim.g.vimtex_complete_enabled = 1
       vim.g.vimtex_complete_bib = {
         simple = 1,

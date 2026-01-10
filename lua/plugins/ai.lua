@@ -1,7 +1,23 @@
 return {
-  -- NOTE: I am using Two AI assistants: neocodeium and copilot
-  -- neocodeium is used to generate auto-completion
-  -- copilot is used to do chatting
+  -- NOTE: my codecompanion setup needs copilot
+  -- please execute a command "Copilot auth" to activate it
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    config = function()
+      require("copilot").setup({
+        panel = {
+          enabled = false,
+        },
+        suggestion = {
+          enabled = false,
+        },
+        nes = {
+          enabled = false,
+        },
+      })
+    end,
+  },
   {
     "monkoose/neocodeium",
     event = "VeryLazy",
@@ -23,11 +39,8 @@ return {
     end,
   },
   {
-    -- AI Chat utility
-    -- NOTE: codecompanion needs copilot
-    -- please execute a command "Copilot auth" to activate it
     "olimorris/codecompanion.nvim",
-    -- lazy = false,
+    enabled = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -64,7 +77,7 @@ return {
           return require("codecompanion.adapters").extend("copilot", {
             schema = {
               model = {
-                default = "gpt-4.1",
+                default = "claude-sonnet-4.5",
               },
             },
           })
@@ -109,111 +122,5 @@ return {
         silent = true,
       },
     },
-  },
-  {
-    -- This is native for copilot
-    -- if you prefer you can choose this as AI chat
-    "CopilotC-Nvim/CopilotChat.nvim",
-    enabled = false,
-    branch = "main",
-    cmd = "CopilotChat",
-    opts = function()
-      local user = vim.env.USER or "User"
-      user = user:sub(1, 1):upper() .. user:sub(2)
-      return {
-        auto_insert_mode = true,
-        question_header = "  " .. user .. " ",
-        answer_header = "  Copilot ",
-        window = {
-          width = 0.4,
-        },
-      }
-    end,
-    keys = {
-      { "<c-s>", "<CR>", ft = "copilot-chat", desc = "Submit Prompt", remap = true },
-      { "<leader>a", "", desc = "+ai", mode = { "n", "v" } },
-      {
-        "<leader>aa",
-        function()
-          return require("CopilotChat").toggle()
-        end,
-        desc = "Toggle (CopilotChat)",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>ax",
-        function()
-          return require("CopilotChat").reset()
-        end,
-        desc = "Clear (CopilotChat)",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>aq",
-        function()
-          local input = vim.fn.input("Quick Chat: ")
-          if input ~= "" then
-            require("CopilotChat").ask(input)
-          end
-        end,
-        desc = "Quick Chat (CopilotChat)",
-        mode = { "n", "v" },
-      },
-    },
-    config = function(_, opts)
-      local chat = require("CopilotChat")
-
-      vim.api.nvim_create_autocmd("BufEnter", {
-        pattern = "copilot-chat",
-        callback = function()
-          vim.opt_local.relativenumber = false
-          vim.opt_local.number = false
-        end,
-      })
-
-      chat.setup(opts)
-    end,
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    enabled = true,
-    cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({
-        panel = {
-          enabled = false,
-          auto_refresh = false,
-          keymap = {
-            jump_prev = "[[",
-            jump_next = "]]",
-            accept = "<CR>",
-            refresh = "gr",
-            open = "<M-CR>",
-          },
-          layout = {
-            position = "bottom", -- | top | left | right
-            ratio = 0.4,
-          },
-        },
-        suggestion = {
-          enabled = false,
-          auto_trigger = false,
-          hide_during_completion = true,
-          debounce = 75,
-          keymap = {
-            accept = "<M-l>",
-            accept_word = false,
-            accept_line = false,
-            next = "<M-]>",
-            prev = "<M-[>",
-            dismiss = "<C-]>",
-          },
-        },
-        filetypes = {
-          ["*"] = false,
-        },
-      })
-    end,
   },
 }

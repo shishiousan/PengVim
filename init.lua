@@ -61,6 +61,7 @@ require("lazy").setup({
 require("config.options")
 require("config.keymaps")
 require("config.autocmds")
+require("config.quickfix")
 require("config.redir")
 
 if vim.bo.filetype == "lazy" then
