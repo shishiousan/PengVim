@@ -18,6 +18,7 @@ require("lazy").setup({
     { import = "plugins.coding" },
     { import = "plugins.ui" },
     { import = "plugins.lang" },
+    -- { import = "plugins.playground" },
   },
   defaults = {
     lazy = true,

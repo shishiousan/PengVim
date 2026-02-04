@@ -6,3 +6,4 @@ spell/*
 
 snippets/fortran/easifem-*.json
 
+lua/plugins/playground/*
