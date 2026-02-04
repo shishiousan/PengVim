@@ -55,7 +55,6 @@ require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 require("config.quickfix")
-require("config.redir")
 
 if vim.bo.filetype == "lazy" then
   vim.cmd([[do VimResized]])
