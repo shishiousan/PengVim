@@ -9,9 +9,6 @@ g.currentCSNum = 1
 g.CSLists = {
   "nightfly",
   "moonfly",
-  "nightfall",
-  "flow",
-  "zenbones",
 }
 g.CSListsLen = #vim.g.CSLists
 

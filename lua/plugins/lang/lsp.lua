@@ -37,11 +37,15 @@ return {
       if opts.servers ~= nil then
         for name, settings in pairs(opts.servers) do
           servers[name] = vim.tbl_deep_extend("force", servers[name] or {}, settings)
+          if settings.ensure_installed == nil or settings.ensure_installed then
+            vim.list_extend(ensure_installed_extra, { name })
+          end
         end
       end
 
       require("mason-tool-installer").setup({
-        ensure_installed = vim.list_extend(vim.tbl_keys(servers), ensure_installed_extra),
+        enusre_installed = ensure_installed_extra,
+        -- ensure_installed = vim.list_extend(vim.tbl_keys(servers), ensure_installed_extra),
       })
 
       local lsp_flags = {

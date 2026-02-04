@@ -6,6 +6,18 @@ return {
         fortls = {
           cmd = require("plugins.args.fortran").lsp_cmd or {},
         },
+        fortitude = {
+          ensure_installed = false,
+          cmd = { "fortitude", "server" },
+          filetypes = { "fortran" },
+          init_options = {
+            settings = {
+              check = {
+                ignore = { "C002", "C003", "MOD021" },
+              },
+            },
+          },
+        },
       },
       extra = {
         fprettify = {

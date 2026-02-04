@@ -1,16 +1,5 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "diff",
-        "gitcommit",
-        "gitignore",
-        "git_config",
-      },
-    },
-  },
-  {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
@@ -55,15 +44,6 @@ return {
     end,
     keys = {
       { "<leader>gi", "<cmd>Gitsigns<cr>", desc = "Init Gitsigns" },
-    },
-  },
-  {
-    "sindrets/diffview.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    keys = {
-      { "<leader>gdc", "<cmd>DiffviewClose<CR>", desc = "Diff view close" },
-      { "<leader>gdt", "<cmd>DiffviewToggleFiles<CR>", desc = "File panel toggle" },
-      { "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diff view open" },
     },
   },
 }

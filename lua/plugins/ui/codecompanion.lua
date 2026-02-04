@@ -1,50 +1,30 @@
 return {
-  -- NOTE: my codecompanion setup needs copilot
-  -- please execute a command "Copilot auth" to activate it
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    config = function()
-      require("copilot").setup({
-        panel = {
-          enabled = false,
-        },
-        suggestion = {
-          enabled = false,
-        },
-        nes = {
-          enabled = false,
-        },
-      })
-    end,
-  },
-  {
-    "monkoose/neocodeium",
-    event = "VeryLazy",
-    config = function()
-      local neocodeium = require("neocodeium")
-      neocodeium.setup({
-        filetypes = {
-          snacks_picker_input = false,
-        },
-      })
-      vim.keymap.set("i", "<A-f>", neocodeium.accept)
-      vim.keymap.set("i", "<A-w>", neocodeium.accept_word)
-      vim.keymap.set("i", "<A-a>", neocodeium.accept_line)
-      vim.keymap.set("i", "<A-e>", neocodeium.cycle_or_complete)
-      vim.keymap.set("i", "<A-r>", function()
-        neocodeium.cycle_or_complete(-1)
-      end)
-      vim.keymap.set("i", "<A-c>", neocodeium.clear)
-    end,
-  },
   {
     "olimorris/codecompanion.nvim",
+    -- NOTE: my codecompanion setup needs copilot
+    -- please execute a command "Copilot auth" to activate it
     enabled = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "ravitemer/codecompanion-history.nvim",
+      {
+        "zbirenbaum/copilot.lua",
+        cmd = "Copilot",
+        config = function()
+          require("copilot").setup({
+            panel = {
+              enabled = false,
+            },
+            suggestion = {
+              enabled = false,
+            },
+            nes = {
+              enabled = false,
+            },
+          })
+        end,
+      },
     },
     opts = {
       strategies = {

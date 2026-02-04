@@ -54,6 +54,13 @@ return {
         "json",
         "vim",
         "vimdoc",
+        "bash",
+        "fish",
+        "tmux",
+        "diff",
+        "gitcommit",
+        "gitignore",
+        "git_config",
       },
       auto_install = false,
       indent = {

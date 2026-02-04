@@ -12,20 +12,12 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- if vim.g.started_by_firenvim == true then
---   vim.o.laststatus = 0
---   return
--- end
-
 require("lazy").setup({
   spec = {
-    { import = "plugins" },
+    { import = "plugins.editor" },
+    { import = "plugins.coding" },
+    { import = "plugins.ui" },
     { import = "plugins.lang" },
-    { import = "plugins.extra.csv" },
-    { import = "plugins.extra.japanese" },
-    { import = "plugins.extra.yazi" },
-    { import = "plugins.extra.oil" },
-    { import = "plugins.extra.auxiliary" },
   },
   defaults = {
     lazy = true,

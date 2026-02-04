@@ -17,6 +17,7 @@ return {
         },
       })
       require("mini.icons").setup()
+      MiniIcons.mock_nvim_web_devicons()
       -- require("mini.files").setup()
     end,
     keys = {
@@ -41,27 +42,6 @@ return {
         end,
         desc = 'Add " surround word',
       },
-    },
-  },
-  {
-    "norcalli/nvim-colorizer.lua",
-    lazy = true,
-    config = function()
-      require("colorizer").setup({})
-    end,
-    keys = {
-      {
-        "<leader>uH",
-        "<cmd>ColorizerToggle<CR>",
-        desc = "Colorizer Toggle",
-      },
-    },
-  },
-  {
-    "OXY2DEV/helpview.nvim",
-    ft = "help",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
     },
   },
 }
