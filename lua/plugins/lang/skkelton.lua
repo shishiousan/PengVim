@@ -6,7 +6,7 @@ return {
     },
     config = function()
       vim.cmd([[ call skkeleton#config({
-        \ 'globalDictionaries': ['~/.skkdict/SKK-JISYO.L'],
+        \ 'globalDictionaries': ['~/.skkdict/SKK-JISYO.L','~/.local/share/fcitx5-cskk/user.dict'],
         \ 'eggLikeNewline': v:true,
         \ })]])
       vim.cmd([[ call skkeleton#register_kanatable('rom', {
