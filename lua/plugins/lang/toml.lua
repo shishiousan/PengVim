@@ -3,9 +3,10 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        taplo = {
-          cmd = { "taplo", "lsp", "stdio" },
-        },
+        tombi = {},
+        -- taplo = {
+        --   cmd = { "taplo", "lsp", "stdio" },
+        -- },
       },
     },
   },

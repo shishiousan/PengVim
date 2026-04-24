@@ -38,11 +38,11 @@ return {
         fortran = { "fprettify" },
         go = { "goimports" },
         tex = { "latexindent" },
-        markdown = { "dprint", "markdownlint-cli2", "injected" },
+        markdown = { "rumdl", "injected" },
         cmake = { "gersemi" },
         json = { "jq", "dprint", stop_after_first = true },
         julia = { lsp_format = "fallback" },
-        quarto = { "markdownlint-cli2", "injected" },
+        quarto = { "rumdl", "injected" },
       },
       ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
       formatters = {

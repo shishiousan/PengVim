@@ -7,12 +7,16 @@ return {
           filetypes = { "markdown", "quarto" },
           root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
         },
+        harper_ls = {},
       },
       extra = {
         ["markdownlint-cli2"] = {
           ensure_installed = true,
         },
         mdformat = {
+          ensure_installed = true,
+        },
+        rumdl = {
           ensure_installed = true,
         },
       },
