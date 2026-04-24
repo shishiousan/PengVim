@@ -23,6 +23,7 @@
  "pointer"
  "type"
  "value"
+ (end_type_statement)
  ] @type
 
 [
@@ -46,7 +47,6 @@
  ] @keyword.function
 
 [
-  "end"
   "module"
   "endmodule"
   "submodule"
@@ -80,6 +80,13 @@
   "endenum"
   (default)
   (procedure_qualifier)
+  (end_module_procedure_statement) 
+  (end_submodule_statement) 
+  (end_module_statement) 
+  (end_subroutine_statement) 
+  (end_interface_statement) 
+  (end_function_statement) 
+  (end_do_loop_statement) 
 ] @keyword
 
 "return" @keyword.return
@@ -180,37 +187,29 @@
 (derived_type_member_expression
   (type_member) @property)
 
-; (end_module_procedure_statement) @keyword
-; (end_submodule_statement) @keyword
-; (end_module_statement) @keyword
-; (end_subroutine_statement) @keyword
-; (end_interface_statement) @keyword
-; (end_function_statement) @keyword
-; (end_do_loop_statement) @keyword
-
 (parameters
-  (identifier) @parameter)
+  (identifier) @namespace)
 
 (program_statement
-  (name) @parameter)
+  (name) @namespace)
 
 (module_statement
-  (name) @parameter)
+  (name) @namespace)
 
 (submodule_statement
-  (module_name) (name) @parameter)
+  (module_name) (name) @namespace)
 
 (end_program_statement
-  (name) @parameter)
+  (name) @namespace)
 
 (end_module_statement
-  (name) @parameter)
+  (name) @namespace)
 
 (end_submodule_statement
-  (name) @parameter)
+  (name) @namespace)
 
 (end_interface_statement
-  (name) @parameter)
+  (name) @namespace)
 
 (end_type_statement
-  (name) @parameter)
+  (name) @namespace)
