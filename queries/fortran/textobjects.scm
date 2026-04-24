@@ -100,10 +100,10 @@
    (end_module_procedure_statement))
    (#make-range! "function.inner" @_start @_end))
 
-(do_loop_statement) @loop.outer
+(do_loop) @loop.outer
 
-((do_loop_statement
-  (_)
+((do_loop
+  (do_statement)
   . 
   (_) @_start
   (_)? @_end

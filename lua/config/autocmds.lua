@@ -15,6 +15,13 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
+  callback = function(ctx)
+    pcall(vim.treesitter.start)
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
   pattern = { "qf", "help", "checkhealth" },
   desc = "q to close quickfix and so on",
   callback = function()
@@ -193,3 +200,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
   end,
 })
+
+if vim.env.TMUX then
+  local group = vim.api.nvim_create_augroup("tmux_something", { clear = true })
+  vim.api.nvim_create_autocmd({ "VimResume", "VimEnter" }, {
+    group = group,
+    callback = function()
+      vim.fn.system({ "tmux", "set", "status", "off" })
+    end,
+  })
+  vim.api.nvim_create_autocmd({ "VimLeave", "VimSuspend" }, {
+    group = group,
+    callback = function()
+      vim.fn.system({ "tmux", "set", "status", "on" })
+    end,
+  })
+end

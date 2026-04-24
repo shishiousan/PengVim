@@ -46,6 +46,7 @@
  ] @keyword.function
 
 [
+  "end"
   "module"
   "endmodule"
   "submodule"
@@ -151,26 +152,6 @@
  "%"
  ] @punctuation.delimiter
 
-(parameters
-  (identifier) @parameter)
-
-(program_statement
-  (name) @namespace)
-
-(module_statement
-  (name) @namespace)
-
-(submodule_statement
-  (module_name) (name) @namespace)
-
-(end_program_statement
-  (name) @namespace)
-
-(end_module_statement
-  (name) @namespace)
-
-(end_submodule_statement
-  (name) @namespace)
 
 (function_statement
   (name) @function)
@@ -199,3 +180,37 @@
 (derived_type_member_expression
   (type_member) @property)
 
+; (end_module_procedure_statement) @keyword
+; (end_submodule_statement) @keyword
+; (end_module_statement) @keyword
+; (end_subroutine_statement) @keyword
+; (end_interface_statement) @keyword
+; (end_function_statement) @keyword
+; (end_do_loop_statement) @keyword
+
+(parameters
+  (identifier) @parameter)
+
+(program_statement
+  (name) @parameter)
+
+(module_statement
+  (name) @parameter)
+
+(submodule_statement
+  (module_name) (name) @parameter)
+
+(end_program_statement
+  (name) @parameter)
+
+(end_module_statement
+  (name) @parameter)
+
+(end_submodule_statement
+  (name) @parameter)
+
+(end_interface_statement
+  (name) @parameter)
+
+(end_type_statement
+  (name) @parameter)
