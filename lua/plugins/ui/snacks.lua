@@ -100,26 +100,12 @@ return {
       },
     },
     keys = {
-      -- {
-      --   "<leader><space>",
-      --   function()
-      --     Snacks.picker.smart()
-      --   end,
-      --   desc = "Smart Find Files",
-      -- },
       {
         "<leader>,",
         function()
           Snacks.picker.buffers({ current = false })
         end,
         desc = "Buffers",
-      },
-      {
-        "<leader>/",
-        function()
-          Snacks.picker.grep()
-        end,
-        desc = "Grep",
       },
       {
         "<leader>:",
@@ -135,65 +121,6 @@ return {
         end,
         desc = "Notification History",
       },
-      {
-        "<leader>e",
-        function()
-          vim.opt.scrolloff = 0
-          Snacks.explorer({ focus = "list" })
-        end,
-        desc = "File Explorer",
-      },
-      -- {
-      --   "<leader>fo",
-      --   function()
-      --     vim.opt.scrolloff = 0
-      --     Snacks.explorer.reveal({
-      --       focus = "list",
-      --       follow_file = false,
-      --       on_show = function(picker)
-      --         picker:action("explorer_close_all")
-      --       end,
-      --     })
-      --   end,
-      --   desc = "File Explorer reveal",
-      -- },
-      -- {
-      --   "<leader>fb",
-      --   function()
-      --     Snacks.picker.buffers({ current = false })
-      --   end,
-      --   desc = "Buffers",
-      -- },
-      {
-        "<leader>fc",
-        function()
-          Snacks.picker.files({
-            cwd = vim.fn.stdpath("config"),
-          })
-        end,
-        desc = "Find Config File",
-      },
-      {
-        "<leader>ff",
-        function()
-          Snacks.picker.files()
-        end,
-        desc = "Find Files",
-      },
-      {
-        "<leader>fg",
-        function()
-          Snacks.picker.git_files()
-        end,
-        desc = "Find Git Files",
-      },
-      -- {
-      --   "<leader>fp",
-      --   function()
-      --     Snacks.picker.projects()
-      --   end,
-      --   desc = "Projects",
-      -- },
       {
         "<leader>fr",
         function()
@@ -242,13 +169,6 @@ return {
           Snacks.picker.grep_buffers()
         end,
         desc = "Grep Open Buffers",
-      },
-      {
-        "<leader>sg",
-        function()
-          Snacks.picker.grep()
-        end,
-        desc = "Grep",
       },
       {
         "<leader>sw",
@@ -469,6 +389,87 @@ return {
         end,
         desc = "Delete Other Buffers",
       },
+      -- NOTE: Disabled keymaps
+      -- {
+      --   "<leader><space>",
+      --   function()
+      --     Snacks.picker.smart()
+      --   end,
+      --   desc = "Smart Find Files",
+      -- },
+      -- {
+      --   "<leader>/",
+      --   function()
+      --     Snacks.picker.grep()
+      --   end,
+      --   desc = "Grep",
+      -- },
+      -- {
+      --   "<leader>e",
+      --   function()
+      --     vim.opt.scrolloff = 0
+      --     Snacks.explorer({ focus = "list" })
+      --   end,
+      --   desc = "File Explorer",
+      -- },
+      -- {
+      --   "<leader>fo",
+      --   function()
+      --     vim.opt.scrolloff = 0
+      --     Snacks.explorer.reveal({
+      --       focus = "list",
+      --       follow_file = false,
+      --       on_show = function(picker)
+      --         picker:action("explorer_close_all")
+      --       end,
+      --     })
+      --   end,
+      --   desc = "File Explorer reveal",
+      -- },
+      -- {
+      --   "<leader>fb",
+      --   function()
+      --     Snacks.picker.buffers({ current = false })
+      --   end,
+      --   desc = "Buffers",
+      -- },
+      -- {
+      --   "<leader>fc",
+      --   function()
+      --     Snacks.picker.files({
+      --       cwd = vim.fn.stdpath("config"),
+      --     })
+      --   end,
+      --   desc = "Find Config File",
+      -- },
+      -- {
+      --   "<leader>ff",
+      --   function()
+      --     Snacks.picker.files()
+      --   end,
+      --   desc = "Find Files",
+      -- },
+      -- {
+      --   "<leader>fg",
+      --   function()
+      --     Snacks.picker.git_files()
+      --   end,
+      --   desc = "Find Git Files",
+      -- },
+      -- {
+      --   "<leader>fp",
+      --   function()
+      --     Snacks.picker.projects()
+      --   end,
+      --   desc = "Projects",
+      -- },
+      -- {
+      --   "<leader>sg",
+      --   function()
+      --     Snacks.picker.grep()
+      --   end,
+      --   desc = "Grep",
+      -- },
     },
   },
 }

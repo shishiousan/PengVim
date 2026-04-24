@@ -49,7 +49,7 @@ return {
       hl = {
         border = "FloatBorder",
         normal = "Normal",
-        cursor = "CursorLine",
+        cursor = "Visual",
         matched = "IncSearch",
         title = "Title",
         prompt = "Question",
@@ -75,19 +75,42 @@ return {
       {
         "<leader><leader>",
         function()
-          -- require("fff").find_files()
-          require("fff").find_in_git_root()
+          require("fff").find_files()
         end,
         desc = "FFFind files",
       },
       {
-        "<leader>fo",
+        "<leader>ff",
         function()
-          -- require("fff").scan_files()
+          require("fff").find_files()
+        end,
+        desc = "FFFind files",
+      },
+      {
+        "<leader>fO",
+        function()
           local dir = vim.fn.expand("%:p:h")
           require("fff").find_files_in_dir(dir)
         end,
         desc = "FFFind reveal",
+      },
+      {
+        "<leader>sg",
+        function()
+          require("fff").live_grep()
+        end,
+        desc = "FFFind live grep",
+      },
+      {
+        "<leader>zz",
+        function()
+          require("fff").live_grep({
+            grep = {
+              modes = { "fuzzy", "plain" },
+            },
+          })
+        end,
+        desc = "FFFind live fuzzy grep",
       },
     },
   },
