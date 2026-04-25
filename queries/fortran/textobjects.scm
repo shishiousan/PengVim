@@ -1,202 +1,155 @@
-(derived_type_definition) @class.outer
+; Author: Shion Shimizu 
+; update: 2026-04-25
 
-((derived_type_definition
-  (derived_type_statement)
-  .
-  (_) @_start
-  (_)? @_end
-  . 
-  [
-  (derived_type_procedures)
-  (end_type_statement)
-  ]) 
-  (#make-range! "class.inner" @_start @_end))
-
-((derived_type_procedures
-  (contains_statement)
-  .
-  (_) @_start
-  (_)? @_end
-  . 
-  )
-  (#make-range! "class.inner" @_start @_end))
-
-(program) @class.outer
+; class objects
 
 ((program
   (program_statement)
   .
-  (_) @_start
-  (_)? @_end
+  (_)+ @class.inner
   . 
-  (end_program_statement)) 
-  (#make-range! "class.inner" @_start @_end)) 
+  (end_program_statement))) @class.outer
 
-(module) @class.outer
+((derived_type_definition
+  (derived_type_statement)
+  .
+  (_)+ @class.inner
+  . 
+  [
+  (derived_type_procedures)
+  (end_type_statement)
+  ])) @class.outer
+
+((derived_type_procedures
+  (contains_statement)
+  .
+  (_)+ @class.inner
+  . 
+  ))
 
 ((module
   (module_statement)
   .
-  (_) @_start
-  (_)? @_end
+  (_)+ @class.inner
   . 
-  (end_module_statement)) 
-  (#make-range! "class.inner" @_start @_end)) 
-
-(module) @class.outer
-
-(submodule) @class.outer
+  (end_module_statement))) @class.outer
 
 ((submodule
   (submodule_statement)
   .
-  (_) @_start
-  (_)? @_end
+  (_)+ @class.inner
   . 
-  (end_submodule_statement)) 
-  (#make-range! "class.inner" @_start @_end)) 
-
-(interface) @class.outer
+  (end_submodule_statement))) @class.outer
 
 ((interface
   (interface_statement)
   .
-  (_) @_start
-  (_)? @_end
+  (_)+ @class.inner
   . 
-  (end_interface_statement)) 
-  (#make-range! "class.inner" @_start @_end)) 
+  (end_interface_statement))) @class.outer
 
-(function) @function.outer
+; function objects
 
 ((function
   (function_statement)
   .
-  (_) @_start
-  (_)? @_end 
+  (_)+ @function.inner
   .
-  (end_function_statement))
-  (#make-range! "function.inner" @_start @_end))
-
-(subroutine) @function.outer
+  (end_function_statement))) @function.outer
 
 ((subroutine
    (subroutine_statement)
    .
-   (_) @_start
-   (_)? @_end
+   (_)+ @function.inner
    .
-   (end_subroutine_statement))
-   (#make-range! "function.inner" @_start @_end))
+   (end_subroutine_statement))) @function.outer
   
-(module_procedure) @function.outer
-
 ((module_procedure
    (module_procedure_statement)
    .
-   (_) @_start
-   (_)? @_end
+   (_)+ @function.inner
    .
-   (end_module_procedure_statement))
-   (#make-range! "function.inner" @_start @_end))
+   (end_module_procedure_statement))) @function.outer
 
-(do_loop) @loop.outer
+; loop objects
 
 ((do_loop
   (do_statement)
   . 
-  (_) @_start
-  (_)? @_end
+  (_)+ @loop.inner
   .
-  (end_do_loop_statement))
-  (#make-range! "loop.inner" @_start @_end))
+  (end_do_loop_statement))) @loop.outer
+
+; conditional objects
 
 (if_statement) @conditional.outer
-
-; NOTE: this does not work when the inner has only one line
 
 ((if_statement
    (parenthesized_expression)
    . 
-   (_) @_start
-   (_)? @_end
+   (_)+ @conditional.inner
    .
    [
     (elseif_clause)
     (else_clause)
     (end_if_statement)
-   ])
-   (#make-range! "conditional.inner" @_start @_end))
+   ]))
 
 ((elseif_clause 
   (parenthesized_expression)
   . 
-  (_) @_start
-  (_)? @_end 
+  (_)+ @conditional.inner
   .
-  )
-  (#make-range! "conditional.inner" @_start @_end))
+  ))
 
 ((else_clause 
   . 
-  (_) @_start
-  (_)? @_end 
+  (_)+ @conditional.inner
   .
-  )
-  (#make-range! "conditional.inner" @_start @_end))
+  ))
 
 (select_case_statement) @conditional.outer
 
 (select_case_statement
    (selector)
    . 
-   (_) @_start 
-   (_)? @_end
+   (_)+ @conditional.inner
    .
    [
    (end_select_statement)
    (case_statement)
-   ]
-   (#make-range! "conditional.inner" @_start @_end))
+   ]) @conditional.outer
 
 ((case_statement 
   (_)
   . 
-  (_) @_start
-  (_)? @_end 
+  (_)+ @conditional.inner
   .
-  )
-  (#make-range! "conditional.inner" @_start @_end))
+  ))
 
 (select_type_statement) @conditional.outer
 
 (select_type_statement
    (selector)
    . 
-   (_) @_start 
-   (_)? @_end
+   (_)+ @conditional.inner
    .
    [
    (end_select_statement)
    (type_statement)
-   ]
-   (#make-range! "conditional.inner" @_start @_end))
+   ]) @conditional.outer
 
 ((type_statement 
   (_)
   . 
-  (_) @_start
-  (_)? @_end 
+  (_)+ @conditional.inner
   .
-  )
-  (#make-range! "conditional.inner" @_start @_end))
+  ))
 
-(block_construct) @block.outer
+; block objects
 
 ((block_construct
    .
-   (_) @_start
-   (_)? @_end
+   (_)+ @block.inner
    .
-   (end_block_construct_statement))
-   (#make-range! "block.inner" @_start @_end))
+   (end_block_construct_statement))) @block.outer
