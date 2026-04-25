@@ -104,31 +104,31 @@ return {
       local function next_start(modes, keys, object)
         vim.keymap.set(modes, keys, function()
           require("nvim-treesitter-textobjects.move").goto_next_start(object, "textobjects")
-        end)
+        end, { desc = object })
       end
 
       local function next_end(modes, keys, object)
         vim.keymap.set(modes, keys, function()
           require("nvim-treesitter-textobjects.move").goto_next_end(object, "textobjects")
-        end)
+        end, { desc = object })
       end
 
       local function previous_start(modes, keys, object)
         vim.keymap.set(modes, keys, function()
           require("nvim-treesitter-textobjects.move").goto_previous_start(object, "textobjects")
-        end)
+        end, { desc = object })
       end
 
       local function previous_end(modes, keys, object)
         vim.keymap.set(modes, keys, function()
           require("nvim-treesitter-textobjects.move").goto_pervious_end(object, "textobjects")
-        end)
+        end, { desc = object })
       end
 
       local function select(modes, keys, object)
         vim.keymap.set(modes, keys, function()
           require("nvim-treesitter-textobjects.select").select_textobject(object, "textobjects")
-        end)
+        end, { desc = object })
       end
 
       local modes = { "n", "x", "o" }
