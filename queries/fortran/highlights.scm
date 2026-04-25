@@ -87,6 +87,9 @@
   (end_interface_statement) 
   (end_function_statement) 
   (end_do_loop_statement) 
+  (end_if_statement)
+  (end_select_statement)
+  (end_program_statement)
 ] @keyword
 
 "return" @keyword.return
