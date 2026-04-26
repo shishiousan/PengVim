@@ -1,3 +1,48 @@
 local highlight = vim.api.nvim_set_hl
 
+local black_blue = "#081e2f"
+local dark_blue = "#092236"
+local ink_blue = "#09243a"
+local deep_blue = "#0e293f"
+local storm_blue = "#1b2633"
+local stone_blue = "#252c3f"
+local slate_blue = "#2c3043"
+local pickle_blue = "#38507a"
+local cello_blue = "#1f4462"
+local regal_blue = "#1d3b53"
+local carbon_blue = "#334e65"
+local steel_blue = "#4b6479"
+local grey_blue = "#7c8f8f"
+local graphite_blue = "#768799"
+local cadet_blue = "#a1aab8"
+local ash_blue = "#acb4c2"
+local white_blue = "#d6deeb"
+-- Core theme colors
+local red = "#fc514e"
+local watermelon = "#ff5874"
+local cinnamon = "#ed9389"
+local orchid = "#e39aa6"
+local orange = "#f78c6c"
+local peach = "#ffcb8b"
+local tan = "#ecc48d"
+local yellow = "#e3d18a"
+local lime = "#85dc85"
+local green = "#a1cd5e"
+local emerald = "#21c7a8"
+local turquoise = "#7fdbca"
+local malibu = "#87bcff"
+local blue = "#82aaff"
+local lavender = "#b0b2f4"
+local violet = "#c792ea"
+local purple = "#ae81ff"
+-- Extra colors
+local cyan_blue = "#316394"
+local bay_blue = "#24567f"
+local kashmir = "#4d618e"
+local plant = "#2a4e57"
+local bermuda = "#6e8da6"
+local haze = "#87a3ba"
+
 highlight(0, "@namespace", { link = "NightflyWhite" })
+highlight(0, "@keyword.operator", { link = "NightflyWaterMelon" })
+highlight(0, "@punctuation.delimiter", { fg = bermuda })

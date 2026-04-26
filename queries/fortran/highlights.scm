@@ -3,6 +3,8 @@
 (number_literal) @number
 (boolean_literal) @boolean
 (comment) @comment
+"%" @number
+"null" @function
 
 [
  (intrinsic_type)
@@ -23,6 +25,7 @@
  "pointer"
  "type"
  "value"
+ "generic"
  (end_type_statement)
  ] @type
 
@@ -30,11 +33,16 @@
  "contains"
  "private"
  "public"
+ "abstract"
+ "extends"
+ "deferred"
+ "non_overridable"
  ] @keyword.import
 
 [
  (none)
  "implicit"
+ "pass"
  ] @attribute
 
 [
@@ -44,6 +52,7 @@
  "function"
  "procedure"
  "subroutine"
+ "result"
  ] @keyword.function
 
 [
@@ -105,6 +114,7 @@
  "where"
   "selectcase"
   "case"
+  "select"
   "endselect"
   "selecttype"
   "classis"
@@ -130,6 +140,8 @@
  ">="
  "=="
  "/="
+ "//"
+ "=>"
  ] @operator
 
 [
@@ -143,6 +155,7 @@
  "\\.eq\\."
  "\\.eqv\\."
  "\\.neqv\\."
+ "\\.ne\\."
  ] @keyword.operator
 
 ;; Brackets
@@ -159,7 +172,7 @@
 [
  "::"
  ","
- "%"
+ (preproc_ifdef)
  ] @punctuation.delimiter
 
 
@@ -196,23 +209,32 @@
 (program_statement
   (name) @namespace)
 
-(module_statement
+(end_program_statement
   (name) @namespace)
 
-(submodule_statement
-  (module_name) (name) @namespace)
-
-(end_program_statement
+(module_statement
   (name) @namespace)
 
 (end_module_statement
   (name) @namespace)
 
+(submodule_statement
+  (module_name) (name) @namespace)
+
 (end_submodule_statement
+  (name) @namespace)
+
+(interface_statement
   (name) @namespace)
 
 (end_interface_statement
   (name) @namespace)
 
+(derived_type_statement 
+  (type_name) @namespace)
+
 (end_type_statement
   (name) @namespace)
+
+(preproc_ifdef
+  (identifier) @punctuation.delimiter)
