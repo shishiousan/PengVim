@@ -173,6 +173,7 @@
  "::"
  ","
  (preproc_ifdef)
+ (preproc_include)
  ] @punctuation.delimiter
 
 

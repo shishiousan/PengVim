@@ -20,12 +20,14 @@
   (end_type_statement)
   ])) @class.outer
 
+(derived_type_procedures) @class.outer
+
 ((derived_type_procedures
   (contains_statement)
   .
   (_)+ @class.inner
   . 
-  ))
+  )) 
 
 ((module
   (module_statement)
