@@ -69,65 +69,6 @@ return {
         simple = 1,
       }
     end,
-    config = function()
-      vim.api.nvim_create_autocmd({ "FileType" }, {
-        group = vim.api.nvim_create_augroup("pengvim_vimtex_conceal", { clear = true }),
-        pattern = { "bib", "tex" },
-        callback = function(args)
-          local wk = require("which-key")
-          wk.add({
-            buffer = args.buf, -- keep these maps local to TeX/BibTeX buffers
-            { "<leader>v", group = "[V]imTex" },
-            { "<leader>vb", "<cmd>VimtexCompile<CR>", desc = "Build" },
-            { "<leader>vc", "<cmd>VimtexCountWords!<CR>", desc = "Count Words" },
-            { "<leader>vd", "<cmd>VimtexClean<CR>", desc = "Delete aux" },
-            {
-              "<leader>ve",
-              function()
-                local out_dir = os.getenv("VIMTEX_OUTPUT_DIRECTORY")
-                if type(out_dir) == "string" then
-                  local do_exist, _ = os.rename(out_dir, out_dir)
-                  if do_exist == true then
-                    vim.cmd("! bibexport -o %:r.bib ./" .. out_dir .. "/%:r.aux")
-                    return
-                  end
-                end
-                vim.cmd("! bibexport -o %:r.bib %:r.aux")
-              end,
-              desc = "MAKE bib file",
-            },
-            {
-              "<leader>vf",
-              function()
-                vim.cmd.write() -- latexindent reads the file on disk, so save first
-                if vim.bo.filetype ~= "tex" then
-                  vim.notify("Only default save was done (no format)", vim.log.levels.WARN, { title = "This is not TeX file" })
-                  return
-                end
-                local out_dir = os.getenv("VIMTEX_OUTPUT_DIRECTORY")
-                if type(out_dir) == "string" then
-                  local do_exist, _ = os.rename(out_dir, out_dir)
-                  if do_exist then
-                    -- NOTE: -c option determine the location of indent.log file
-                    -- -o specifies the outputfile without backup
-                    -- if you want the backup file use -w or -ww option
-                    vim.cmd("! latexindent -c " .. out_dir .. " -s -o % %")
-                    return
-                  end
-                end
-                vim.cmd("! latexindent -s -o % %")
-              end,
-              desc = "FORMAT SAVE (no backup)",
-            },
-            { "<leader>vl", "<cmd>VimtexErrors<CR>", desc = "Error Log" },
-            { "<leader>vm", "<plug>(vimtex-context-menu)", desc = "Vimtex menu" },
-            { "<leader>vr", "<plug>(vimtex-doc-package)", desc = "Read VimTex Doc" },
-            { "<leader>vv", "<cmd>VimtexView<CR>", desc = "View PDF" },
-            { "<leader>vt", "<cmd>VimtexTocToggle<CR>", desc = "Toggle Table of Contents" },
-          })
-          vim.wo.conceallevel = 2
-        end,
-      })
-    end,
+    -- buffer settings and <leader>v maps: after/ftplugin/tex.lua
   },
 }

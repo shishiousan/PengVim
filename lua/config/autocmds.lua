@@ -23,13 +23,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
-  callback = function(ctx)
+  group = augroup("treesitter_start"),
+  callback = function()
     pcall(vim.treesitter.start)
   end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("close_with_q"),
   pattern = { "qf", "help", "checkhealth" },
   desc = "q to close quickfix and so on",
   callback = function()
@@ -37,16 +38,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("disable_autoformat"),
-  pattern = { "bib", "tex" },
-  callback = function()
-    vim.b.autoformat = false
-  end,
-})
-
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight_yank", {}),
+  group = augroup("highlight_yank"),
   desc = "Hightlight selection on yank",
   pattern = "*",
   callback = function()
@@ -70,64 +63,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.cmd("wincmd L")
   end,
 })
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("add_cjk_spelling"),
-  pattern = { "typst", "markdown", "text" },
-  callback = function()
-    vim.cmd([[ setlocal spell spelllang+=en_us,cjk ]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("set_formatoptions"),
-  pattern = { "quarto", "markdown" },
-  callback = function()
-    vim.cmd([[setlocal comments=b:*,b:-,b:+,b:1.,nb:>]])
-    vim.cmd([[setlocal formatoptions-=c formatoptions+=jr]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("set_indent_opts"),
-  pattern = { "fortran" },
-  callback = function()
-    vim.cmd([[setlocal noci noai]])
-    vim.cmd([[setlocal indentexpr=]])
-    vim.cmd([[setlocal si]])
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("set_errorformat"),
-  pattern = { "fortran" },
-  callback = function()
-    vim.cmd(
-      [[ setlocal efm=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\ %m,%Z%tarning:\ %m,%Z%tote:\ %m,%C%.%#,%-G%.%# ]]
-      -- set errorformat=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%Z%tote:\\ %m,%C%.%#,%-G%.%#
-    )
-  end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("lsp_attach_disable_fortitude_hover", { clear = true }),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client == nil then
-      return
-    end
-    if client.name == "fortitude" then
-      client.server_capabilities.hoverProvider = false
-    end
-  end,
-  desc = "LSP: Disable hover capability from Fortitude",
-})
-
--- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
---   callback = function()
---     require("lint").try_lint()
---   end,
--- })
 
 -- Window decorations: laststatus=0 and a line-drawing statusline are set in
 -- options.lua; the highlights are re-applied whenever the colorscheme changes.
@@ -154,7 +89,7 @@ local function set_terminal_keymaps()
 end
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  pattern = { "*" },
+  group = augroup("terminal_settings"),
   callback = function(_)
     vim.cmd.setlocal("nonumber")
     vim.cmd.setlocal("norelativenumber")

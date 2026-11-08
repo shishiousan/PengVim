@@ -47,12 +47,8 @@ return {
         },
       })
 
-      -- Quarto featured by vim-slime
-      -- reference is quarto_nvim_kickstarter
-      local wk = require("which-key")
-      local function map(mode, lhs, rhs, opts)
-        vim.keymap.set(mode, lhs, rhs, opts)
-      end
+      -- Cell sending (vim-slime) and chunk helpers, adapted from quarto-nvim-kickstarter.
+      -- Every map below is buffer-local to quarto/markdown buffers.
 
       -- The textobjects main branch has no :TSTextobject* commands; use the Lua API.
       local function goto_next_block()
@@ -70,150 +66,84 @@ return {
         vim.cmd("normal" .. slime_send_region_cmd)
       end
 
-      -- needs kitty (or other terminal) config:
-      -- map shift+enter send_text all \x1b[13;2u
-      -- map ctrl+enter send_text all \x1b[13;5u
-      map({ "n", "i" }, "<c-cr>", send_cell)
-      map({ "n", "i" }, "<s-cr>", send_cell)
-      map({ "v" }, "<s-cr>", send_region)
-      map({ "v" }, "<c-cr>", send_region)
-
-      local is_code_chunk = function()
-        local current, _ = require("otter.keeper").get_current_language_context()
-        if current then
-          return true
-        else
-          return false
-        end
-      end
-
-      --- Insert code chunk of given language
-      --- Splits current chunk if already within a chunk
-      --- @param lang string
-      local insert_code_chunk = function(lang)
+      --- Insert a code chunk of the given language; splits the current chunk if inside one.
+      local function insert_code_chunk(lang)
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<esc>", true, false, true), "n", true)
-        local keys
-        if is_code_chunk() then
-          keys = [[o```<cr><cr>```{]] .. lang .. [[}<esc>o]]
-        else
-          keys = [[o```{]] .. lang .. [[}<cr>```<esc>O]]
+        local in_chunk = require("otter.keeper").get_current_language_context() ~= nil
+        local keys = in_chunk and ([[o```<cr><cr>```{]] .. lang .. [[}<esc>o]])
+          or ([[o```{]] .. lang .. [[}<cr>```<esc>O]])
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "n", false)
+      end
+      local function chunk(lang)
+        return function()
+          insert_code_chunk(lang)
         end
-        keys = vim.api.nvim_replace_termcodes(keys, true, false, true)
-        vim.api.nvim_feedkeys(keys, "n", false)
       end
 
-      local insert_py_chunk = function()
-        insert_code_chunk("python")
-      end
+      local function attach(buf)
+        -- needs kitty (or other terminal) config:
+        -- map shift+enter send_text all \x1b[13;2u
+        -- map ctrl+enter send_text all \x1b[13;5u
+        for _, lhs in ipairs({ "<c-cr>", "<s-cr>" }) do
+          vim.keymap.set({ "n", "i" }, lhs, send_cell, { buffer = buf, desc = "run code cell" })
+          vim.keymap.set("v", lhs, send_region, { buffer = buf, desc = "run selection" })
+        end
 
-      local insert_lua_chunk = function()
-        insert_code_chunk("lua")
-      end
-
-      local insert_julia_chunk = function()
-        insert_code_chunk("julia")
-      end
-
-      local insert_bash_chunk = function()
-        insert_code_chunk("bash")
-      end
-
-      local insert_fortran_chunk = function()
-        insert_code_chunk("fortran")
-      end
-
-      wk.add({
-        {
-          { "<leader>i", group = "[I]nsert code chunk" },
-          { "<leader>ip", insert_py_chunk, desc = "python code chunk" },
-          { "<leader>ij", insert_julia_chunk, desc = "julia code chunk" },
-          { "<leader>if", insert_fortran_chunk, desc = "fortran code chunk" },
-          { "<leader>ib", insert_bash_chunk, desc = "bash code chunk" },
-          { "<leader>il", insert_lua_chunk, desc = "lua code chunk" },
-          { "<leader>ic", "O# %%<cr>", desc = "Comment code chunk # %%" },
-        },
-      }, { mode = "n", silent = true })
-
-      wk.add({
-        {
-          mode = { "i" },
-          { "<C-x><C-x>", "<C-x><C-o>", desc = "omnifunc completion" },
-          { "<M-i>", insert_py_chunk, desc = "python code chunk" },
-          { "<M-j>", insert_julia_chunk, desc = "julia code chunk" },
-          { "<M-m>", " |>", desc = "pipe" },
-        },
-      }, { mode = "i" })
-
-      local function new_terminal(lang)
-        vim.cmd("vsplit term://" .. lang)
-      end
-
-      local function new_terminal_python()
-        new_terminal("python")
-      end
-
-      local function new_terminal_ipython()
-        new_terminal("ipython --no-confirm-exit")
-      end
-
-      local function new_terminal_julia()
-        new_terminal("julia")
-      end
-
-      local function new_terminal_shell()
-        new_terminal("$SHELL")
-      end
-
-      -- local function get_otter_symbols_lang()
-      --   local otterkeeper = require("otter.keeper")
-      --   local main_nr = vim.api.nvim_get_current_buf()
-      --   local langs = {}
-      --   for i, l in ipairs(otterkeeper.rafts[main_nr].languages) do
-      --     langs[i] = i .. ": " .. l
-      --   end
-      --   -- promt to choose one of langs
-      --   local i = vim.fn.inputlist(langs)
-      --   local lang = otterkeeper.rafts[main_nr].languages[i]
-      --   local params = {
-      --     textDocument = vim.lsp.util.make_text_document_params(),
-      --     otter = {
-      --       lang = lang,
-      --     },
-      --   }
-      --   vim.lsp.buf_request(main_nr, ms.textDocument_documentSymbol, params, nil)
-      -- end
-      -- vim.keymap.set("n", "<leader>os", get_otter_symbols_lang, { desc = "otter [s]ymbols" })
-
-      wk.add({
-        {
+        local otter = require("otter")
+        require("which-key").add({
+          buffer = buf,
           { "<leader><cr>", send_cell, desc = "run code cell" },
-          { "<leader>c", group = "[c]ode / [c]ell / [c]hunk" },
-          { "<leader>ci", new_terminal_ipython, desc = "new [i]python terminal" },
-          { "<leader>cj", new_terminal_julia, desc = "new [j]ulia terminal" },
-          { "<leader>cn", new_terminal_shell, desc = "[n]ew terminal with shell" },
-          { "<leader>cp", new_terminal_python, desc = "new [p]ython terminal" },
+          { "<leader>i", group = "[I]nsert code chunk" },
+          { "<leader>ip", chunk("python"), desc = "python code chunk" },
+          { "<leader>ij", chunk("julia"), desc = "julia code chunk" },
+          { "<leader>if", chunk("fortran"), desc = "fortran code chunk" },
+          { "<leader>ib", chunk("bash"), desc = "bash code chunk" },
+          { "<leader>il", chunk("lua"), desc = "lua code chunk" },
+          { "<leader>ic", "O# %%<cr>", desc = "Comment code chunk # %%" },
           { "<leader>o", group = "[o]tter & [O]verseer" },
-          { "<leader>oa", require("otter").activate, desc = "otter [a]ctivate" },
-          { "<leader>od", require("otter").deactivate, desc = "otter [d]eactivate" },
+          { "<leader>oa", otter.activate, desc = "otter [a]ctivate" },
+          { "<leader>od", otter.deactivate, desc = "otter [d]eactivate" },
           { "<leader>Q", group = "[q]uarto" },
           {
             "<leader>QE",
             function()
-              require("otter").export(true)
+              otter.export(true)
             end,
             desc = "[E]xport with overwrite",
           },
-          { "<leader>Qa", ":QuartoActivate<cr>", desc = "[a]ctivate" },
-          { "<leader>Qe", require("otter").export, desc = "[e]xport" },
+          { "<leader>Qa", "<cmd>QuartoActivate<cr>", desc = "[a]ctivate" },
+          { "<leader>Qe", otter.export, desc = "[e]xport" },
           { "<leader>Qh", ":QuartoHelp ", desc = "[h]elp" },
-          { "<leader>Qp", ":lua require'quarto'.quartoPreview()<cr>", desc = "[p]review" },
-          { "<leader>Qq", ":lua require'quarto'.quartoClosePreview()<cr>", desc = "[q]uiet preview" },
+          { "<leader>Qp", "<cmd>lua require'quarto'.quartoPreview()<cr>", desc = "[p]review" },
+          { "<leader>Qq", "<cmd>lua require'quarto'.quartoClosePreview()<cr>", desc = "[q]uiet preview" },
           { "<leader>Qr", group = "[r]un" },
-          { "<leader>Qra", ":QuartoSendAll<cr>", desc = "run [a]ll" },
-          { "<leader>Qrb", ":QuartoSendBelow<cr>", desc = "run [b]elow" },
-          { "<leader>Qrr", ":QuartoSendAbove<cr>", desc = "to cu[r]sor" },
-        },
-      }, { mode = "n" })
+          { "<leader>Qra", "<cmd>QuartoSendAll<cr>", desc = "run [a]ll" },
+          { "<leader>Qrb", "<cmd>QuartoSendBelow<cr>", desc = "run [b]elow" },
+          { "<leader>Qrr", "<cmd>QuartoSendAbove<cr>", desc = "to cu[r]sor" },
+          {
+            mode = "i",
+            { "<C-x><C-x>", "<C-x><C-o>", desc = "omnifunc completion" },
+            { "<M-i>", chunk("python"), desc = "python code chunk" },
+            { "<M-j>", chunk("julia"), desc = "julia code chunk" },
+            { "<M-m>", " |>", desc = "pipe" },
+          },
+        })
+      end
+
+      local filetypes = { "quarto", "markdown" }
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("PengVim_quarto_maps", { clear = true }),
+        pattern = filetypes,
+        callback = function(ev)
+          attach(ev.buf)
+        end,
+      })
+      -- this plugin is loaded by the FileType event of the first such buffer
+      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_loaded(buf) and vim.tbl_contains(filetypes, vim.bo[buf].filetype) then
+          attach(buf)
+        end
+      end
     end,
   },
   {
@@ -238,8 +168,27 @@ return {
       "markdown",
       "quarto",
     },
+    keys = {
+      { "<leader>ci", "<cmd>vsplit term://ipython --no-confirm-exit<cr>", desc = "new [i]python terminal" },
+      { "<leader>cj", "<cmd>vsplit term://julia<cr>", desc = "new [j]ulia terminal" },
+      { "<leader>cn", "<cmd>vsplit term://$SHELL<cr>", desc = "[n]ew terminal with shell" },
+      { "<leader>cp", "<cmd>vsplit term://python<cr>", desc = "new [p]ython terminal" },
+      {
+        "<leader>cm",
+        function()
+          vim.print("job_id: " .. tostring(vim.b.terminal_job_id))
+        end,
+        desc = "[m]ark terminal (show job id)",
+      },
+      {
+        "<leader>ct",
+        function()
+          vim.fn["slime#config"]()
+        end,
+        desc = "slime [t]arget terminal",
+      },
+    },
     init = function()
-      vim.b["quarto_is_python_chunk"] = false
       Quarto_is_in_python_chunk = function()
         require("otter.tools.functions").is_otter_language_context("python")
       end
@@ -269,17 +218,6 @@ return {
       vim.g.slime_suggest_default = true
       vim.g.slime_menu_config = false
       vim.g.slime_neovim_ignore_unlisted = true
-
-      local function mark_terminal()
-        local job_id = vim.b.terminal_job_id
-        vim.print("job_id: " .. job_id)
-      end
-
-      local function set_terminal()
-        vim.fn.call("slime#config", {})
-      end
-      vim.keymap.set("n", "<leader>cm", mark_terminal, { desc = "[m]ark terminal" })
-      vim.keymap.set("n", "<leader>cs", set_terminal, { desc = "[s]et terminal" })
     end,
   },
   {

@@ -10,6 +10,10 @@ return {
           ensure_installed = false,
           cmd = { "fortitude", "server" },
           filetypes = { "fortran" },
+          -- hover comes from fortls; fortitude's would duplicate it
+          on_attach = function(client)
+            client.server_capabilities.hoverProvider = false
+          end,
           init_options = {
             settings = {
               check = {

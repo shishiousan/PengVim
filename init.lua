@@ -12,6 +12,9 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+-- options first, so plugins loaded at startup see them
+require("config.options")
+
 require("lazy").setup({
   spec = {
     -- lang/*.lua each add parsers to ensure_installed. lazy.nvim only merges lists
@@ -48,17 +51,11 @@ require("lazy").setup({
       },
     },
   },
-  checker = {
-    enabled = false,
-    concurrency = nil,
-    notify = false,
-    frequency = 3600,
-    check_pinned = true,
-  },
+  checker = { enabled = false },
 })
 
+-- these use plugins (Snacks, conform, mini.icons, the colorscheme), so load after setup
 require("config.customCS")
-require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 require("config.quickfix")
