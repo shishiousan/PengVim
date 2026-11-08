@@ -46,9 +46,10 @@ return {
       vim.api.nvim_create_autocmd({ "FileType" }, {
         group = vim.api.nvim_create_augroup("pengvim_vimtex_conceal", { clear = true }),
         pattern = { "bib", "tex" },
-        callback = function()
+        callback = function(args)
           local wk = require("which-key")
           wk.add({
+            buffer = args.buf, -- keep these maps local to TeX/BibTeX buffers
             { "<leader>v", group = "[V]imTex" },
             { "<leader>vb", "<cmd>VimtexCompile<CR>", desc = "Build" },
             { "<leader>vc", "<cmd>VimtexCountWords!<CR>", desc = "Count Words" },
@@ -71,9 +72,10 @@ return {
             {
               "<leader>vf",
               function()
-                vim.cmd("normal! w") -- before format, make sure that the file is latest
-                if not vim.bo.filetype == "tex" then
-                  vim.notify("Only default save was done (no format)", 3, { title = "This is not TeX file" })
+                vim.cmd.write() -- latexindent reads the file on disk, so save first
+                if vim.bo.filetype ~= "tex" then
+                  vim.notify("Only default save was done (no format)", vim.log.levels.WARN, { title = "This is not TeX file" })
+                  return
                 end
                 local out_dir = os.getenv("VIMTEX_OUTPUT_DIRECTORY")
                 if type(out_dir) == "string" then

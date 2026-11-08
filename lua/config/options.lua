@@ -54,7 +54,7 @@ opt.foldlevel = 99
 -- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 -- opt.foldnestmax = 1
-opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
+opt.formatexpr = "v:lua.require'conform'.formatexpr()"
 -- opt.formatoptions = ""
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
@@ -67,7 +67,6 @@ opt.linebreak = true
 opt.list = true
 -- opt.listchars:append "space:⋅"
 -- opt.listchars:append "eol:↴"
-opt.ls = 2
 opt.mouse = "a"
 opt.number = true
 opt.pumblend = 10

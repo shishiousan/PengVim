@@ -30,7 +30,8 @@ map("n", "<leader>qo", "<cmd>only<CR>", { desc = "Only" })
 
 -- save file
 map({ "n", "i" }, "<C-s>", function()
-  if vim.g.autoformat then
+  -- vim.b.autoformat = false (set per filetype in autocmds.lua) overrides the global toggle
+  if vim.g.autoformat and vim.b.autoformat ~= false then
     require("conform").format({})
   end
   vim.cmd("silent! w")

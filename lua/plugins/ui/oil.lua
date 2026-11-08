@@ -12,7 +12,7 @@ return {
         -- "size",
         -- "mtime",
       },
-      viewoptions = {
+      view_options = {
         sort = {
           { "type", "asc" },
           { "name", "desc" },

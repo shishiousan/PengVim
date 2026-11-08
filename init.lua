@@ -14,11 +14,17 @@ vim.g.maplocalleader = "\\"
 
 require("lazy").setup({
   spec = {
+    -- lang/*.lua each add parsers to ensure_installed. lazy.nvim only merges lists
+    -- for fragments at or after the one declaring opts_extend, so declare it first.
+    { "nvim-treesitter/nvim-treesitter", opts_extend = { "ensure_installed" } },
     { import = "plugins.editor" },
     { import = "plugins.coding" },
     { import = "plugins.ui" },
     { import = "plugins.lang" },
-    { import = "plugins.playground" },
+    { -- gitignored scratch specs; skip the import on machines that don't have them
+      import = "plugins.playground",
+      cond = vim.uv.fs_stat(vim.fn.stdpath("config") .. "/lua/plugins/playground") ~= nil,
+    },
   },
   defaults = {
     lazy = true,

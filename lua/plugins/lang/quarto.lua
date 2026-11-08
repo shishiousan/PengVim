@@ -57,10 +57,15 @@ return {
         vim.keymap.set(mode, lhs, rhs, opts)
       end
 
+      -- The textobjects main branch has no :TSTextobject* commands; use the Lua API.
+      local function goto_next_block()
+        require("nvim-treesitter-textobjects.move").goto_next_start("@block.outer", "textobjects")
+      end
+
       local function send_cell()
         if vim.b["quarto_is_r_mode"] == nil then
           vim.fn["slime#send_cell"]()
-          vim.cmd("TSTextobjectGotoNextStart @block.outer")
+          goto_next_block()
           return
         end
         if vim.b["quarto_is_r_mode"] == true then
@@ -76,7 +81,7 @@ return {
           end
           vim.fn["slime#send_cell"]()
         end
-        vim.cmd("TSTextobjectGotoNextStart @block.outer")
+        goto_next_block()
       end
 
       local slime_send_region_cmd = ":<C-u>call slime#send_op(visualmode(), 1)<CR>"
@@ -226,7 +231,7 @@ return {
           { "<leader>cp", new_terminal_python, desc = "new [p]ython terminal" },
           { "<leader>o", group = "[o]tter & [O]verseer" },
           { "<leader>oa", require("otter").activate, desc = "otter [a]ctivate" },
-          { "<leader>od", require("otter").activate, desc = "otter [d]eactivate" },
+          { "<leader>od", require("otter").deactivate, desc = "otter [d]eactivate" },
           { "<leader>Q", group = "[q]uarto" },
           {
             "<leader>QE",

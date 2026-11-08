@@ -10,8 +10,6 @@ return {
     event = "InsertEnter",
     dependencies = {
       "L3MON4D3/LuaSnip",
-      "hrsh7th/cmp-cmdline",
-      "f3fora/cmp-spell",
       "micangl/cmp-vimtex",
       "kdheepak/cmp-latex-symbols",
       -- "rafamadriz/friendly-snippets",
@@ -102,7 +100,6 @@ return {
           "lsp",
           "path",
           "buffer",
-          "cmdline",
           "latex_symbols",
         },
         per_filetype = {
@@ -113,7 +110,6 @@ return {
           -- tex = { "snippets", "path" },
           gnuplot = { "path", "buffer", "latex_symbols" },
           quarto = { "snippets", "lsp", "path" },
-          codecompanion = { "lsp", "path", "cmdline" },
         },
         providers = {
           lsp = {
@@ -125,10 +121,6 @@ return {
               -- return ctx.trigger.initial_kind ~= "trigger_character" and not require("blink.cmp").snippet_active()
               return ctx.trigger.initial_kind ~= "trigger_character"
             end,
-          },
-          cmdline = {
-            name = "cmdline",
-            module = "blink.compat.source",
           },
           vimtex = {
             name = "vimtex",

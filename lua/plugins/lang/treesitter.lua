@@ -46,6 +46,7 @@ return {
     branch = "main",
     build = ":TSUpdate",
     cmd = { "TSInstall", "TSUpdate", "TSUpdateSync" },
+    -- ensure_installed is merged across lang/*.lua via opts_extend (declared in init.lua)
     opts = {
       ensure_installed = {
         "json",
@@ -61,8 +62,10 @@ return {
       },
     },
     config = function(_, opts)
-      require("nvim-treesitter").install(opts.ensure_installed)
-      require("nvim-treesitter").setup(opts)
+      -- On the main branch setup() only takes install_dir; parsers are installed explicitly.
+      local ts = require("nvim-treesitter")
+      ts.setup({})
+      ts.install(opts.ensure_installed)
     end,
   },
   {

@@ -33,9 +33,6 @@ return {
         "c",
         "fortran",
       },
-      indent = {
-        disable = { "fortran" },
-      },
     },
   },
 }

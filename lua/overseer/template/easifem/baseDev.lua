@@ -22,18 +22,11 @@ return {
           statuses = { "SUCCESS" },
         },
       },
-      condition = {
-        filetype = { "fortran" },
-      },
     }
   end,
   desc = "[Dev tool for libeasifemBase] build/install easifem's base lib in debug mode",
   params = {},
-  priority = 50,
   condition = {
     filetype = { "fortran" },
-    callback = function(search)
-      return true
-    end,
   },
 }

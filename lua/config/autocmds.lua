@@ -12,8 +12,9 @@ end
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("restore_cursor"),
   callback = function(args)
-    local valid_line = vim.fn.line([['"]]) >= 1 and vim.fn.line([['"]]) < vim.fn.line("$")
-    local not_commit = vim.b[args.buf].filetype ~= "commit"
+    local mark = vim.fn.line([['"]])
+    local valid_line = mark >= 1 and mark <= vim.fn.line("$")
+    local not_commit = vim.bo[args.buf].filetype ~= "gitcommit"
 
     if valid_line and not_commit then
       vim.cmd([[normal! g`"]])
@@ -38,7 +39,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("disable_autoformat"),
-  pattern = { "latex", "bib", "tex" },
+  pattern = { "bib", "tex" },
   callback = function()
     vim.b.autoformat = false
   end,
@@ -105,7 +106,7 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "fortran" },
   callback = function()
     vim.cmd(
-      [[ set efm=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\ %m,%Z%tarning:\ %m,%Z%tote:\ %m,%C%.%#,%-G%.%# ]]
+      [[ setlocal efm=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\ %m,%Z%tarning:\ %m,%Z%tote:\ %m,%C%.%#,%-G%.%# ]]
       -- set errorformat=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%Z%tote:\\ %m,%C%.%#,%-G%.%#
     )
   end,

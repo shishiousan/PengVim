@@ -73,11 +73,11 @@ return {
             -- I like to use picker file after selecting project
             confirm = function(picker, item)
               picker:close()
-              if item then
-                Snacks.picker.files({ cwd = item.text })
+              if not item then
+                return
               end
-              local dir = item.file
-              vim.fn.chdir(dir)
+              vim.fn.chdir(item.file)
+              Snacks.picker.files({ cwd = item.file })
             end,
           },
           explorer = {
