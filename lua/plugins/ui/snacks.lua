@@ -129,13 +129,6 @@ return {
         desc = "Recent",
       },
       {
-        "<leader>gL",
-        function()
-          Snacks.picker.git_log_line()
-        end,
-        desc = "Git Log Line",
-      },
-      {
         "<leader>gs",
         function()
           Snacks.picker.git_status()
@@ -198,13 +191,6 @@ return {
           Snacks.picker.autocmds()
         end,
         desc = "Autocmds",
-      },
-      {
-        "<leader>sb",
-        function()
-          Snacks.picker.lines()
-        end,
-        desc = "Buffer Lines",
       },
       {
         "<leader>sc",
@@ -339,12 +325,11 @@ return {
         end,
         desc = "Goto Declaration",
       },
-      {
-        "gr",
+      { -- grr (not a nowait gr) so the built-in grn/gra/gri/grt stay reachable
+        "grr",
         function()
           Snacks.picker.lsp_references()
         end,
-        nowait = true,
         desc = "References",
       },
       {

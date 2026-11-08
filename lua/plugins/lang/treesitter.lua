@@ -140,7 +140,6 @@ return {
       next_start(modes, "-b", "@block.outer")
       next_start(modes, "-l", "@loop.outer")
       next_start(modes, "]f", "@function.outer")
-      next_start(modes, "]c", "@conditional.outer")
       next_start(modes, "]a", "@class.outer")
       next_start(modes, "]b", "@block.outer")
       next_start(modes, "]l", "@loop.outer")
@@ -162,7 +161,6 @@ return {
       previous_start(modes, "_b", "@block.outer")
       previous_start(modes, "_l", "@loop.outer")
       previous_start(modes, "[f", "@function.outer")
-      previous_start(modes, "[c", "@conditional.outer")
       previous_start(modes, "[a", "@class.outer")
       previous_start(modes, "[b", "@block.outer")
       previous_start(modes, "[l", "@loop.outer")
@@ -177,6 +175,17 @@ return {
       previous_end(modes, "[A", "@class.outer")
       previous_end(modes, "[B", "@block.outer")
       previous_end(modes, "[L", "@loop.outer")
+
+      -- ]c / [c: next/prev conditional, but keep the built-in next/prev change in diff mode
+      for key, move in pairs({ ["]c"] = "goto_next_start", ["[c"] = "goto_previous_start" }) do
+        vim.keymap.set(modes, key, function()
+          if vim.wo.diff and vim.fn.mode() == "n" then
+            vim.cmd.normal({ vim.v.count1 .. key, bang = true })
+          else
+            require("nvim-treesitter-textobjects.move")[move]("@conditional.outer", "textobjects")
+          end
+        end, { desc = "@conditional.outer (diff: change)" })
+      end
 
       modes = { "x", "o" }
       select(modes, "af", "@function.outer")
