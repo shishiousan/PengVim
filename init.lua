@@ -18,7 +18,7 @@ require("lazy").setup({
     { import = "plugins.coding" },
     { import = "plugins.ui" },
     { import = "plugins.lang" },
-    -- { import = "plugins.playground" },
+    { import = "plugins.playground" },
   },
   defaults = {
     lazy = true,
@@ -51,6 +51,7 @@ require("lazy").setup({
   },
 })
 
+require("config.customCS")
 require("config.options")
 require("config.keymaps")
 require("config.autocmds")

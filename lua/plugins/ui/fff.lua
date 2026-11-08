@@ -79,13 +79,13 @@ return {
         end,
         desc = "FFFind files",
       },
-      {
-        "<leader>ff",
-        function()
-          require("fff").find_files()
-        end,
-        desc = "FFFind files",
-      },
+      -- {
+      --   "<leader>ff",
+      --   function()
+      --     require("fff").find_files()
+      --   end,
+      --   desc = "FFFind files",
+      -- },
       {
         "<leader>fO",
         function()

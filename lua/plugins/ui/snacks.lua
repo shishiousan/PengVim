@@ -404,14 +404,14 @@ return {
       --   end,
       --   desc = "Grep",
       -- },
-      -- {
-      --   "<leader>e",
-      --   function()
-      --     vim.opt.scrolloff = 0
-      --     Snacks.explorer({ focus = "list" })
-      --   end,
-      --   desc = "File Explorer",
-      -- },
+      {
+        "<leader>e",
+        function()
+          vim.opt.scrolloff = 0
+          Snacks.explorer({ focus = "list" })
+        end,
+        desc = "File Explorer",
+      },
       -- {
       --   "<leader>fo",
       --   function()
@@ -426,13 +426,13 @@ return {
       --   end,
       --   desc = "File Explorer reveal",
       -- },
-      -- {
-      --   "<leader>fb",
-      --   function()
-      --     Snacks.picker.buffers({ current = false })
-      --   end,
-      --   desc = "Buffers",
-      -- },
+      {
+        "<leader>fl",
+        function()
+          Snacks.picker.buffers({ current = false })
+        end,
+        desc = "Buffers",
+      },
       -- {
       --   "<leader>fc",
       --   function()

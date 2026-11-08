@@ -3,6 +3,18 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        jetls = {
+          cmd = {
+            "jetls",
+            "serve",
+          },
+          filetypes = {
+            "julia",
+          },
+          root_markers = {
+            "Project.toml",
+          },
+        },
         -- julials = {
         --   on_new_config = function(new_config, _)
         --     local julia = vim.fn.expand("~/.julia/environments/nvim-lspconfig/bin/julia")

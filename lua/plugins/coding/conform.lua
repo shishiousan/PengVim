@@ -35,7 +35,7 @@ return {
         sh = { "shfmt" },
         toml = { "taplo" },
         typst = { "typstyle" },
-        fortran = { "fprettify" },
+        fortran = { "fprettier", "forformat", "fprettify", stop_after_first = true },
         go = { "goimports" },
         tex = { "latexindent" },
         markdown = { "rumdl", "injected" },
@@ -59,6 +59,22 @@ return {
               lua = "lua",
             },
             lang_to_formatters = {},
+          },
+        },
+        fprettier = {
+          stdin = true,
+          command = "fprettier",
+          args = {
+            "--config",
+            "/home/shion/.config/fprettier/fprettier.toml",
+          },
+        },
+        forformat = {
+          stdin = true,
+          command = "forformat",
+          args = {
+            "--config",
+            "/home/shion/.config/forformat/forformat.toml",
           },
         },
         fprettify = {

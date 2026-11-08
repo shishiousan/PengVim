@@ -2,6 +2,13 @@ local function augroup(name)
   return vim.api.nvim_create_augroup("PengVim_" .. name, { clear = true })
 end
 
+-- vim.api.nvim_create_autocmd("VimEnter", {
+--   group = augroup("youareanidiot"),
+--   callback = function()
+--     require("you-are-an-idiot").run()
+--   end,
+-- })
+
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("restore_cursor"),
   callback = function(args)

@@ -13,7 +13,7 @@ return {
           init_options = {
             settings = {
               check = {
-                ignore = { "C002", "C003", "MOD021" },
+                ignore = { "C002", "C003", "MOD021", "S241", "S102" },
               },
             },
           },

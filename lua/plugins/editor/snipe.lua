@@ -9,6 +9,13 @@ return {
         end,
         desc = "Open Snipe buffer menu",
       },
+      {
+        "<leader>ff",
+        function()
+          require("snipe").open_buffer_menu()
+        end,
+        desc = "Open Snipe buffer menu",
+      },
     },
     opts = {
       ui = {
