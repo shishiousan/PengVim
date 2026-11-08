@@ -36,7 +36,7 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "echasnovski/mini.icons",
+      "echasnovski/mini.nvim", -- provides mini.icons
     },
     ft = { "markdown", "quarto" },
     keys = {

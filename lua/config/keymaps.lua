@@ -1,11 +1,5 @@
-local wk = require("which-key")
-
 local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
-end
-
-local function delMap(mode, lhs)
-  vim.keymap.del(mode, lhs)
 end
 
 map("i", "jk", "<esc>")
@@ -18,6 +12,10 @@ map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease Window Wi
 map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase Window Width" })
 
 map("n", "<leader>*", "*''cgn", { desc = "Replace word under cursor" })
+
+-- Comment above/below (from Comment.nvim; the built-in gc/gcc cover the rest)
+map("n", "gco", "o<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Below" })
+map("n", "gcO", "O<esc>Vcx<esc><cmd>normal gcc<cr>fxa<bs>", { desc = "Add Comment Above" })
 
 map("n", "<leader>j", "yyp", { desc = "Paste line below" })
 map("n", "<leader>k", "yyP", { desc = "Paste line above" })
@@ -60,24 +58,17 @@ map("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
 map("n", "<leader>xl", "<cmd>lopen<cr>", { desc = "Location List" })
 map("n", "<leader>xq", "<cmd>copen<cr>", { desc = "Quickfix List" })
 
-map("n", "[q", vim.cmd.cprev, { desc = "Previous Quickfix" })
-map("n", "]q", vim.cmd.cnext, { desc = "Next Quickfix" })
-
--- diagnostic
-local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
+-- diagnostic ([d / ]d are built in; the float on jump is configured in options.lua)
+local function diagnostic_jump(count, severity)
   return function()
-    go({ severity = severity })
+    vim.diagnostic.jump({ count = count * vim.v.count1, severity = vim.diagnostic.severity[severity] })
   end
 end
 map("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
-map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
-map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
-map("n", "[e", diagnostic_goto(false, "ERROR"), { desc = "Prev Error" })
-map("n", "]w", diagnostic_goto(true, "WARN"), { desc = "Next Warning" })
-map("n", "[w", diagnostic_goto(false, "WARN"), { desc = "Prev Warning" })
+map("n", "]e", diagnostic_jump(1, "ERROR"), { desc = "Next Error" })
+map("n", "[e", diagnostic_jump(-1, "ERROR"), { desc = "Prev Error" })
+map("n", "]w", diagnostic_jump(1, "WARN"), { desc = "Next Warning" })
+map("n", "[w", diagnostic_jump(-1, "WARN"), { desc = "Prev Warning" })
 
 -- toggle featured by Snacks
 Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
@@ -135,15 +126,6 @@ if vim.fn.executable("lazygit") == 1 then
     Snacks.lazygit.log()
   end, { desc = "Lazygit Log (cwd)" })
 end
-
-map("n", "<leader>ft", function()
-  if vim.g.use_myfmt then
-    vim.notify("use_myfmt is disabled")
-  else
-    vim.notify("use_myfmt is enabled")
-  end
-  vim.g.use_myfmt = not vim.g.use_myfmt
-end, { desc = "Toggle use_myfmt" })
 
 map("n", "<leader>R", function()
   vim.notify("ReadMode Toggled")

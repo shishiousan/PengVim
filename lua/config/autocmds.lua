@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Hightlight selection on yank",
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+    vim.hl.on_yank({ higroup = "IncSearch", timeout = 150 })
   end,
 })
 
@@ -126,14 +126,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   desc = "LSP: Disable hover capability from Fortitude",
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = augroup("disable_virtual_text"),
-  pattern = { "*" },
-  callback = function()
-    vim.diagnostic.config({ virtual_text = false })
-  end,
-})
-
 -- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --   callback = function()
 --     require("lint").try_lint()
@@ -178,7 +170,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     vim.keymap.set("n", "gh", vim.lsp.buf.signature_help, { buffer = event.buf, desc = "LSP: go to signature [h]elp" })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = event.buf, desc = "LSP: code [a]ction" })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, desc = "LSP: Hover Documentation" })
     vim.keymap.set("v", "<leader>Lf", vim.lsp.buf.format, { buffer = event.buf, desc = "Lsp [f]ormat" })
 
     local client = vim.lsp.get_client_by_id(event.data.client_id)

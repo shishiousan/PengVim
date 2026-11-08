@@ -12,11 +12,6 @@ g.CSLists = {
 }
 g.CSListsLen = #vim.g.CSLists
 
-g.nrrw_rgn_vert = 1 -- default is 0
-g.nrrw_rgn_wdth = math.floor(vim.fn.winwidth(0) / 2) -- default is 30
-
-g.cmp_enabled = true
-
 ft.add({
   extension = {
     gp = "gnuplot",
@@ -58,9 +53,7 @@ opt.formatexpr = "v:lua.require'conform'.formatexpr()"
 -- opt.formatoptions = ""
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
-opt.hidden = true
 opt.ignorecase = true
-opt.inccommand = "nosplit"
 opt.jumpoptions = "view"
 opt.laststatus = 0
 opt.linebreak = true
@@ -93,7 +86,7 @@ opt.splitright = true
 opt.statusline = "%F"
 opt.tabstop = 2
 opt.termguicolors = true
-opt.timeoutlen = vim.g.vscode and 1000 or 500
+opt.timeoutlen = 500
 opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200
@@ -103,29 +96,16 @@ opt.winminwidth = 5
 opt.wrap = false
 opt.wrapscan = false
 
-vim.api.nvim_create_user_command("CheckScreen", function()
-  local width = vim.fn.winwidth(0)
-  local height = vim.fn.winheight(0)
-  local nrow = vim.api.nvim_eval("&lines")
-  local ncol = vim.api.nvim_eval("&columns")
-
-  print("wedth, height, nrow, ncol")
-  print(width, height, nrow, ncol)
-
-  local split = not (width == ncol)
-  local vsplit = not (height == nrow)
-
-  if split and vsplit then
-    print("current buffer is in both horizontal and vertical split")
-    return
-  elseif split then
-    print("current buffer is in horizontal split")
-    return
-  elseif vsplit then
-    print("current buffer is in vertical split")
-    return
-  end
-end, {})
+-- Diagnostics: one place for global settings.
+-- vim.diagnostic.goto_next() used to open a float after jumping; keep that for
+-- the built-in ]d/[d and the ]e/]w maps (vim.diagnostic.jump() reads this).
+vim.diagnostic.config({
+  jump = {
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+    end,
+  },
+})
 
 vim.api.nvim_create_user_command("PengVimSetCS", function(opts)
   g.currentCSNum = tonumber(opts.fargs[1])

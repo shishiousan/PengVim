@@ -201,11 +201,11 @@ end, { desc = "Toggle quickfix relative paths" })
 
 -- Performance monitoring command (optional)
 vim.api.nvim_create_user_command("QfProfile", function()
-  local start_time = vim.loop.hrtime()
+  local start_time = vim.uv.hrtime()
   local items = vim.fn.getqflist()
   local info = { start_idx = 1, end_idx = #items, quickfix = 1, id = 0 }
   local result = _G.qftf(info)
-  local end_time = vim.loop.hrtime()
+  local end_time = vim.uv.hrtime()
   local elapsed_ms = (end_time - start_time) / 1000000
   print(string.format("Formatted %d items in %.2f ms", #result, elapsed_ms))
 end, { desc = "Profile quickfix formatting performance" })

@@ -3,7 +3,7 @@ return {
     "stevearc/oil.nvim",
     lazy = false,
     dependencies = {
-      { "echasnovski/mini.icons", opts = {} },
+      "echasnovski/mini.nvim", -- provides mini.icons
     },
     opts = {
       columns = {

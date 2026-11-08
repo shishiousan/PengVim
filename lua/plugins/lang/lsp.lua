@@ -1,36 +1,41 @@
+-- LSP servers are declared per language in lang/*.lua via `opts.servers`
+-- (merged by lazy.nvim) and enabled here with the native vim.lsp.config API.
+--
+-- Extra keys understood here (stripped before vim.lsp.config):
+--   servers.<name>.ensure_installed = false  -- never install with Mason
+--   extra.<mason-package> = { bin = "<executable>", ensure_installed = bool }
 return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      { "williamboman/mason.nvim", config = true },
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      -- only used by mason-tool-installer to map lspconfig names to Mason packages
+      "mason-org/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
+      -- blink.cmp registers its completion capabilities for every server
+      -- (vim.lsp.config("*")) when it loads, so it must load before servers start.
       "saghen/blink.cmp",
     },
-    cmd = { "LspInfo", "LspInstall", "LspRestart", "LspStart", "LspStop", "LspUninstall" },
+    cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
     event = { "BufReadPre", "BufNewFile" },
-    config = function(_, opts)
-      require("mason").setup()
-
-      local servers = {
+    opts = {
+      servers = {
         vimls = {},
         bashls = {
           filetypes = { "sh", "bash" },
         },
-      }
-
-      -- Mason package -> executable it provides (when the names differ).
-      local extra = {
+      },
+      extra = {
         cmakelang = { bin = "cmake-format" },
         dprint = {},
         jupytext = {},
         shfmt = {},
-      }
-      extra = vim.tbl_deep_extend("force", extra, opts.extra or {})
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup()
 
-      for name, settings in pairs(opts.servers or {}) do
-        servers[name] = vim.tbl_deep_extend("force", servers[name] or {}, settings)
-      end
+      local servers = opts.servers or {}
 
       -- Let Mason install only what is missing from PATH, so it never shadows
       -- tools installed system-wide (Mason prepends its bin dir to PATH).
@@ -48,26 +53,16 @@ return {
           local cmd = settings.cmd or (vim.lsp.config[name] or {}).cmd
           need(name, type(cmd) == "table" and cmd[1] or nil)
         end
+        vim.lsp.config(name, settings)
       end
-      for pkg, tool in pairs(extra) do
+      for pkg, tool in pairs(opts.extra or {}) do
         if tool.ensure_installed ~= false then
           need(pkg, tool.bin or pkg)
         end
       end
 
       require("mason-tool-installer").setup({ ensure_installed = missing })
-
-      local lsp_flags = {
-        allow_incremental_sync = true,
-        debounce_text_changes = 150,
-      }
-
-      for name, settings in pairs(servers) do
-        settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
-        settings.flags = vim.tbl_deep_extend("force", {}, lsp_flags, settings.flags or {})
-        vim.lsp.config(name, settings)
-        vim.lsp.enable(name)
-      end
+      vim.lsp.enable(vim.tbl_keys(servers))
     end,
   },
 }

@@ -50,9 +50,6 @@ return {
       -- Quarto featured by vim-slime
       -- reference is quarto_nvim_kickstarter
       local wk = require("which-key")
-      vim.g["quarto_is_r_mode"] = nil
-      vim.g["reticulate_running"] = false
-
       local function map(mode, lhs, rhs, opts)
         vim.keymap.set(mode, lhs, rhs, opts)
       end
@@ -63,48 +60,14 @@ return {
       end
 
       local function send_cell()
-        if vim.b["quarto_is_r_mode"] == nil then
-          vim.fn["slime#send_cell"]()
-          goto_next_block()
-          return
-        end
-        if vim.b["quarto_is_r_mode"] == true then
-          vim.g.slime_python_ipython = 0
-          local is_python = require("otter.tools.functions").is_otter_language_context("python")
-          if is_python and not vim.b["reticulate_running"] then
-            vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
-            vim.b["reticulate_running"] = true
-          end
-          if not is_python and vim.b["reticulate_running"] then
-            vim.fn["slime#send"]("exit" .. "\r")
-            vim.b["reticulate_running"] = false
-          end
-          vim.fn["slime#send_cell"]()
-        end
+        vim.fn["slime#send_cell"]()
         goto_next_block()
       end
 
-      local slime_send_region_cmd = ":<C-u>call slime#send_op(visualmode(), 1)<CR>"
-      slime_send_region_cmd = vim.api.nvim_replace_termcodes(slime_send_region_cmd, true, false, true)
+      local slime_send_region_cmd =
+        vim.api.nvim_replace_termcodes(":<C-u>call slime#send_op(visualmode(), 1)<CR>", true, false, true)
       local function send_region()
-        -- if filetyps is not quarto, just send_region
-        if vim.bo.filetype ~= "quarto" or vim.b["quarto_is_r_mode"] == nil then
-          vim.cmd("normal" .. slime_send_region_cmd)
-          return
-        end
-        if vim.b["quarto_is_r_mode"] == true then
-          vim.g.slime_python_ipython = 0
-          local is_python = require("otter.tools.functions").is_otter_language_context("python")
-          if is_python and not vim.b["reticulate_running"] then
-            vim.fn["slime#send"]("reticulate::repl_python()" .. "\r")
-            vim.b["reticulate_running"] = true
-          end
-          if not is_python and vim.b["reticulate_running"] then
-            vim.fn["slime#send"]("exit" .. "\r")
-            vim.b["reticulate_running"] = false
-          end
-          vim.cmd("normal" .. slime_send_region_cmd)
-        end
+        vim.cmd("normal" .. slime_send_region_cmd)
       end
 
       -- needs kitty (or other terminal) config:
