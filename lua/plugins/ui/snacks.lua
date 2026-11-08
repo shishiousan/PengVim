@@ -407,7 +407,6 @@ return {
       {
         "<leader>e",
         function()
-          vim.opt.scrolloff = 0
           Snacks.explorer({ focus = "list" })
         end,
         desc = "File Explorer",

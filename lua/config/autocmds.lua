@@ -54,15 +54,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = augroup("reset_scrolloff"),
-  pattern = { "*" },
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("explorer_scrolloff"),
+  pattern = { "snacks_picker_list" },
+  desc = "No centered scrolling in the explorer list",
   callback = function()
-    if vim.bo.filetype == "snacks_picker_list" then
-      return
-    else
-      vim.opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
-    end
+    vim.opt_local.scrolloff = 0
   end,
 })
 
@@ -132,18 +129,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 --   end,
 -- })
 
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = augroup("hide_decorations"),
-  pattern = { "*" },
-  callback = function()
-    vim.cmd("set laststatus=0")
-    vim.cmd("set statusline=%{repeat('─',winwidth('.'))}")
-    vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
-    -- vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#b020ea", bg = "NONE" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
-    vim.cmd("hi! link StatusLine Normal")
-    vim.cmd("hi! link StatusLineNC VertSplit")
-  end,
+-- Window decorations: laststatus=0 and a line-drawing statusline are set in
+-- options.lua; the highlights are re-applied whenever the colorscheme changes.
+-- (WinSeparator links to VertSplit by default, so VertSplit colors both.)
+local function set_decoration_highlights()
+  vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "StatusLine", { link = "Normal" })
+  vim.api.nvim_set_hl(0, "StatusLineNC", { link = "VertSplit" })
+end
+set_decoration_highlights()
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = augroup("decoration_highlights"),
+  callback = set_decoration_highlights,
 })
 
 local function set_terminal_keymaps()
@@ -171,32 +169,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "gh", vim.lsp.buf.signature_help, { buffer = event.buf, desc = "LSP: go to signature [h]elp" })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = event.buf, desc = "LSP: code [a]ction" })
     vim.keymap.set("v", "<leader>Lf", vim.lsp.buf.format, { buffer = event.buf, desc = "Lsp [f]ormat" })
-
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    assert(client, "LSP client not found")
-
-    if client and client.server_capabilities.documentHighlightProvider then
-      local highlight_augroup = vim.api.nvim_create_augroup("pengvim-lsp-highlight", { clear = false })
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.document_highlight,
-      })
-
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.clear_references,
-      })
-
-      vim.api.nvim_create_autocmd("LspDetach", {
-        group = vim.api.nvim_create_augroup("pengvim-lsp-detach", { clear = true }),
-        callback = function(event2)
-          vim.lsp.buf.clear_references()
-          vim.api.nvim_clear_autocmds({ group = "pengvim-lsp-highlight", buffer = event2.buf })
-        end,
-      })
-    end
+    -- reference highlighting is done by vim-illuminate (coding/vim-illuminate.lua)
   end,
 })
 
