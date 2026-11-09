@@ -144,19 +144,12 @@
  "=>"
  ] @operator
 
-[
- "\\.and\\."
- "\\.not\\."
- "\\.or\\."
- "\\.lt\\."
- "\\.gt\\."
- "\\.ge\\."
- "\\.le\\."
- "\\.eq\\."
- "\\.eqv\\."
- "\\.neqv\\."
- "\\.ne\\."
- ] @keyword.operator
+; Dotted operators (.and. .not. .eq. ...). Matched by position/field instead of
+; token name: the names changed between parser revisions ("\\.and\\." -> ".and."),
+; and PengVim and PengVim-lite can be on different revisions.
+((logical_expression operator: _ @keyword.operator) (#lua-match? @keyword.operator "^%."))
+((logical_expression . _ @keyword.operator) (#lua-match? @keyword.operator "^%."))
+((relational_expression operator: _ @keyword.operator) (#lua-match? @keyword.operator "^%."))
 
 ;; Brackets
 [
