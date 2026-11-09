@@ -1,9 +1,10 @@
 return {
   {
-    "norcalli/nvim-colorizer.lua",
+    "catgoose/nvim-colorizer.lua",
     lazy = true,
     config = function()
-      require("colorizer").setup({})
+      -- no auto-attach (the fork defaults to every filetype); <leader>uH toggles per buffer
+      require("colorizer").setup({ filetypes = {} })
     end,
     keys = {
       {
