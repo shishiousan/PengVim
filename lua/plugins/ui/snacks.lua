@@ -2,6 +2,7 @@ return {
   { -- bunch of useful ui
     "folke/snacks.nvim",
     lazy = false,
+    priority = 1000, -- snacks wants to set up before other plugins
     opts = {
       dashboard = {
         preset = {
