@@ -16,8 +16,29 @@ return {
       -- (vim.lsp.config("*")) when it loads, so it must load before servers start.
       "saghen/blink.cmp",
     },
-    cmd = { "LspInfo", "LspLog", "LspRestart", "LspStart", "LspStop" },
     event = { "BufReadPre", "BufNewFile" },
+    -- nvim-lspconfig skips its :Lsp* commands on Nvim 0.12+ (the built-in :lsp
+    -- replaces them), so define the familiar names as aliases at startup.
+    init = function()
+      local function alias(name, sub, desc)
+        vim.api.nvim_create_user_command(name, function(o)
+          vim.cmd("lsp " .. sub .. (o.args ~= "" and " " .. o.args or ""))
+        end, {
+          nargs = "*",
+          desc = desc,
+          complete = function(arg)
+            return vim.fn.getcompletion("lsp " .. sub .. " " .. arg, "cmdline")
+          end,
+        })
+      end
+      alias("LspStart", "enable", "Enable LSP configs (:lsp enable)")
+      alias("LspStop", "stop", "Stop LSP clients (:lsp stop)")
+      alias("LspRestart", "restart", "Restart LSP clients (:lsp restart)")
+      vim.api.nvim_create_user_command("LspInfo", "checkhealth vim.lsp", { desc = "LSP status (:checkhealth vim.lsp)" })
+      vim.api.nvim_create_user_command("LspLog", function()
+        vim.cmd.tabnew(vim.lsp.log.get_filename())
+      end, { desc = "Open the LSP log" })
+    end,
     opts = {
       servers = {
         vimls = {},
