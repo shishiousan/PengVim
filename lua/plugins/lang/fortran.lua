@@ -8,7 +8,7 @@ return {
         },
         fortitude = {
           ensure_installed = false,
-          cmd = { "fortitude", "server" },
+          cmd = { "fortitude", "server" }, -- LSP mode needs fortitude >= 0.8
           filetypes = { "fortran" },
           -- hover comes from fortls; fortitude's would duplicate it
           on_attach = function(client)

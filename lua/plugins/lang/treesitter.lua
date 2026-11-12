@@ -45,7 +45,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     branch = "main",
     build = ":TSUpdate",
-    cmd = { "TSInstall", "TSUpdate", "TSUpdateSync" },
+    cmd = { "TSInstall", "TSUpdate", "TSUninstall", "TSLog" }, -- the main branch has no TSUpdateSync
     -- ensure_installed is merged across lang/*.lua via opts_extend (declared in init.lua)
     opts = {
       ensure_installed = {
