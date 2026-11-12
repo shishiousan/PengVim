@@ -7,7 +7,7 @@ return {
   },
   {
     "saghen/blink.cmp",
-    event = "InsertEnter",
+    event = "VeryLazy", -- not InsertEnter/CmdlineEnter: cmdline completion must be ready before the first ":"
     dependencies = {
       "L3MON4D3/LuaSnip",
       "micangl/cmp-vimtex",
@@ -83,6 +83,13 @@ return {
             end,
             auto_insert = true,
           },
+        },
+      },
+      cmdline = {
+        -- pop the menu up while typing (blink's default only does that in the cmdwin)
+        completion = {
+          menu = { auto_show = true },
+          list = { selection = { preselect = false, auto_insert = true } },
         },
       },
       signature = {
