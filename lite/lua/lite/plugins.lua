@@ -185,9 +185,15 @@ function M.picker()
   return MiniPick, MiniExtra
 end
 
--- Completion: blink.cmp on first insert/cmdline. Its plugin/ file has already
+-- Completion: blink.cmp right after the first frame. Its plugin/ file has already
 -- registered completion capabilities for every LSP server at startup.
-once({ "InsertEnter", "CmdlineEnter" }, function()
+-- Not on the first CmdlineEnter: set up that late, it misses the first ":".
+local blink_ready = false
+local function setup_blink()
+  if blink_ready then
+    return
+  end
+  blink_ready = true
   require("blink.cmp").setup({
     keymap = { -- PengVim's: <CR> accepts, <Tab>/<S-Tab> cycle or jump in snippets
       preset = "enter",
@@ -238,6 +244,13 @@ once({ "InsertEnter", "CmdlineEnter" }, function()
         },
       },
     },
+    cmdline = {
+      -- pop the menu up while typing (blink's default only does that in the cmdwin)
+      completion = {
+        menu = { auto_show = true },
+        list = { selection = { preselect = false, auto_insert = true } },
+      },
+    },
     appearance = { nerd_font_variant = "mono" },
     -- built-in snippet source reads stdpath("config")/snippets (symlink to PengVim's)
     snippets = { preset = "default" },
@@ -254,6 +267,10 @@ once({ "InsertEnter", "CmdlineEnter" }, function()
       },
     },
   })
+end
+once("UIEnter", function()
+  vim.schedule(setup_blink)
 end)
+once("InsertEnter", setup_blink) -- headless / no UI
 
 return M
