@@ -4,6 +4,8 @@ My Neovim configuration, built around scientific computing and writing:
 Fortran (the [EASIFEM](https://github.com/easifem) libraries), Julia, LaTeX,
 Typst, Markdown and Quarto.
 
+![PengVim screenshot](img/pengvim.png)
+
 The repository contains two configs:
 
 | Config | Folder | Plugin manager | For |
