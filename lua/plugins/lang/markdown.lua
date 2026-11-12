@@ -5,7 +5,7 @@ return {
       servers = {
         marksman = {
           filetypes = { "markdown", "quarto" },
-          root_dir = require("lspconfig.util").root_pattern(".git", ".marksman.toml", "_quarto.yml"),
+          root_markers = { ".marksman.toml", "_quarto.yml", ".git" },
         },
         harper_ls = {},
       },
@@ -36,7 +36,7 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "echasnovski/mini.icons",
+      "echasnovski/mini.nvim", -- provides mini.icons
     },
     ft = { "markdown", "quarto" },
     keys = {

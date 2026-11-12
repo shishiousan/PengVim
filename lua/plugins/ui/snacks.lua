@@ -2,6 +2,7 @@ return {
   { -- bunch of useful ui
     "folke/snacks.nvim",
     lazy = false,
+    priority = 1000, -- snacks wants to set up before other plugins
     opts = {
       dashboard = {
         preset = {
@@ -73,11 +74,11 @@ return {
             -- I like to use picker file after selecting project
             confirm = function(picker, item)
               picker:close()
-              if item then
-                Snacks.picker.files({ cwd = item.text })
+              if not item then
+                return
               end
-              local dir = item.file
-              vim.fn.chdir(dir)
+              vim.fn.chdir(item.file)
+              Snacks.picker.files({ cwd = item.file })
             end,
           },
           explorer = {
@@ -127,13 +128,6 @@ return {
           Snacks.picker.recent()
         end,
         desc = "Recent",
-      },
-      {
-        "<leader>gL",
-        function()
-          Snacks.picker.git_log_line()
-        end,
-        desc = "Git Log Line",
       },
       {
         "<leader>gs",
@@ -198,13 +192,6 @@ return {
           Snacks.picker.autocmds()
         end,
         desc = "Autocmds",
-      },
-      {
-        "<leader>sb",
-        function()
-          Snacks.picker.lines()
-        end,
-        desc = "Buffer Lines",
       },
       {
         "<leader>sc",
@@ -339,12 +326,11 @@ return {
         end,
         desc = "Goto Declaration",
       },
-      {
-        "gr",
+      { -- grr (not a nowait gr) so the built-in grn/gra/gri/grt stay reachable
+        "grr",
         function()
           Snacks.picker.lsp_references()
         end,
-        nowait = true,
         desc = "References",
       },
       {
@@ -407,7 +393,6 @@ return {
       {
         "<leader>e",
         function()
-          vim.opt.scrolloff = 0
           Snacks.explorer({ focus = "list" })
         end,
         desc = "File Explorer",

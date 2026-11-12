@@ -4,6 +4,7 @@ return {
     opts = {
       servers = {
         jetls = {
+          ensure_installed = false, -- not a Mason package
           cmd = {
             "jetls",
             "serve",
@@ -47,11 +48,6 @@ return {
       ensure_installed = {
         "julia",
         "python",
-      },
-      indent = {
-        disable = {
-          "julia",
-        },
       },
     },
   },

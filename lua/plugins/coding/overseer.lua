@@ -4,7 +4,7 @@ return {
     lazy = true,
     config = function()
       require("overseer").setup({
-        templates = { "easifem" },
+        -- templates in lua/overseer/template/** are discovered automatically (overseer v2)
         component_aliases = {
           default = {
             "on_output_summarize",
@@ -38,7 +38,7 @@ return {
       },
       {
         "<leader>oi",
-        "<cmd>OverseerInfo<CR>",
+        "<cmd>checkhealth overseer<CR>", -- :OverseerInfo was removed in overseer v2
         mode = { "n" },
         desc = "Overseer [i]nfo",
       },

@@ -69,7 +69,7 @@
           "markdown",
           "quarto"
         ],
-        "path": "./markdown/easifem-markdown.json"
+        "path": "./fortran/easifem-markdown.json"
       },
       {
         "language": [

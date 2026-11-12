@@ -15,10 +15,14 @@ return {
       end,
     },
     opts = {
-      history = true,
+      -- modern replacement for the legacy `history = true`
+      keep_roots = true,
+      link_roots = true,
+      link_children = true,
       delete_check_events = "TextChanged",
     },
-    config = function()
+    config = function(_, opts)
+      require("luasnip").setup(opts)
       require("luasnip.loaders.from_vscode").lazy_load({
         paths = "./snippets",
       })

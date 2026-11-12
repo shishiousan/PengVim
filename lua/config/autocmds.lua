@@ -12,8 +12,9 @@ end
 vim.api.nvim_create_autocmd("BufReadPost", {
   group = augroup("restore_cursor"),
   callback = function(args)
-    local valid_line = vim.fn.line([['"]]) >= 1 and vim.fn.line([['"]]) < vim.fn.line("$")
-    local not_commit = vim.b[args.buf].filetype ~= "commit"
+    local mark = vim.fn.line([['"]])
+    local valid_line = mark >= 1 and mark <= vim.fn.line("$")
+    local not_commit = vim.bo[args.buf].filetype ~= "gitcommit"
 
     if valid_line and not_commit then
       vim.cmd([[normal! g`"]])
@@ -22,13 +23,14 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  group = vim.api.nvim_create_augroup("vim-treesitter-start", {}),
-  callback = function(ctx)
+  group = augroup("treesitter_start"),
+  callback = function()
     pcall(vim.treesitter.start)
   end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("close_with_q"),
   pattern = { "qf", "help", "checkhealth" },
   desc = "q to close quickfix and so on",
   callback = function()
@@ -36,32 +38,21 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("disable_autoformat"),
-  pattern = { "latex", "bib", "tex" },
-  callback = function()
-    vim.b.autoformat = false
-  end,
-})
-
 vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight_yank", {}),
+  group = augroup("highlight_yank"),
   desc = "Hightlight selection on yank",
   pattern = "*",
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 })
+    vim.hl.on_yank({ higroup = "IncSearch", timeout = 150 })
   end,
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = augroup("reset_scrolloff"),
-  pattern = { "*" },
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("explorer_scrolloff"),
+  pattern = { "snacks_picker_list" },
+  desc = "No centered scrolling in the explorer list",
   callback = function()
-    if vim.bo.filetype == "snacks_picker_list" then
-      return
-    else
-      vim.opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
-    end
+    vim.opt_local.scrolloff = 0
   end,
 })
 
@@ -73,84 +64,19 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("add_cjk_spelling"),
-  pattern = { "typst", "markdown", "text" },
-  callback = function()
-    vim.cmd([[ setlocal spell spelllang+=en_us,cjk ]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("set_formatoptions"),
-  pattern = { "quarto", "markdown" },
-  callback = function()
-    vim.cmd([[setlocal comments=b:*,b:-,b:+,b:1.,nb:>]])
-    vim.cmd([[setlocal formatoptions-=c formatoptions+=jr]])
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  group = augroup("set_indent_opts"),
-  pattern = { "fortran" },
-  callback = function()
-    vim.cmd([[setlocal noci noai]])
-    vim.cmd([[setlocal indentexpr=]])
-    vim.cmd([[setlocal si]])
-  end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("set_errorformat"),
-  pattern = { "fortran" },
-  callback = function()
-    vim.cmd(
-      [[ set efm=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\ %m,%Z%tarning:\ %m,%Z%tote:\ %m,%C%.%#,%-G%.%# ]]
-      -- set errorformat=%-Ggfortran%.%#,%A%f:%l:%c:,%A%f:%l:,%C,%C%p%*[0123456789^],%Z%trror:\\ %m,%Z%tarning:\\ %m,%Z%tote:\\ %m,%C%.%#,%-G%.%#
-    )
-  end,
-})
-
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("lsp_attach_disable_fortitude_hover", { clear = true }),
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client == nil then
-      return
-    end
-    if client.name == "fortitude" then
-      client.server_capabilities.hoverProvider = false
-    end
-  end,
-  desc = "LSP: Disable hover capability from Fortitude",
-})
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  group = augroup("disable_virtual_text"),
-  pattern = { "*" },
-  callback = function()
-    vim.diagnostic.config({ virtual_text = false })
-  end,
-})
-
--- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
---   callback = function()
---     require("lint").try_lint()
---   end,
--- })
-
-vim.api.nvim_create_autocmd("BufWinEnter", {
-  group = augroup("hide_decorations"),
-  pattern = { "*" },
-  callback = function()
-    vim.cmd("set laststatus=0")
-    vim.cmd("set statusline=%{repeat('─',winwidth('.'))}")
-    vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
-    -- vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#b020ea", bg = "NONE" })
-    vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
-    vim.cmd("hi! link StatusLine Normal")
-    vim.cmd("hi! link StatusLineNC VertSplit")
-  end,
+-- Window decorations: laststatus=0 and a line-drawing statusline are set in
+-- options.lua; the highlights are re-applied whenever the colorscheme changes.
+-- (WinSeparator links to VertSplit by default, so VertSplit colors both.)
+local function set_decoration_highlights()
+  vim.api.nvim_set_hl(0, "VertSplit", { fg = "#b020ea", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "NormalFloat", { fg = "#c6c6c6", bg = "NONE" })
+  vim.api.nvim_set_hl(0, "StatusLine", { link = "Normal" })
+  vim.api.nvim_set_hl(0, "StatusLineNC", { link = "VertSplit" })
+end
+set_decoration_highlights()
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = augroup("decoration_highlights"),
+  callback = set_decoration_highlights,
 })
 
 local function set_terminal_keymaps()
@@ -163,7 +89,7 @@ local function set_terminal_keymaps()
 end
 
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
-  pattern = { "*" },
+  group = augroup("terminal_settings"),
   callback = function(_)
     vim.cmd.setlocal("nonumber")
     vim.cmd.setlocal("norelativenumber")
@@ -177,34 +103,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(event)
     vim.keymap.set("n", "gh", vim.lsp.buf.signature_help, { buffer = event.buf, desc = "LSP: go to signature [h]elp" })
     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { buffer = event.buf, desc = "LSP: code [a]ction" })
-    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, desc = "LSP: Hover Documentation" })
     vim.keymap.set("v", "<leader>Lf", vim.lsp.buf.format, { buffer = event.buf, desc = "Lsp [f]ormat" })
-
-    local client = vim.lsp.get_client_by_id(event.data.client_id)
-    assert(client, "LSP client not found")
-
-    if client and client.server_capabilities.documentHighlightProvider then
-      local highlight_augroup = vim.api.nvim_create_augroup("pengvim-lsp-highlight", { clear = false })
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.document_highlight,
-      })
-
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.clear_references,
-      })
-
-      vim.api.nvim_create_autocmd("LspDetach", {
-        group = vim.api.nvim_create_augroup("pengvim-lsp-detach", { clear = true }),
-        callback = function(event2)
-          vim.lsp.buf.clear_references()
-          vim.api.nvim_clear_autocmds({ group = "pengvim-lsp-highlight", buffer = event2.buf })
-        end,
-      })
-    end
+    -- reference highlighting is done by vim-illuminate (coding/vim-illuminate.lua)
   end,
 })
 

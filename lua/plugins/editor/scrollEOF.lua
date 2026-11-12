@@ -7,7 +7,7 @@ return {
         pattern = "*",
         insert_mode = false,
         floating = false,
-        disabled_filetypes = {},
+        disabled_filetypes = { "snacks_picker_list" }, -- explorer uses scrolloff=0
         disabled_modes = {},
       })
     end,

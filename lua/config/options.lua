@@ -12,11 +12,6 @@ g.CSLists = {
 }
 g.CSListsLen = #vim.g.CSLists
 
-g.nrrw_rgn_vert = 1 -- default is 0
-g.nrrw_rgn_wdth = math.floor(vim.fn.winwidth(0) / 2) -- default is 30
-
-g.cmp_enabled = true
-
 ft.add({
   extension = {
     gp = "gnuplot",
@@ -54,20 +49,17 @@ opt.foldlevel = 99
 -- opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 -- opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 -- opt.foldnestmax = 1
-opt.formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()"
+opt.formatexpr = "v:lua.require'conform'.formatexpr()"
 -- opt.formatoptions = ""
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
-opt.hidden = true
 opt.ignorecase = true
-opt.inccommand = "nosplit"
 opt.jumpoptions = "view"
 opt.laststatus = 0
 opt.linebreak = true
 opt.list = true
 -- opt.listchars:append "space:⋅"
 -- opt.listchars:append "eol:↴"
-opt.ls = 2
 opt.mouse = "a"
 opt.number = true
 opt.pumblend = 10
@@ -75,7 +67,7 @@ opt.pumheight = 10
 opt.report = 50
 opt.relativenumber = true
 opt.ruler = false
-opt.scrolloff = math.floor(vim.fn.winheight(0) / 2)
+opt.scrolloff = 999 -- keep the cursor centered; scrollEOF caps it at half the window
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp", "folds" }
 opt.shiftround = true
 opt.shiftwidth = 2
@@ -91,10 +83,12 @@ opt.splitbelow = true
 opt.splitkeep = "screen"
 opt.splitright = true
 -- opt.statuscolumn = [[%!v:lua.require'snacks.statuscolumn'.get()]]
-opt.statusline = "%F"
+-- laststatus=0 hides the last statusline; the ones between horizontal splits
+-- are drawn as a line instead of text
+opt.statusline = "%{repeat('─',winwidth('.'))}"
 opt.tabstop = 2
 opt.termguicolors = true
-opt.timeoutlen = vim.g.vscode and 1000 or 500
+opt.timeoutlen = 500
 opt.undofile = true
 opt.undolevels = 10000
 opt.updatetime = 200
@@ -104,29 +98,16 @@ opt.winminwidth = 5
 opt.wrap = false
 opt.wrapscan = false
 
-vim.api.nvim_create_user_command("CheckScreen", function()
-  local width = vim.fn.winwidth(0)
-  local height = vim.fn.winheight(0)
-  local nrow = vim.api.nvim_eval("&lines")
-  local ncol = vim.api.nvim_eval("&columns")
-
-  print("wedth, height, nrow, ncol")
-  print(width, height, nrow, ncol)
-
-  local split = not (width == ncol)
-  local vsplit = not (height == nrow)
-
-  if split and vsplit then
-    print("current buffer is in both horizontal and vertical split")
-    return
-  elseif split then
-    print("current buffer is in horizontal split")
-    return
-  elseif vsplit then
-    print("current buffer is in vertical split")
-    return
-  end
-end, {})
+-- Diagnostics: one place for global settings.
+-- vim.diagnostic.goto_next() used to open a float after jumping; keep that for
+-- the built-in ]d/[d and the ]e/]w maps (vim.diagnostic.jump() reads this).
+vim.diagnostic.config({
+  jump = {
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+    end,
+  },
+})
 
 vim.api.nvim_create_user_command("PengVimSetCS", function(opts)
   g.currentCSNum = tonumber(opts.fargs[1])

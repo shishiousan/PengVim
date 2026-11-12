@@ -1,5 +1,9 @@
 local M = {}
 
+-- Fall back to ~/Dropbox so a missing $DROPBOX does not break the whole config.
+local dropbox = vim.env.DROPBOX or vim.fn.expand("~/Dropbox")
+local home = vim.env.HOME
+
 M.lsp_cmd = {
   "fortls",
   "--nthreads",
@@ -13,51 +17,17 @@ M.lsp_cmd = {
   "--recursion_limit",
   "1000",
   "--source_dirs",
-  os.getenv("DROPBOX") .. "/easifem/base/src/**",
-  os.getenv("DROPBOX") .. "/easifem/classes/src/**",
-  os.getenv("DROPBOX") .. "/easifem/oneDimElasticity/src/**",
-  os.getenv("DROPBOX") .. "/easifem/oneDimLayeredMedia/src/**",
-  os.getenv("DROPBOX") .. "/easifem/oneDimPoroElasticity/src/**",
-  os.getenv("DROPBOX") .. "/easifem/sdof/src/**",
-  os.getenv("DROPBOX") .. "/easifem/diffusionKernel/src/**",
-  os.getenv("DROPBOX") .. "/easifem/elasticityKernel/src/**",
-  os.getenv("DROPBOX") .. "/easifem/scalarWave/src/**",
-  os.getenv("DROPBOX") .. "/easifem/dispersionAnalysis/src/**",
-  os.getenv("HOME") .. "/.easifem/src/tomlf/src/**",
-}
-
-M.linter = {
-  "-c",
-  "-fsyntax-only",
-  "-cpp",
-  -- "-fdiagnostics-plain-output",
-  "-Wunused-variable",
-  "-Wunused-dummy-argument",
-  "-Wno-c-binding-type",
-  "-Wall",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/lint/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/base/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/classes/include/",
-  -- "-I",
-  -- os.getenv("HOME") .. "/.easifem/install/oneDimSTFEM/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/oneDimElasticity/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/oneDimLayeredMedia/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/elasticity/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/scalarWave/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/dispersionAnalysis/include/",
-  "-I",
-  os.getenv("HOME") .. "/.easifem/install/tomlf/include/toml-f/modules/",
-  "-J",
-  os.getenv("HOME") .. "/.easifem/lint/include/",
-  "-DDEBUG_VER",
+  dropbox .. "/easifem/base/src/**",
+  dropbox .. "/easifem/classes/src/**",
+  dropbox .. "/easifem/oneDimElasticity/src/**",
+  dropbox .. "/easifem/oneDimLayeredMedia/src/**",
+  dropbox .. "/easifem/oneDimPoroElasticity/src/**",
+  dropbox .. "/easifem/sdof/src/**",
+  dropbox .. "/easifem/diffusionKernel/src/**",
+  dropbox .. "/easifem/elasticityKernel/src/**",
+  dropbox .. "/easifem/scalarWave/src/**",
+  dropbox .. "/easifem/dispersionAnalysis/src/**",
+  home .. "/.easifem/src/tomlf/src/**",
 }
 
 M.formatter = {

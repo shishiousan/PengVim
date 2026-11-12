@@ -1,64 +1,89 @@
+-- LSP servers are declared per language in lang/*.lua via `opts.servers`
+-- (merged by lazy.nvim) and enabled here with the native vim.lsp.config API.
+--
+-- Extra keys understood here (stripped before vim.lsp.config):
+--   servers.<name>.ensure_installed = false  -- never install with Mason
+--   extra.<mason-package> = { bin = "<executable>", ensure_installed = bool }
 return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      { "williamboman/mason.nvim", config = true },
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      -- only used by mason-tool-installer to map lspconfig names to Mason packages
+      "mason-org/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
+      -- blink.cmp registers its completion capabilities for every server
+      -- (vim.lsp.config("*")) when it loads, so it must load before servers start.
       "saghen/blink.cmp",
     },
-    cmd = { "LspInfo", "LspInstall", "LspRestart", "LspStart", "LspStop", "LspUninstall" },
     event = { "BufReadPre", "BufNewFile" },
-    config = function(_, opts)
-      require("mason").setup()
-
-      local servers = {
+    -- nvim-lspconfig skips its :Lsp* commands on Nvim 0.12+ (the built-in :lsp
+    -- replaces them), so define the familiar names as aliases at startup.
+    init = function()
+      local function alias(name, sub, desc)
+        vim.api.nvim_create_user_command(name, function(o)
+          vim.cmd("lsp " .. sub .. (o.args ~= "" and " " .. o.args or ""))
+        end, {
+          nargs = "*",
+          desc = desc,
+          complete = function(arg)
+            return vim.fn.getcompletion("lsp " .. sub .. " " .. arg, "cmdline")
+          end,
+        })
+      end
+      alias("LspStart", "enable", "Enable LSP configs (:lsp enable)")
+      alias("LspStop", "stop", "Stop LSP clients (:lsp stop)")
+      alias("LspRestart", "restart", "Restart LSP clients (:lsp restart)")
+      vim.api.nvim_create_user_command("LspInfo", "checkhealth vim.lsp", { desc = "LSP status (:checkhealth vim.lsp)" })
+      vim.api.nvim_create_user_command("LspLog", function()
+        vim.cmd.tabnew(vim.lsp.log.get_filename())
+      end, { desc = "Open the LSP log" })
+    end,
+    opts = {
+      servers = {
         vimls = {},
         bashls = {
           filetypes = { "sh", "bash" },
         },
-      }
+      },
+      extra = {
+        cmakelang = { bin = "cmake-format" },
+        dprint = {},
+        jupytext = {},
+        shfmt = {},
+      },
+    },
+    config = function(_, opts)
+      require("mason").setup()
 
-      local ensure_installed_extra = {
-        "cmakelang",
-        "dprint",
-        "jupytext",
-        "shfmt",
-      }
+      local servers = opts.servers or {}
 
-      if opts.extra ~= nil then
-        for name, arg in pairs(opts.extra) do
-          if arg.ensure_installed then
-            vim.list_extend(ensure_installed_extra, { name })
-          end
+      -- Let Mason install only what is missing from PATH, so it never shadows
+      -- tools installed system-wide (Mason prepends its bin dir to PATH).
+      local missing = {}
+      local function need(pkg, bin)
+        if type(bin) == "string" and vim.fn.executable(bin) == 0 then
+          missing[#missing + 1] = pkg
         end
       end
-
-      if opts.servers ~= nil then
-        for name, settings in pairs(opts.servers) do
-          servers[name] = vim.tbl_deep_extend("force", servers[name] or {}, settings)
-          if settings.ensure_installed == nil or settings.ensure_installed then
-            vim.list_extend(ensure_installed_extra, { name })
-          end
-        end
-      end
-
-      require("mason-tool-installer").setup({
-        enusre_installed = ensure_installed_extra,
-        -- ensure_installed = vim.list_extend(vim.tbl_keys(servers), ensure_installed_extra),
-      })
-
-      local lsp_flags = {
-        allow_incremental_sync = true,
-        debounce_text_changes = 150,
-      }
 
       for name, settings in pairs(servers) do
-        settings.capabilities = require("blink.cmp").get_lsp_capabilities(settings.capabilities)
-        settings.flags = vim.tbl_deep_extend("force", {}, lsp_flags, settings.flags or {})
+        local install = settings.ensure_installed ~= false
+        settings.ensure_installed = nil -- not an LSP field
+        if install then
+          local cmd = settings.cmd or (vim.lsp.config[name] or {}).cmd
+          need(name, type(cmd) == "table" and cmd[1] or nil)
+        end
         vim.lsp.config(name, settings)
-        vim.lsp.enable(name)
       end
+      for pkg, tool in pairs(opts.extra or {}) do
+        if tool.ensure_installed ~= false then
+          need(pkg, tool.bin or pkg)
+        end
+      end
+
+      require("mason-tool-installer").setup({ ensure_installed = missing })
+      vim.lsp.enable(vim.tbl_keys(servers))
     end,
   },
 }

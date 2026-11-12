@@ -66,7 +66,7 @@ return {
           command = "fprettier",
           args = {
             "--config",
-            "/home/shion/.config/fprettier/fprettier.toml",
+            vim.fn.expand("~/.config/fprettier/fprettier.toml"),
           },
         },
         forformat = {
@@ -74,7 +74,7 @@ return {
           command = "forformat",
           args = {
             "--config",
-            "/home/shion/.config/forformat/forformat.toml",
+            vim.fn.expand("~/.config/forformat/forformat.toml"),
           },
         },
         fprettify = {

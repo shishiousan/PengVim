@@ -34,7 +34,6 @@ return {
 
         local function get_git_diff()
           local icons = { removed = " ", changed = " ", added = " " }
-          icons["changed"] = icons.modified
           local signs = vim.b[props.buf].gitsigns_status_dict
           local labels = {}
           if signs == nil then

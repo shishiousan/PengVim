@@ -2,7 +2,7 @@ return {
   {
     "rmagatti/goto-preview",
     dependencies = { "rmagatti/logger.nvim" },
-    event = "BufEnter",
+    event = "LspAttach", -- previews need an LSP server
     config = function()
       require("goto-preview").setup({
         width = 120,

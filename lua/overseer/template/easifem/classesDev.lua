@@ -22,14 +22,10 @@ return {
           statuses = { "SUCCESS" },
         },
       },
-      condition = {
-        filetype = { "fortran" },
-      },
     }
   end,
   desc = "[Dev tool for libeasifemClasses] build/install easifem's classes lib in debug mode",
   params = {},
-  priority = 50,
   condition = {
     filetype = { "fortran" },
   },
